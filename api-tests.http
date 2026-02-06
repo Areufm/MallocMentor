@@ -1,0 +1,182 @@
+### C/C++ 智能助教平台 API 测试
+### 使用 REST Client 扩展或 Postman 测试
+
+@baseUrl = http://localhost:3000/api
+@token = mock_token_123
+
+### ============================================
+### 认证相关
+### ============================================
+
+### 1. 用户登录
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "123456"
+}
+
+### 2. 用户注册
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "123456",
+  "name": "新用户"
+}
+
+### 3. 获取当前用户
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### ============================================
+### 用户相关
+### ============================================
+
+### 4. 获取用户统计
+GET {{baseUrl}}/users/stats
+
+### ============================================
+### 题目相关
+### ============================================
+
+### 5. 获取题目列表
+GET {{baseUrl}}/problems?page=1&pageSize=10
+
+### 6. 筛选题目（Easy 难度）
+GET {{baseUrl}}/problems?difficulty=Easy&category=数组
+
+### 7. 搜索题目
+GET {{baseUrl}}/problems?search=链表
+
+### 8. 获取题目详情
+GET {{baseUrl}}/problems/1
+
+### ============================================
+### 代码相关
+### ============================================
+
+### 9. 运行代码
+POST {{baseUrl}}/code/run
+Content-Type: application/json
+
+{
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  cout << \"Hello World!\" << endl;\n  return 0;\n}",
+  "language": "cpp",
+  "input": ""
+}
+
+### 10. 提交代码
+POST {{baseUrl}}/code/submit
+Content-Type: application/json
+
+{
+  "problemId": "1",
+  "code": "#include <vector>\nusing namespace std;\nvector<int> twoSum(vector<int>& nums, int target) {\n  // solution here\n}",
+  "language": "cpp"
+}
+
+### ============================================
+### 面试相关
+### ============================================
+
+### 11. 获取面试模板
+GET {{baseUrl}}/interviews/templates
+
+### 12. 创建面试会话
+POST {{baseUrl}}/interviews
+Content-Type: application/json
+
+{
+  "title": "C++ 基础面试",
+  "type": "technical",
+  "templateId": "cpp-basics"
+}
+
+### 13. 获取面试列表
+GET {{baseUrl}}/interviews
+
+### 14. 获取面试详情
+GET {{baseUrl}}/interviews/1
+
+### 15. 发送面试消息
+POST {{baseUrl}}/interviews/1/message
+Content-Type: application/json
+
+{
+  "message": "我准备好了，可以开始面试。"
+}
+
+### 16. 删除面试会话
+DELETE {{baseUrl}}/interviews/1
+
+### ============================================
+### 学习路径
+### ============================================
+
+### 17. 获取学习路径列表
+GET {{baseUrl}}/learning-paths
+
+### 18. 获取学习路径详情
+GET {{baseUrl}}/learning-paths/1
+
+### 19. 更新学习进度
+POST {{baseUrl}}/learning-paths/1/progress
+Content-Type: application/json
+
+{
+  "stepId": 5,
+  "completed": true
+}
+
+### ============================================
+### 知识库
+### ============================================
+
+### 20. 获取知识库分类
+GET {{baseUrl}}/knowledge/categories
+
+### 21. 获取知识文章列表
+GET {{baseUrl}}/knowledge?page=1&pageSize=10
+
+### 22. 筛选文章（按分类）
+GET {{baseUrl}}/knowledge?category=pointer&difficulty=Medium
+
+### 23. 搜索文章
+GET {{baseUrl}}/knowledge?search=智能指针
+
+### 24. 获取文章详情
+GET {{baseUrl}}/knowledge/1
+
+### ============================================
+### 能力雷达图
+### ============================================
+
+### 25. 获取能力雷达图
+GET {{baseUrl}}/capability-radar?userId=1
+
+### 26. 更新能力雷达图
+POST {{baseUrl}}/capability-radar
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "basicSyntax": 90,
+  "memoryManagement": 75,
+  "dataStructures": 85,
+  "oop": 80,
+  "stlLibrary": 88,
+  "systemProgramming": 70
+}
+
+### ============================================
+### 活动日志
+### ============================================
+
+### 27. 获取活动日志
+GET {{baseUrl}}/activities?page=1&pageSize=20
+
+### 28. 筛选活动（按类型）
+GET {{baseUrl}}/activities?type=problem&userId=1

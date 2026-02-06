@@ -60,6 +60,14 @@ pnpm dev
 ```
 src/
 ├── app/                    # 页面路由
+│   ├── api/               # API 路由（Mock）
+│   │   ├── auth/         # 认证相关
+│   │   ├── problems/     # 题目管理
+│   │   ├── code/         # 代码执行
+│   │   ├── interviews/   # 面试会话
+│   │   ├── learning-paths/  # 学习路径
+│   │   ├── knowledge/    # 知识库
+│   │   └── ...
 │   ├── dashboard/          # 仪表盘
 │   ├── learn/              # 学习路径
 │   ├── practice/           # 代码练习
@@ -69,7 +77,11 @@ src/
 │   ├── layout/            # 布局组件
 │   ├── code-editor/       # 代码编辑器
 │   └── ui/                # UI 组件
+├── types/                 # TypeScript 类型定义
+│   └── api.ts            # API 类型
 └── lib/                   # 工具函数
+    ├── mock-data.ts      # Mock 数据
+    └── utils.ts          # 工具函数
 ```
 
 ## 数据库模型
@@ -108,9 +120,33 @@ src/
 3. **类型**: 全面使用 TypeScript 类型定义
 4. **提交**: 遵循 Conventional Commits 规范
 
+## API 接口
+
+所有 API 接口已经定义完成并使用 Mock 数据：
+
+- ✅ **23 个 API 端点**已实现
+- ✅ 完整的 **TypeScript 类型定义**
+- ✅ **Mock 数据**和工具函数
+- ✅ 标准的响应格式
+
+查看完整 API 文档：[API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+
+### 主要接口模块
+
+| 模块 | 端点数 | 说明 |
+|------|--------|------|
+| 认证 | 3 | 登录、注册、获取用户信息 |
+| 题目 | 2 | 题目列表、题目详情 |
+| 代码 | 2 | 代码提交、运行测试 |
+| 面试 | 5 | 面试会话管理、消息发送 |
+| 学习路径 | 3 | 路径管理、进度更新 |
+| 知识库 | 3 | 文章列表、详情、分类 |
+| 其他 | 5 | 能力雷达图、活动日志、统计 |
+
 ## 相关文档
 
 - 详细文档：[PROJECT_SETUP.md](./PROJECT_SETUP.md)
+- API 文档：[API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
 - 开题报告：本项目基于毕业设计开题报告开发
 
 ## 注意事项
