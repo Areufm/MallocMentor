@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户模型
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  capabilityRadar  CapabilityRadar?
+  interviewSessions InterviewSession[]
+  learningPaths     LearningPath[]
+  submissions       CodeSubmission[]
+}
+
+// 能力雷达图模型 - 6维能力评估
+model CapabilityRadar {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // 六个维度的得分 (0-100)
+  basicSyntax       Int      @default(0)  // 基础语法
+  memoryManagement  Int      @default(0)  // 内存管理
+  dataStructures    Int      @default(0)  // 数据结构与算法
+  oop               Int      @default(0)  // 面向对象设计
+  stlLibrary        Int      @default(0)  // STL/库使用
+  systemProgramming Int      @default(0)  // 系统编程能力
+  
+  updatedAt         DateTime @updatedAt
+}
+
+// 题目模型
+model Problem {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  difficulty  String   // Easy, Medium, Hard
+  category    String   // 分类：指针、内存、STL等
+  tags        String   // JSON数组存储标签
+  
+  // 测试用例
+  testCases   String   @db.Text // JSON存储测试用例
+  
+  // 提示和解析
+  hints       String?  @db.Text
+  solution    String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  submissions CodeSubmission[]
+}
+
+// 代码提交记录
+model CodeSubmission {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemId   String
+  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  code        String   @db.Text
+  language    String   // C or C++
+  status      String   // Passed, Failed, Error
+  
+  // AI审查反馈
+  aiReview    String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([problemId])
+}
+
+// 面试会话模型
+model InterviewSession {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title       String
+  type        String   // Technical, Behavioral
+  status      String   // Active, Completed
+  
+  // 对话历史 (JSON格式)
+  messages    String   @db.Text
+  
+  // AI评估报告
+  evaluation  String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+// 学习路径模型
+model LearningPath {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title       String
+  description String   @db.Text
+  
+  // 步骤 (JSON格式)
+  steps       String   @db.Text
+  
+  // 当前进度
+  currentStep Int      @default(0)
+  progress    Int      @default(0) // 0-100
+  
+  status      String   @default("active") // active, completed, paused
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}

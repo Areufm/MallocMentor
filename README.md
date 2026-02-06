@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# C/C++ 智能助教平台
 
-## Getting Started
+## 项目简介
 
-First, run the development server:
+这是一个基于 Next.js 的 C/C++ 智能辅助学习与面试系统，为计算机专业学生提供从基础学习到技术面试的全方位支持。
 
+## 核心功能
+
+### ✅ 已实现
+- **仪表盘**: 学习概览、能力雷达图、学习目标追踪
+- **学习路径**: 系统化课程、章节进度管理
+- **代码练习**: Monaco 编辑器、题目列表、运行测试
+- **模拟面试**: AI 对话界面、面试历史记录
+- **知识库**: 文章浏览、分类搜索、热门话题
+
+### 🚧 待开发
+- 用户认证系统（登录/注册）
+- Coze AI 集成（代码审查、面试官、知识助手）
+- 代码执行沙箱（Docker 容器）
+- 数据持久化与进度同步
+- 能力雷达图自动评分算法
+
+## 技术栈
+
+- **前端**: Next.js 16, React 19, TypeScript
+- **样式**: Tailwind CSS 4
+- **组件**: shadcn/ui
+- **编辑器**: Monaco Editor
+- **图表**: Recharts
+- **数据库**: MySQL + Prisma ORM
+
+## 快速开始
+
+### 1. 安装依赖
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 配置数据库
+复制 `.env.example` 为 `.env`，修改数据库配置：
+```env
+DATABASE_URL="mysql://username:password@localhost:3306/cpp_learning_platform"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. 初始化数据库
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. 启动开发服务器
+```bash
+pnpm dev
+```
 
-## Learn More
+访问 http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+## 项目结构
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                    # 页面路由
+│   ├── dashboard/          # 仪表盘
+│   ├── learn/              # 学习路径
+│   ├── practice/           # 代码练习
+│   ├── interview/          # 模拟面试
+│   └── knowledge/          # 知识库
+├── components/             # React 组件
+│   ├── layout/            # 布局组件
+│   ├── code-editor/       # 代码编辑器
+│   └── ui/                # UI 组件
+└── lib/                   # 工具函数
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 数据库模型
 
-## Deploy on Vercel
+- **User**: 用户信息
+- **CapabilityRadar**: 6维能力评估
+- **Problem**: 练习题目
+- **CodeSubmission**: 代码提交记录
+- **InterviewSession**: 面试会话
+- **LearningPath**: 学习路径
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 开发计划
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 第一阶段 ✅
+- [x] 项目框架搭建
+- [x] 数据库模型设计
+- [x] 核心页面实现
+- [x] UI 组件开发
+
+### 第二阶段 🚧
+- [ ] 用户认证系统
+- [ ] Coze AI 集成
+- [ ] 代码执行沙箱
+- [ ] 数据持久化
+
+### 第三阶段 📋
+- [ ] 能力评估算法
+- [ ] 个性化推荐
+- [ ] 社区功能
+- [ ] 性能优化
+
+## 开发说明
+
+1. **样式**: 使用 Tailwind CSS，遵循 shadcn/ui 设计规范
+2. **组件**: 优先使用函数式组件和 React Hooks
+3. **类型**: 全面使用 TypeScript 类型定义
+4. **提交**: 遵循 Conventional Commits 规范
+
+## 相关文档
+
+- 详细文档：[PROJECT_SETUP.md](./PROJECT_SETUP.md)
+- 开题报告：本项目基于毕业设计开题报告开发
+
+## 注意事项
+
+⚠️ **重要提示**:
+- 确保 MySQL 服务已启动
+- 不要提交 `.env` 文件到版本控制
+- AI 功能当前为前端模拟，需后续集成真实 API
+- Monaco Editor 较大，注意首屏加载优化
+
+## 联系方式
+
+如有问题，欢迎提交 Issue 或 PR。
