@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { 
-  LayoutDashboard, 
-  BookOpen, 
-  Code2, 
-  MessageSquare, 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Code2,
+  MessageSquare,
   Library,
-  Menu
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { useState } from 'react'
+  Menu,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from "react";
 
 const navigation = [
-  { name: '仪表盘', href: '/dashboard', icon: LayoutDashboard },
-  { name: '学习路径', href: '/learn', icon: BookOpen },
-  { name: '代码练习', href: '/practice', icon: Code2 },
-  { name: '模拟面试', href: '/interview', icon: MessageSquare },
-  { name: '知识库', href: '/knowledge', icon: Library },
-]
+  { name: "仪表盘", href: "/dashboard", icon: LayoutDashboard },
+  { name: "学习路径", href: "/learn", icon: BookOpen },
+  { name: "代码练习", href: "/practice", icon: Code2 },
+  { name: "模拟面试", href: "/interview", icon: MessageSquare },
+  { name: "知识库", href: "/knowledge", icon: Library },
+];
 
 export function Sidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div className="hidden border-r bg-gray-50/40 lg:block">
@@ -38,22 +38,22 @@ export function Sidebar() {
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             {navigation.map((item) => {
-              const isActive = pathname === item.href
+              const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                    isActive 
-                      ? "bg-gray-100 text-gray-900" 
-                      : "text-gray-500 hover:text-gray-900"
+                    isActive
+                      ? "bg-gray-100 text-gray-900"
+                      : "text-gray-500 hover:text-gray-900",
                   )}
                 >
                   <item.icon className="h-4 w-4" />
                   {item.name}
                 </Link>
-              )
+              );
             })}
           </nav>
         </div>
@@ -70,12 +70,12 @@ export function Sidebar() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function MobileSidebar() {
-  const [open, setOpen] = useState(false)
-  const pathname = usePathname()
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -96,7 +96,7 @@ export function MobileSidebar() {
           <div className="flex-1 overflow-y-auto py-2">
             <nav className="grid items-start px-2 text-sm font-medium">
               {navigation.map((item) => {
-                const isActive = pathname === item.href
+                const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.name}
@@ -104,20 +104,20 @@ export function MobileSidebar() {
                     onClick={() => setOpen(false)}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                      isActive 
-                        ? "bg-gray-100 text-gray-900" 
-                        : "text-gray-500 hover:text-gray-900"
+                      isActive
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-500 hover:text-gray-900",
                     )}
                   >
                     <item.icon className="h-4 w-4" />
                     {item.name}
                   </Link>
-                )
+                );
               })}
             </nav>
           </div>
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

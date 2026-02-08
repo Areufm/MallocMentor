@@ -128,8 +128,12 @@ src/
 - ✅ 完整的 **TypeScript 类型定义**
 - ✅ **Mock 数据**和工具函数
 - ✅ 标准的响应格式
+- ✅ **统一的 API 客户端封装**
+- ✅ **SWR Hooks** 用于数据获取
 
-查看完整 API 文档：[API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+查看文档：
+- [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) - API 接口文档
+- [API_CLIENT_GUIDE.md](./API_CLIENT_GUIDE.md) - 客户端使用指南
 
 ### 主要接口模块
 
