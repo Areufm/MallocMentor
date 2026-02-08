@@ -39,7 +39,7 @@ pnpm install
 ### 2. 配置数据库
 复制 `.env.example` 为 `.env`，修改数据库配置：
 ```env
-DATABASE_URL="mysql://username:password@localhost:3306/cpp_learning_platform"
+DATABASE_URL="mysql://username:password@localhost:3306/MallocMentor"
 ```
 
 ### 3. 初始化数据库
