@@ -4,12 +4,11 @@ import { mockInterviewSessions, createSuccessResponse, createErrorResponse, dela
 // GET /api/interviews/[id] - 获取面试会话详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
-
-    const { id } = params
     const session = mockInterviewSessions.find(s => s.id === id)
 
     if (!session) {
@@ -32,12 +31,11 @@ export async function GET(
 // DELETE /api/interviews/[id] - 删除面试会话
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
-
-    const { id } = params
 
     return NextResponse.json(createSuccessResponse({ id }, '删除成功'))
   } catch (error) {

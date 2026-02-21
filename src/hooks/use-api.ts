@@ -64,16 +64,6 @@ export function useUserStats() {
   )
 }
 
-/**
- * 获取当前用户
- */
-export function useCurrentUser() {
-  return useApi(
-    '/auth/me',
-    () => api.auth.getCurrentUser()
-  )
-}
-
 // ============================================
 // 题目相关 Hooks
 // ============================================

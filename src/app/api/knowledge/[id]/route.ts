@@ -4,12 +4,11 @@ import { mockKnowledgeArticles, createSuccessResponse, createErrorResponse, dela
 // GET /api/knowledge/[id] - 获取知识库文章详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
-
-    const { id } = params
     const article = mockKnowledgeArticles.find(a => a.id === id)
 
     if (!article) {

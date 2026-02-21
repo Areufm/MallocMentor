@@ -5,9 +5,10 @@ import type { UpdateProgressRequest } from '@/types/api'
 // POST /api/learning-paths/[id]/progress - 更新学习进度
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
 
     const body: UpdateProgressRequest = await request.json()

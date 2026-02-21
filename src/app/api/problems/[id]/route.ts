@@ -4,12 +4,11 @@ import { mockProblems, createSuccessResponse, createErrorResponse, delay } from 
 // GET /api/problems/[id] - 获取单个题目详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
-
-    const { id } = params
     const problem = mockProblems.find(p => p.id === id)
 
     if (!problem) {

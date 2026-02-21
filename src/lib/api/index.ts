@@ -5,9 +5,7 @@
 
 import { get, post, del } from '@/lib/api-client'
 import type {
-  LoginRequest,
   RegisterRequest,
-  AuthResponse,
   User,
   UserStats,
   Problem,
@@ -32,27 +30,15 @@ import type {
 } from '@/types/api'
 
 // ============================================
-// 认证相关
+// 认证相关（登录/登出由 NextAuth 管理）
 // ============================================
 
 export const authApi = {
   /**
-   * 用户登录
+   * 用户注册（NextAuth 不提供注册端点，需自行实现）
    */
-  login: (data: LoginRequest) => 
-    post<AuthResponse>('/auth/login', data),
-
-  /**
-   * 用户注册
-   */
-  register: (data: RegisterRequest) => 
-    post<AuthResponse>('/auth/register', data),
-
-  /**
-   * 获取当前用户信息
-   */
-  getCurrentUser: () => 
-    get<User>('/auth/me'),
+  register: (data: RegisterRequest) =>
+    post<User>('/auth/register', data),
 }
 
 // ============================================

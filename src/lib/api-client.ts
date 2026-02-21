@@ -45,15 +45,8 @@ function buildUrl(endpoint: string, params?: Record<string, any>): string {
 }
 
 /**
- * 获取认证 Token
- */
-function getAuthToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('auth_token')
-}
-
-/**
  * 统一请求处理
+ * NextAuth 通过 HTTP-only Cookie 自动传递会话信息
  */
 async function request<T = any>(
   endpoint: string,
@@ -61,19 +54,11 @@ async function request<T = any>(
 ): Promise<ApiResponse<T>> {
   const { params, headers, ...restConfig } = config
   
-  // 构建完整 URL
   const url = buildUrl(endpoint, params)
   
-  // 构建请求头
   const requestHeaders: HeadersInit = {
     'Content-Type': 'application/json',
     ...headers,
-  }
-  
-  // 添加认证 token
-  const token = getAuthToken()
-  if (token) {
-    requestHeaders['Authorization'] = `Bearer ${token}`
   }
   
   try {

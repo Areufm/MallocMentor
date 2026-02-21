@@ -5,9 +5,10 @@ import type { SendMessageRequest, InterviewMessage } from '@/types/api'
 // POST /api/interviews/[id]/message - 发送消息
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(1500) // 模拟 AI 思考时间
 
     const body: SendMessageRequest = await request.json()

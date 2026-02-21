@@ -4,12 +4,11 @@ import { mockLearningPaths, createSuccessResponse, createErrorResponse, delay } 
 // GET /api/learning-paths/[id] - 获取学习路径详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     await delay(300)
-
-    const { id } = params
     const path = mockLearningPaths.find(p => p.id === id)
 
     if (!path) {

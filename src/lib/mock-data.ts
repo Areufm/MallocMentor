@@ -17,7 +17,7 @@ export const mockUsers: User[] = [
     id: '1',
     email: 'demo@example.com',
     name: '张三',
-    avatar: null,
+    image: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
