@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MobileSidebar } from "./sidebar";
+import { ModeToggle } from "./mode-toggle";
 
 export function Header() {
   const { data: session } = useSession();
@@ -25,7 +26,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-white px-4 lg:h-[60px] lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
       <MobileSidebar />
 
       <div className="flex-1">
@@ -34,12 +35,14 @@ export function Header() {
           <Input
             type="search"
             placeholder="搜索题目、知识点..."
-            className="w-full bg-gray-50 pl-8"
+            className="w-full bg-muted/50 pl-8"
           />
         </form>
       </div>
 
       <div className="flex items-center gap-4">
+        <ModeToggle />
+
         {/* 通知按钮 */}
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />

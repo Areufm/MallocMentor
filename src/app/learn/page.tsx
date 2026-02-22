@@ -94,13 +94,13 @@ export default function LearnPage() {
         </div>
 
         {/* 当前学习路径 */}
-        <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 dark:border-blue-900 dark:from-blue-950/60 dark:to-indigo-950/60">
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
                 <Badge className="bg-blue-600 text-white mb-2">当前学习</Badge>
                 <CardTitle className="text-2xl">{currentPath.title}</CardTitle>
-                <CardDescription className="text-gray-600 mt-2">
+                <CardDescription className="text-gray-600 dark:text-gray-400 mt-2">
                   {currentPath.description}
                 </CardDescription>
               </div>
@@ -112,7 +112,7 @@ export default function LearnPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">学习进度</span>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     {currentPath.completedSteps}/{currentPath.totalSteps} 章节
                   </span>
                 </div>
@@ -121,22 +121,22 @@ export default function LearnPage() {
 
               <div className="grid grid-cols-3 gap-4 pt-2">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {currentPath.completedSteps}
                   </div>
-                  <div className="text-xs text-gray-600 mt-1">已完成</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">已完成</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                     {currentPath.totalSteps - currentPath.completedSteps}
                   </div>
-                  <div className="text-xs text-gray-600 mt-1">待学习</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">待学习</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                     {currentPath.estimatedHours}h
                   </div>
-                  <div className="text-xs text-gray-600 mt-1">预计时长</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">预计时长</div>
                 </div>
               </div>
 
@@ -162,36 +162,36 @@ export default function LearnPage() {
                     <div
                       key={step.id}
                       className={`flex items-center gap-4 p-3 rounded-lg border transition-all ${
-                        step.status === 'completed' ? 'bg-green-50 border-green-200' :
-                        step.status === 'in_progress' ? 'bg-blue-50 border-blue-200' :
-                        'bg-gray-50 border-gray-200'
+                        step.status === 'completed' ? 'bg-green-50 border-green-200 dark:bg-green-950/40 dark:border-green-900' :
+                        step.status === 'in_progress' ? 'bg-blue-50 border-blue-200 dark:bg-blue-950/40 dark:border-blue-900' :
+                        'bg-gray-50 border-gray-200 dark:bg-muted/30 dark:border-border'
                       } ${step.status === 'locked' ? 'opacity-60' : 'hover:shadow-sm cursor-pointer'}`}
                     >
                       {/* 状态图标 */}
                       <div className="flex-shrink-0">
                         {step.status === 'completed' ? (
-                          <CheckCircle2 className="h-6 w-6 text-green-600" />
+                          <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
                         ) : step.status === 'in_progress' ? (
-                          <Circle className="h-6 w-6 text-blue-600 animate-pulse" />
+                          <Circle className="h-6 w-6 text-blue-600 dark:text-blue-400 animate-pulse" />
                         ) : (
-                          <Lock className="h-6 w-6 text-gray-400" />
+                          <Lock className="h-6 w-6 text-gray-400 dark:text-gray-500" />
                         )}
                       </div>
 
                       {/* 步骤信息 */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-500">第 {step.id} 章</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">第 {step.id} 章</span>
                           {step.status === 'in_progress' && (
-                            <Badge variant="outline" className="bg-blue-100 text-blue-700 text-xs">
+                            <Badge variant="outline" className="bg-blue-100 text-blue-700 text-xs dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800">
                               进行中
                             </Badge>
                           )}
                         </div>
                         <h4 className="font-medium mt-1">{step.title}</h4>
                         <div className="flex items-center gap-2 mt-1">
-                          <Clock className="h-3 w-3 text-gray-400" />
-                          <span className="text-xs text-gray-500">{step.duration}</span>
+                          <Clock className="h-3 w-3 text-gray-400 dark:text-gray-500" />
+                          <span className="text-xs text-gray-500 dark:text-gray-400">{step.duration}</span>
                         </div>
                       </div>
 

@@ -27,7 +27,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="hidden border-r bg-gray-50/40 lg:block">
+    <div className="hidden border-r bg-background lg:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -46,8 +46,8 @@ export function Sidebar() {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
                     isActive
-                      ? "bg-gray-100 text-gray-900"
-                      : "text-gray-500 hover:text-gray-900",
+                      ? "bg-accent text-accent-foreground"
+                      : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   <item.icon className="h-4 w-4" />
@@ -94,8 +94,8 @@ export function MobileSidebar() {
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
                       isActive
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-500 hover:text-gray-900",
+                        ? "bg-accent text-accent-foreground"
+                        : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <item.icon className="h-4 w-4" />
