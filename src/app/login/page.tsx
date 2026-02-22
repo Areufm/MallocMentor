@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Code2, Loader2 } from "lucide-react";
+import { Code2, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -178,7 +178,10 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <p className="text-sm text-red-500">{error}</p>
+                <div className="flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-3">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+                  <p className="text-sm text-red-600">{error}</p>
+                </div>
               )}
 
               <Button type="submit" className="w-full" disabled={loading}>
