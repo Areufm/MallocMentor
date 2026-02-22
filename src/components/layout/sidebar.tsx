@@ -57,17 +57,6 @@ export function Sidebar() {
             })}
           </nav>
         </div>
-        <div className="mt-auto p-4">
-          <div className="rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
-            <h3 className="mb-2 text-sm font-semibold">升级到专业版</h3>
-            <p className="mb-3 text-xs text-gray-600">
-              解锁更多高级功能和专属辅导
-            </p>
-            <Button size="sm" className="w-full">
-              立即升级
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );
