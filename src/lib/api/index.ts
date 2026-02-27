@@ -16,6 +16,7 @@ import type {
   RunCodeResponse,
   CodeSubmission,
   InterviewSession,
+  InterviewStats,
   CreateInterviewRequest,
   SendMessageRequest,
   InterviewMessage,
@@ -129,6 +130,12 @@ export const interviewApi = {
    */
   getTemplates: () => 
     get<InterviewTemplate[]>('/interviews/templates'),
+
+  /**
+   * 获取面试统计数据
+   */
+  getStats: () =>
+    get<InterviewStats>('/interviews/stats'),
 }
 
 // ============================================

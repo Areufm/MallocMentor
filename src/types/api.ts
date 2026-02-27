@@ -143,10 +143,21 @@ export interface InterviewSession {
   type: 'technical' | 'behavioral'
   status: 'active' | 'completed' | 'paused'
   templateId?: string
+  duration?: string       // 面试时长，如 "45分钟"
   messages: InterviewMessage[]
   evaluation?: InterviewEvaluation
   createdAt: string
   updatedAt: string
+}
+
+// 面试统计数据
+export interface InterviewStats {
+  completedCount: number    // 已完成面试次数
+  totalDurationHours: number // 累计时长（小时）
+  averageScore: number      // 平均分
+  scoreTrend: number        // 与上周比较的分差
+  topDomain: string         // 强项领域
+  topDomainScore: number    // 强项领域平均分
 }
 
 export interface InterviewMessage {

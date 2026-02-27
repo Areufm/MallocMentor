@@ -11,7 +11,11 @@ const COZE_API_BASE = "https://api.coze.cn/v1";
 interface CozeMessagePayload {
   bot_id: string;
   user_id: string;
-  additional_messages: { role: "user"; content: string; content_type: "text" }[];
+  additional_messages: {
+    role: "user";
+    content: string;
+    content_type: "text";
+  }[];
   stream: boolean;
   auto_save_history?: boolean;
   conversation_id?: string;
@@ -39,7 +43,12 @@ interface CozeRetrieveResponse {
   data: {
     id: string;
     conversation_id: string;
-    status: "created" | "in_progress" | "completed" | "failed" | "requires_action";
+    status:
+      | "created"
+      | "in_progress"
+      | "completed"
+      | "failed"
+      | "requires_action";
   };
 }
 
@@ -48,12 +57,15 @@ interface CozeMessageListResponse {
   data: CozeMessage[];
 }
 
-function getConfig() {
+function getConfig(botType: "interview" | "codeReview" | "knowledge") {
   const apiKey = process.env.COZE_API_KEY;
-  const botId = process.env.COZE_BOT_ID;
-  if (!apiKey || !botId) {
-    throw new Error("缺少 COZE_API_KEY 或 COZE_BOT_ID 环境变量配置");
-  }
+  const botIdMap = {
+    interview: process.env.COZE_BOT_ID_INTERVIEW,
+    codeReview: process.env.COZE_BOT_ID_CODE_REVIEW,
+    knowledge: process.env.COZE_BOT_ID_KNOWLEDGE,
+  };
+  const botId = botIdMap[botType];
+  if (!apiKey || !botId) throw new Error(`缺少 ${botType} 相关环境变量`);
   return { apiKey, botId };
 }
 
@@ -73,7 +85,7 @@ export async function chatNonStream(
   message: string,
   conversationId?: string,
 ): Promise<{ answer: string; conversationId: string }> {
-  const { apiKey, botId } = getConfig();
+  const { apiKey, botId } = getConfig("codeReview");
 
   const payload: CozeMessagePayload = {
     bot_id: botId,
@@ -142,7 +154,7 @@ export async function chatStream(
   message: string,
   conversationId?: string,
 ): Promise<ReadableStream<Uint8Array>> {
-  const { apiKey, botId } = getConfig();
+  const { apiKey, botId } = getConfig("interview");
 
   const payload: CozeMessagePayload = {
     bot_id: botId,

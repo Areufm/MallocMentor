@@ -29,19 +29,25 @@ export class ApiError extends Error {
 
 /**
  * 构建 URL（含查询参数）
+ * 注意：API_BASE_URL 可能是相对路径（如 /api），new URL() 需要绝对路径作为 base，
+ * 因此改用字符串拼接 + URLSearchParams 方式，兼容相对/绝对两种配置。
  */
 function buildUrl(endpoint: string, params?: Record<string, any>): string {
-  const url = new URL(endpoint, API_BASE_URL)
-  
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        url.searchParams.append(key, String(value))
-      }
-    })
-  }
-  
-  return url.toString()
+  const base = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
+  const fullUrl = `${base}${path}`
+
+  if (!params) return fullUrl
+
+  const searchParams = new URLSearchParams()
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      searchParams.append(key, String(value))
+    }
+  })
+
+  const queryString = searchParams.toString()
+  return queryString ? `${fullUrl}?${queryString}` : fullUrl
 }
 
 /**
