@@ -12,6 +12,8 @@ import {
   Star,
   TrendingUp,
   Loader2,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import Link from 'next/link'
 import { knowledgeApi } from '@/lib/api'
@@ -38,6 +40,8 @@ interface CategoryItem {
   articleCount: number
 }
 
+const PAGE_SIZE = 10
+
 export default function KnowledgePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -45,6 +49,9 @@ export default function KnowledgePage() {
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
+
+  const totalPages = Math.ceil(total / PAGE_SIZE)
 
   useEffect(() => {
     async function loadCategories() {
@@ -60,11 +67,16 @@ export default function KnowledgePage() {
     loadCategories()
   }, [])
 
+  // 切换分类或搜索时重置页码
+  useEffect(() => {
+    setPage(1)
+  }, [selectedCategory, searchQuery])
+
   useEffect(() => {
     async function loadArticles() {
       setLoading(true)
       try {
-        const params: Record<string, string | number> = { page: 1, pageSize: 50 }
+        const params: Record<string, string | number> = { page, pageSize: PAGE_SIZE }
         if (selectedCategory !== 'all') params.category = selectedCategory
         if (searchQuery) params.search = searchQuery
         const res = await knowledgeApi.getList(params as Parameters<typeof knowledgeApi.getList>[0])
@@ -79,7 +91,7 @@ export default function KnowledgePage() {
       }
     }
     loadArticles()
-  }, [selectedCategory, searchQuery])
+  }, [selectedCategory, searchQuery, page])
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -213,6 +225,46 @@ export default function KnowledgePage() {
                         </div>
                       </Link>
                     ))}
+
+                    {/* 分页 */}
+                    {totalPages > 1 && (
+                      <div className="flex items-center justify-between pt-4 border-t">
+                        <span className="text-sm text-gray-500">
+                          第 {page} / {totalPages} 页，共 {total} 篇
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={page <= 1}
+                            onClick={() => setPage(p => p - 1)}
+                          >
+                            <ChevronLeft className="h-4 w-4 mr-1" />
+                            上一页
+                          </Button>
+                          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                            <Button
+                              key={p}
+                              variant={p === page ? 'default' : 'outline'}
+                              size="sm"
+                              className="w-8 h-8 p-0"
+                              onClick={() => setPage(p)}
+                            >
+                              {p}
+                            </Button>
+                          ))}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={page >= totalPages}
+                            onClick={() => setPage(p => p + 1)}
+                          >
+                            下一页
+                            <ChevronRight className="h-4 w-4 ml-1" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </CardContent>

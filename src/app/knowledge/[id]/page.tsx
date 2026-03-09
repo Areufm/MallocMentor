@@ -1,49 +1,64 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import { AppLayout } from '@/components/layout/app-layout'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ChevronLeft, Clock, BookOpen, Eye, Loader2, CheckCircle2 } from 'lucide-react'
-import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { knowledgeApi } from '@/lib/api'
-import type { KnowledgeArticle } from '@/types/api'
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { AppLayout } from "@/components/layout/app-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  ChevronLeft,
+  Clock,
+  BookOpen,
+  Eye,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
+import { knowledgeApi } from "@/lib/api";
+import type { KnowledgeArticle } from "@/types/api";
 
 export default function KnowledgeArticlePage() {
-  const params = useParams()
-  const id = params.id as string
+  const params = useParams();
+  const id = params.id as string;
 
-  const [article, setArticle] = useState<(KnowledgeArticle & { content?: string }) | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [article, setArticle] = useState<
+    (KnowledgeArticle & { content?: string }) | null
+  >(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await knowledgeApi.getById(id)
+        const res = await knowledgeApi.getById(id);
         if (res.success && res.data) {
-          setArticle(res.data)
+          setArticle(res.data);
         }
       } catch (err) {
-        console.error('Load article error:', err)
+        console.error("Load article error:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    load()
-  }, [id])
+    load();
+  }, [id]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Easy': return 'bg-green-100 text-green-800'
-      case 'Medium': return 'bg-yellow-100 text-yellow-800'
-      case 'Hard': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case "Easy":
+        return "bg-green-100 text-green-800";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800";
+      case "Hard":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -52,7 +67,7 @@ export default function KnowledgeArticlePage() {
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
       </AppLayout>
-    )
+    );
   }
 
   if (!article) {
@@ -65,7 +80,7 @@ export default function KnowledgeArticlePage() {
           </Link>
         </div>
       </AppLayout>
-    )
+    );
   }
 
   return (
@@ -85,14 +100,22 @@ export default function KnowledgeArticlePage() {
               <CardHeader className="border-b">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Badge className={getDifficultyColor(article.difficulty)} variant="outline">
+                    <Badge
+                      className={getDifficultyColor(article.difficulty)}
+                      variant="outline"
+                    >
                       {article.difficulty}
                     </Badge>
-                    {Array.isArray(article.tags) && article.tags.map((tag: string) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+                    {Array.isArray(article.tags) &&
+                      article.tags.map((tag: string) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
                   </div>
                   <CardTitle className="text-2xl">{article.title}</CardTitle>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -105,16 +128,23 @@ export default function KnowledgeArticlePage() {
                       {article.views} 次浏览
                     </span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      约 {'estimatedTime' in article ? String(article.estimatedTime) : '15'} 分钟
+                      <Clock className="h-4 w-4" />约{" "}
+                      {"estimatedTime" in article
+                        ? String(article.estimatedTime)
+                        : "15"}{" "}
+                      分钟
                     </span>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-code:text-pink-600 prose-code:before:content-none prose-code:after:content-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {article.content || `# ${article.title}\n\n内容正在编写中...`}
+                <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-code:before:content-none prose-code:after:content-none prose-li:my-0.5">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                  >
+                    {article.content ||
+                      `# ${article.title}\n\n内容正在编写中...`}
                   </ReactMarkdown>
                 </div>
               </CardContent>
@@ -130,7 +160,10 @@ export default function KnowledgeArticlePage() {
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600">难度</span>
-                  <Badge className={getDifficultyColor(article.difficulty)} variant="outline">
+                  <Badge
+                    className={getDifficultyColor(article.difficulty)}
+                    variant="outline"
+                  >
                     {article.difficulty}
                   </Badge>
                 </div>
@@ -148,7 +181,7 @@ export default function KnowledgeArticlePage() {
             <Card className="bg-green-50 border-green-200">
               <CardContent className="pt-4">
                 <div className="flex gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-medium text-green-900 mb-1">学习提示</p>
                     <p className="text-green-700 text-xs">
@@ -162,5 +195,5 @@ export default function KnowledgeArticlePage() {
         </div>
       </div>
     </AppLayout>
-  )
+  );
 }

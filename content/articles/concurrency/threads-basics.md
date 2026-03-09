@@ -8,11 +8,7 @@ summary: "学习 C++11 线程库基础，理解线程创建与同步"
 estimatedTime: 45
 ---
 
-# 多线程基础
-
 C++11 引入了原生的线程支持库 `<thread>`，让多线程编程成为语言标准的一部分。此前 C++ 开发者不得不依赖平台特定的 API（如 POSIX threads、Windows threads），而现在可以编写跨平台的并发代码。
-
----
 
 ## 1. `std::thread` 创建线程
 

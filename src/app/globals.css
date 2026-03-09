@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* =============================================
    Tailwind v4: 使用 .dark 类驱动深色模式

@@ -38,7 +38,7 @@ export function Sidebar() {
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             {navigation.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
                 <Link
                   key={item.name}
@@ -85,7 +85,7 @@ export function MobileSidebar() {
           <div className="flex-1 overflow-y-auto py-2">
             <nav className="grid items-start px-2 text-sm font-medium">
               {navigation.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
                 return (
                   <Link
                     key={item.name}
