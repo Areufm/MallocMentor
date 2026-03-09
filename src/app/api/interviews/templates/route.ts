@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockInterviewTemplates, createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse } from '@/lib/utils/response'
 
 // GET /api/interviews/templates - 获取面试模板列表
 export async function GET(request: NextRequest) {
   try {
-    await delay(300)
+    const templates = await prisma.interviewTemplate.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: 'asc' },
+    })
 
-    return NextResponse.json(createSuccessResponse(mockInterviewTemplates))
+    const parsed = templates.map(t => ({
+      ...t,
+      topics: JSON.parse(t.topics),
+    }))
+
+    return NextResponse.json(createSuccessResponse(parsed))
   } catch (error) {
     console.error('Get interview templates error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

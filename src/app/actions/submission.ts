@@ -64,7 +64,7 @@ export async function submitCode(formData: {
   // 3. 调用 AI 评审
   try {
     const prompt = buildReviewPrompt(problem, formData.code, formData.language);
-    const { answer } = await chatNonStream(userId, prompt);
+    const { answer } = await chatNonStream('codeReview', prompt);
     const review = parseJsonAnswer<AIReviewResult>(answer);
 
     // 4. 更新提交记录

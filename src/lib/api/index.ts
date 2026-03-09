@@ -120,6 +120,12 @@ export const interviewApi = {
     post<InterviewMessage>(`/interviews/${sessionId}/message`, data),
 
   /**
+   * 结束面试并生成 AI 评估
+   */
+  endInterview: (id: string) =>
+    post<{ id: string; status: string; evaluation: import('@/types/api').InterviewEvaluation }>(`/interviews/${id}/end`, {}),
+
+  /**
    * 删除面试会话
    */
   delete: (id: string) => 

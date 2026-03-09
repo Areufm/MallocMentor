@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockInterviewSessions, createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
 
 // GET /api/interviews/[id] - 获取面试会话详情
 export async function GET(
@@ -8,23 +9,27 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    await delay(300)
-    const session = mockInterviewSessions.find(s => s.id === id)
-
-    if (!session) {
-      return NextResponse.json(
-        createErrorResponse('面试会话不存在'),
-        { status: 404 }
-      )
+    const userId = await getCurrentUserId()
+    if (!userId) {
+      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
     }
 
-    return NextResponse.json(createSuccessResponse(session))
+    const session = await prisma.interviewSession.findFirst({
+      where: { id, userId },
+    })
+
+    if (!session) {
+      return NextResponse.json(createErrorResponse('面试会话不存在'), { status: 404 })
+    }
+
+    return NextResponse.json(createSuccessResponse({
+      ...session,
+      messages: JSON.parse(session.messages),
+      evaluation: session.evaluation ? JSON.parse(session.evaluation) : undefined,
+    }))
   } catch (error) {
     console.error('Get interview detail error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }
 
@@ -35,14 +40,16 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    await delay(300)
+    const userId = await getCurrentUserId()
+    if (!userId) {
+      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
+    }
+
+    await prisma.interviewSession.deleteMany({ where: { id, userId } })
 
     return NextResponse.json(createSuccessResponse({ id }, '删除成功'))
   } catch (error) {
     console.error('Delete interview error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

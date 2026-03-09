@@ -1,27 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
-import type { KnowledgeCategory } from '@/types/api'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse } from '@/lib/utils/response'
 
 // GET /api/knowledge/categories - 获取知识库分类
 export async function GET(request: NextRequest) {
   try {
-    await delay(300)
+    const categories = await prisma.knowledgeCategory.findMany({
+      orderBy: { sortOrder: 'asc' },
+    })
 
-    const categories: KnowledgeCategory[] = [
-      { id: 'all', name: '全部', count: 156 },
-      { id: 'basics', name: '基础语法', count: 42 },
-      { id: 'pointer', name: '指针与内存', count: 38 },
-      { id: 'oop', name: '面向对象', count: 28 },
-      { id: 'stl', name: 'STL', count: 31 },
-      { id: 'concurrency', name: '并发编程', count: 17 },
+    // 在最前面插入「全部」分类
+    const totalCount = await prisma.knowledgeArticle.count()
+    const result = [
+      { id: 'all', name: 'all', label: '全部', icon: null, description: null, articleCount: totalCount, sortOrder: 0 },
+      ...categories,
     ]
 
-    return NextResponse.json(createSuccessResponse(categories))
+    return NextResponse.json(createSuccessResponse(result))
   } catch (error) {
     console.error('Get knowledge categories error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

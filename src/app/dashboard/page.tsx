@@ -250,9 +250,9 @@ export default function DashboardPage() {
                 ))
               )}
               <div className="pt-4 border-t">
-                <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                <a href="/learn" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                   查看全部目标 →
-                </button>
+                </a>
               </div>
             </CardContent>
           </Card>

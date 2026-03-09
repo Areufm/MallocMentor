@@ -1,26 +1,30 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { AppLayout } from '@/components/layout/app-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
-  MessageSquare, 
-  Clock, 
+import {
+  MessageSquare,
+  Clock,
   TrendingUp,
   Play,
-  Plus
+  Plus,
+  Loader2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { interviewApi } from '@/lib/api'
 import type { InterviewSession, InterviewTemplate, InterviewStats } from '@/types/api'
 
 export default function InterviewPage() {
+  const router = useRouter()
   const [sessions, setSessions] = useState<InterviewSession[]>([])
   const [templates, setTemplates] = useState<InterviewTemplate[]>([])
   const [stats, setStats] = useState<InterviewStats | null>(null)
   const [loading, setLoading] = useState(true)
+  const [creating, setCreating] = useState<string | null>(null) // templateId being created
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,23 +34,15 @@ export default function InterviewPage() {
           interviewApi.getTemplates(),
           interviewApi.getStats(),
         ])
-
-        if (sessionsRes.success && sessionsRes.data) {
-          setSessions(sessionsRes.data)
-        }
-        if (templatesRes.success && templatesRes.data) {
-          setTemplates(templatesRes.data)
-        }
-        if (statsRes.success && statsRes.data) {
-          setStats(statsRes.data)
-        }
+        if (sessionsRes.success && sessionsRes.data) setSessions(sessionsRes.data)
+        if (templatesRes.success && templatesRes.data) setTemplates(templatesRes.data)
+        if (statsRes.success && statsRes.data) setStats(statsRes.data)
       } catch (err) {
         console.error('Interview page fetch error:', err)
       } finally {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [])
 
@@ -59,9 +55,34 @@ export default function InterviewPage() {
     }
   }
 
-  /** 将 ISO 日期字符串格式化为 YYYY-MM-DD */
   const formatDate = (dateString: string) =>
     new Date(dateString).toISOString().slice(0, 10)
+
+  // 通过模板创建新面试并跳转
+  const handleStartInterview = async (template: InterviewTemplate) => {
+    if (creating) return
+    setCreating(template.id)
+    try {
+      const res = await interviewApi.create({
+        title: template.title,
+        type: template.type,
+        templateId: template.id,
+      })
+      if (res.success && res.data) {
+        router.push(`/interview/${res.data.id}`)
+      }
+    } catch (err) {
+      console.error('Create interview error:', err)
+    } finally {
+      setCreating(null)
+    }
+  }
+
+  // 快速开始（使用第一个模板）
+  const handleQuickStart = async () => {
+    if (creating || templates.length === 0) return
+    await handleStartInterview(templates[0])
+  }
 
   return (
     <AppLayout>
@@ -72,12 +93,14 @@ export default function InterviewPage() {
             <h1 className="text-3xl font-bold tracking-tight">模拟面试</h1>
             <p className="text-gray-500 mt-1">与 AI 面试官进行真实的技术面试模拟</p>
           </div>
-          <Link href="/interview/new">
-            <Button>
+          <Button onClick={handleQuickStart} disabled={!!creating || loading}>
+            {creating ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
               <Plus className="h-4 w-4 mr-2" />
-              开始新面试
-            </Button>
-          </Link>
+            )}
+            快速开始面试
+          </Button>
         </div>
 
         {/* 统计卡片 */}
@@ -99,7 +122,7 @@ export default function InterviewPage() {
               )}
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-500">平均分数</CardTitle>
@@ -123,7 +146,7 @@ export default function InterviewPage() {
               )}
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-500">强项领域</CardTitle>
@@ -181,7 +204,7 @@ export default function InterviewPage() {
                         <Clock className="h-4 w-4" />
                         <span>{template.estimatedTime}</span>
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-1">
                         {template.topics.map((topic) => (
                           <Badge key={topic} variant="secondary" className="text-xs">
@@ -190,12 +213,18 @@ export default function InterviewPage() {
                         ))}
                       </div>
 
-                      <Link href={`/interview/new?template=${template.id}`}>
-                        <Button className="w-full">
+                      <Button
+                        className="w-full"
+                        onClick={() => handleStartInterview(template)}
+                        disabled={!!creating}
+                      >
+                        {creating === template.id ? (
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        ) : (
                           <Play className="h-4 w-4 mr-2" />
-                          开始面试
-                        </Button>
-                      </Link>
+                        )}
+                        开始面试
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -223,6 +252,8 @@ export default function InterviewPage() {
                   </div>
                 ))}
               </div>
+            ) : sessions.length === 0 ? (
+              <p className="text-center text-gray-500 py-8">暂无面试记录，选择模板开始你的第一次面试吧！</p>
             ) : (
               <div className="space-y-3">
                 {sessions.map((session) => (
@@ -247,14 +278,8 @@ export default function InterviewPage() {
                         </div>
                         <div className="flex items-center gap-3 mt-1 text-sm text-gray-500">
                           <span>{formatDate(session.createdAt)}</span>
-                          {session.duration && (
-                            <>
-                              <span>•</span>
-                              <span>{session.duration}</span>
-                            </>
-                          )}
                           <span>•</span>
-                          <span>{session.messages.length} 条对话</span>
+                          <span>{session.messages?.length ?? 0} 条对话</span>
                         </div>
                       </div>
 

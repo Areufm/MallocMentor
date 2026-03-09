@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockProblems, createSuccessResponse, createErrorResponse, delay, paginate } from '@/lib/mock-data'
-import type { ProblemsFilter } from '@/types/api'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse } from '@/lib/utils/response'
 
 // GET /api/problems - 获取题目列表（支持筛选和分页）
 export async function GET(request: NextRequest) {
   try {
-    await delay(400)
-
     const searchParams = request.nextUrl.searchParams
     const page = parseInt(searchParams.get('page') || '1')
     const pageSize = parseInt(searchParams.get('pageSize') || '10')
@@ -14,35 +12,48 @@ export async function GET(request: NextRequest) {
     const difficulty = searchParams.get('difficulty')
     const search = searchParams.get('search')
 
-    // 筛选逻辑
-    let filteredProblems = mockProblems
+    const where: Record<string, unknown> = {}
 
     if (category && category !== 'all') {
-      filteredProblems = filteredProblems.filter(p => p.category === category)
+      where.category = category
     }
-
     if (difficulty && difficulty !== 'all') {
-      filteredProblems = filteredProblems.filter(p => p.difficulty === difficulty)
+      where.difficulty = difficulty
     }
-
     if (search) {
-      const searchLower = search.toLowerCase()
-      filteredProblems = filteredProblems.filter(p => 
-        p.title.toLowerCase().includes(searchLower) ||
-        p.description.toLowerCase().includes(searchLower) ||
-        p.tags.some(tag => tag.toLowerCase().includes(searchLower))
-      )
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ]
     }
 
-    // 分页
-    const result = paginate(filteredProblems, page, pageSize)
+    const [problems, total] = await Promise.all([
+      prisma.problem.findMany({
+        where,
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.problem.count({ where }),
+    ])
 
-    return NextResponse.json(createSuccessResponse(result))
+    // 将 JSON 字符串字段解析为对象
+    const parsed = problems.map(p => ({
+      ...p,
+      tags: JSON.parse(p.tags),
+      testCases: JSON.parse(p.testCases),
+      hints: p.hints ? JSON.parse(p.hints) : [],
+    }))
+
+    return NextResponse.json(createSuccessResponse({
+      data: parsed,
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    }))
   } catch (error) {
     console.error('Get problems error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

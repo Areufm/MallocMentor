@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockProblems, createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse } from '@/lib/utils/response'
 
 // GET /api/problems/[id] - 获取单个题目详情
 export async function GET(
@@ -8,8 +9,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    await delay(300)
-    const problem = mockProblems.find(p => p.id === id)
+
+    const problem = await prisma.problem.findUnique({ where: { id } })
 
     if (!problem) {
       return NextResponse.json(
@@ -18,12 +19,16 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(createSuccessResponse(problem))
+    const parsed = {
+      ...problem,
+      tags: JSON.parse(problem.tags),
+      testCases: JSON.parse(problem.testCases),
+      hints: problem.hints ? JSON.parse(problem.hints) : [],
+    }
+
+    return NextResponse.json(createSuccessResponse(parsed))
   } catch (error) {
     console.error('Get problem detail error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

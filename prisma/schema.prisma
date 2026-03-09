@@ -64,12 +64,14 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts          Account[]
-  sessions          Session[]
-  capabilityRadar   CapabilityRadar?
-  interviewSessions InterviewSession[]
-  learningPaths     LearningPath[]
-  submissions       CodeSubmission[]
+  accounts           Account[]
+  sessions           Session[]
+  capabilityRadar    CapabilityRadar?
+  interviewSessions  InterviewSession[]
+  learningPaths      LearningPath[]
+  submissions        CodeSubmission[]
+  activityLogs       ActivityLog[]
+  learningProgress   UserLearningProgress[]
 }
 
 // 能力雷达图模型 - 6维能力评估
@@ -138,8 +140,10 @@ model InterviewSession {
   title       String
   type        String   // Technical, Behavioral
   status      String   // Active, Completed
+  templateId  String?  // 关联面试模板
 
   messages    String   @db.Text  // JSON格式对话历史
+  cozeSessionId String? // Coze 多轮对话 session ID
 
   evaluation  String?  @db.Text  // AI评估报告
 
@@ -158,7 +162,7 @@ model LearningPath {
   title       String
   description String   @db.Text
 
-  steps       String   @db.Text  // JSON格式步骤
+  steps       String   @db.Text  // JSON格式步骤（含 articleIds 关联知识库文章）
 
   currentStep Int      @default(0)
   progress    Int      @default(0) // 0-100
@@ -168,5 +172,99 @@ model LearningPath {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@index([userId])
+}
+
+// =============================================
+// 知识库模型
+// =============================================
+
+// 知识库文章
+model KnowledgeArticle {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  filePath    String   // content/articles/ 下的 .md 文件相对路径
+  category    String
+  tags        String   // JSON 数组
+  difficulty  String   // Easy, Medium, Hard
+  author      String   @default("MallocMentor")
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  summary     String   @db.Text
+  estimatedTime Int    @default(15) // 预计阅读时间（分钟）
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  learningProgress UserLearningProgress[]
+}
+
+// 知识库分类
+model KnowledgeCategory {
+  id           String  @id @default(cuid())
+  name         String  @unique // 英文标识，如 basics, pointer
+  label        String          // 中文标签，如 基础语法
+  icon         String?         // 图标名称
+  description  String?
+  articleCount Int     @default(0)
+  sortOrder    Int     @default(0)
+}
+
+// =============================================
+// 面试模板
+// =============================================
+
+model InterviewTemplate {
+  id            String   @id @default(cuid())
+  title         String
+  description   String   @db.Text
+  type          String   // technical, behavioral
+  difficulty    String   // Easy, Medium, Hard
+  topics        String   // JSON 数组
+  estimatedTime String
+  isActive      Boolean  @default(true)
+
+  createdAt     DateTime @default(now())
+}
+
+// =============================================
+// 用户行为追踪
+// =============================================
+
+// 活动日志
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type        String   // problem, interview, learning, knowledge
+  title       String
+  description String?
+  metadata    String?  @db.Text // JSON 扩展数据
+
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// 用户文章阅读进度
+model UserLearningProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articleId   String
+  article     KnowledgeArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  status      String   @default("unread") // unread, reading, completed
+  progress    Int      @default(0) // 0-100 阅读百分比
+  lastReadAt  DateTime?
+  completedAt DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, articleId])
   @@index([userId])
 }

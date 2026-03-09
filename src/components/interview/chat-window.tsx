@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Send, Bot, User, Loader2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import type { InterviewMessage } from '@/types/api'
 
 interface Message {
   id: string
@@ -16,21 +17,36 @@ interface Message {
 
 interface ChatWindowProps {
   sessionId?: string
+  initialMessages?: InterviewMessage[]
+  disabled?: boolean
+  onMessageCountChange?: (count: number) => void
 }
 
-export function ChatWindow({ sessionId }: ChatWindowProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: '你好！我是你的 AI 面试官。今天我们将进行一场关于 C++ 的技术面试。我会问你一些问题，请你认真思考后回答。准备好了吗？',
-      timestamp: new Date()
+function toLocalMessage(m: InterviewMessage): Message {
+  return {
+    id: m.id,
+    role: m.role,
+    content: m.content,
+    timestamp: new Date(m.timestamp),
+  }
+}
+
+export function ChatWindow({ sessionId, initialMessages, disabled, onMessageCountChange }: ChatWindowProps) {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (initialMessages && initialMessages.length > 0) {
+      return initialMessages.map(toLocalMessage)
     }
-  ])
+    return [{
+      id: '1',
+      role: 'assistant' as const,
+      content: '你好！我是你的 AI 面试官。今天我们将进行一场关于 C++ 的技术面试。准备好了吗？',
+      timestamp: new Date(),
+    }]
+  })
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const sessionIdRef = useRef<string | undefined>(undefined)
+  const cozeSessionIdRef = useRef<string | undefined>(undefined)
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -40,20 +56,18 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
     scrollToBottom()
   }, [messages, scrollToBottom])
 
-  /**
-   * 发送消息并处理回复
-   * 自动适配两种响应格式：
-   *  - text/event-stream → 流式逐字渲染
-   *  - application/json  → 一次性渲染（mock 模式）
-   */
+  useEffect(() => {
+    onMessageCountChange?.(messages.length)
+  }, [messages.length, onMessageCountChange])
+
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading || disabled) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
       content: input,
-      timestamp: new Date()
+      timestamp: new Date(),
     }
 
     setMessages(prev => [...prev, userMessage])
@@ -67,7 +81,7 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(sessionIdRef.current && { 'x-session-id': sessionIdRef.current }),
+          ...(cozeSessionIdRef.current && { 'x-session-id': cozeSessionIdRef.current }),
         },
         body: JSON.stringify({ sessionId: sessionId ?? 'default', message: input }),
       })
@@ -75,12 +89,11 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
       const contentType = res.headers.get('content-type') ?? ''
 
       if (contentType.includes('text/event-stream')) {
-        // ---- 流式模式：逐字追加 ----
         setMessages(prev => [...prev, {
           id: aiMessageId,
           role: 'assistant',
           content: '',
-          timestamp: new Date()
+          timestamp: new Date(),
         }])
 
         const reader = res.body!.getReader()
@@ -104,9 +117,8 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
 
             try {
               const parsed = JSON.parse(raw)
-              // session 事件：保存 sessionId 用于多轮对话
               if (parsed && typeof parsed === 'object' && parsed.type === 'session') {
-                sessionIdRef.current = parsed.sessionId
+                cozeSessionIdRef.current = parsed.sessionId
               } else if (typeof parsed === 'string') {
                 setMessages(prev =>
                   prev.map(m =>
@@ -114,20 +126,17 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
                   )
                 )
               }
-            } catch {
-              // 非 JSON 片段，跳过
-            }
+            } catch { /* skip non-JSON */ }
           }
         }
       } else {
-        // ---- JSON 模式（mock fallback） ----
         const data = await res.json()
         if (data.success && data.data) {
           setMessages(prev => [...prev, {
             id: data.data.id ?? aiMessageId,
             role: 'assistant',
             content: data.data.content,
-            timestamp: new Date(data.data.timestamp ?? Date.now())
+            timestamp: new Date(data.data.timestamp ?? Date.now()),
           }])
         }
       }
@@ -137,7 +146,7 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
         id: aiMessageId,
         role: 'assistant',
         content: '抱歉，AI 面试官暂时无法回复，请稍后重试。',
-        timestamp: new Date()
+        timestamp: new Date(),
       }])
     } finally {
       setIsLoading(false)
@@ -153,7 +162,6 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* 消息列表 */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
@@ -166,27 +174,18 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
                   ? 'bg-purple-100 text-purple-600'
                   : 'bg-blue-100 text-blue-600'
               }>
-                {message.role === 'assistant' ? (
-                  <Bot className="h-4 w-4" />
-                ) : (
-                  <User className="h-4 w-4" />
-                )}
+                {message.role === 'assistant' ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
               </AvatarFallback>
             </Avatar>
 
             <Card className={`max-w-[80%] p-3 ${
-              message.role === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-white'
+              message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-white'
             }`}>
               <p className="text-sm whitespace-pre-wrap">{message.content}</p>
               <p className={`text-xs mt-2 ${
                 message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
               }`}>
-                {message.timestamp.toLocaleTimeString('zh-CN', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
+                {message.timestamp.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
               </p>
             </Card>
           </div>
@@ -211,27 +210,23 @@ export function ChatWindow({ sessionId }: ChatWindowProps) {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 输入区域 */}
       <div className="border-t bg-white p-4">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="输入你的回答..."
-            disabled={isLoading}
+            placeholder={disabled ? "面试已结束" : "输入你的回答..."}
+            disabled={isLoading || disabled}
             className="flex-1"
           />
-          <Button
-            onClick={handleSend}
-            disabled={!input.trim() || isLoading}
-          >
+          <Button onClick={handleSend} disabled={!input.trim() || isLoading || disabled}>
             <Send className="h-4 w-4" />
           </Button>
         </div>
-        <p className="text-xs text-gray-500 mt-2">
-          按 Enter 发送，Shift + Enter 换行
-        </p>
+        {!disabled && (
+          <p className="text-xs text-gray-500 mt-2">按 Enter 发送，Shift + Enter 换行</p>
+        )}
       </div>
     </div>
   )

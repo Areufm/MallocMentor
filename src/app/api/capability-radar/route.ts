@@ -1,39 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockCapabilityRadar, createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
 
 // GET /api/capability-radar - 获取用户能力雷达图
 export async function GET(request: NextRequest) {
   try {
-    await delay(300)
+    const userId = await getCurrentUserId()
+    if (!userId) {
+      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
+    }
 
-    const searchParams = request.nextUrl.searchParams
-    const userId = searchParams.get('userId') || '1'
+    let radar = await prisma.capabilityRadar.findUnique({ where: { userId } })
 
-    // Mock: 返回固定的雷达图数据
-    return NextResponse.json(createSuccessResponse(mockCapabilityRadar))
+    // 如果不存在，创建默认的初始值
+    if (!radar) {
+      radar = await prisma.capabilityRadar.create({
+        data: {
+          userId,
+          basicSyntax: 0,
+          memoryManagement: 0,
+          dataStructures: 0,
+          oop: 0,
+          stlLibrary: 0,
+          systemProgramming: 0,
+        },
+      })
+    }
+
+    return NextResponse.json(createSuccessResponse(radar))
   } catch (error) {
     console.error('Get capability radar error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }
 
-// POST /api/capability-radar - 更新能力雷达图（系统自动计算后更新）
+// POST /api/capability-radar - 更新能力雷达图
 export async function POST(request: NextRequest) {
   try {
-    await delay(300)
+    const userId = await getCurrentUserId()
+    if (!userId) {
+      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
+    }
 
     const body = await request.json()
+    const { basicSyntax, memoryManagement, dataStructures, oop, stlLibrary, systemProgramming } = body
 
-    // Mock: 接受任何更新
-    return NextResponse.json(createSuccessResponse(body, '能力雷达图更新成功'))
+    const radar = await prisma.capabilityRadar.upsert({
+      where: { userId },
+      update: { basicSyntax, memoryManagement, dataStructures, oop, stlLibrary, systemProgramming },
+      create: { userId, basicSyntax, memoryManagement, dataStructures, oop, stlLibrary, systemProgramming },
+    })
+
+    return NextResponse.json(createSuccessResponse(radar, '能力雷达图更新成功'))
   } catch (error) {
     console.error('Update capability radar error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

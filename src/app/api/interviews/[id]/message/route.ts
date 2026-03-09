@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSuccessResponse, createErrorResponse, delay } from '@/lib/mock-data'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
 import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
 import type { SendMessageRequest, InterviewMessage } from '@/types/api'
 
@@ -7,37 +8,72 @@ import type { SendMessageRequest, InterviewMessage } from '@/types/api'
  * POST /api/interviews/[id]/message
  *
  * 两种模式：
- * 1. Coze 已配置 → 流式 SSE 返回（text/event-stream）
- * 2. Coze 未配置 → Mock 模式，返回固定 JSON
+ * 1. Coze 已配置 -> 流式 SSE 返回
+ * 2. Coze 未配置 -> Mock 模式
+ *
+ * 消息持久化：每次交互后将用户消息和 AI 回复追加到 InterviewSession.messages
  */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await params
+    const { id } = await params
+    const userId = await getCurrentUserId()
+    if (!userId) {
+      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
+    }
+
     const body: SendMessageRequest = await request.json()
     const { message } = body
 
     if (!message) {
-      return NextResponse.json(
-        createErrorResponse('消息内容不能为空'),
-        { status: 400 }
-      )
+      return NextResponse.json(createErrorResponse('消息内容不能为空'), { status: 400 })
     }
+
+    // 获取当前会话用于持久化
+    const session = await prisma.interviewSession.findFirst({ where: { id, userId } })
+    if (!session) {
+      return NextResponse.json(createErrorResponse('面试会话不存在'), { status: 404 })
+    }
+
+    // 追加用户消息
+    const existingMessages: InterviewMessage[] = JSON.parse(session.messages)
+    const userMsg: InterviewMessage = {
+      id: `msg_${Date.now()}`,
+      role: 'user',
+      content: message,
+      timestamp: new Date().toISOString(),
+    }
+    existingMessages.push(userMsg)
+
+    // 先保存用户消息
+    await prisma.interviewSession.update({
+      where: { id },
+      data: { messages: JSON.stringify(existingMessages) },
+    })
 
     // ---- Coze 流式模式 ----
     if (isCozeConfigured('interview')) {
-      const sessionId = request.headers.get('x-session-id') || undefined
+      const cozeSessionId = session.cozeSessionId || request.headers.get('x-session-id') || undefined
 
       const { stream: textStream, sessionId: newSessionId } =
-        await chatStream('interview', message, sessionId)
+        await chatStream('interview', message, cozeSessionId)
 
-      // 将纯文本流转为标准 SSE 格式，方便前端 fetch 消费
+      // 保存 cozeSessionId 用于多轮对话
+      if (newSessionId && newSessionId !== session.cozeSessionId) {
+        await prisma.interviewSession.update({
+          where: { id },
+          data: { cozeSessionId: newSessionId },
+        })
+      }
+
+      // 收集完整回复用于持久化
+      let fullResponse = ''
+
       const encoder = new TextEncoder()
       const sseStream = new ReadableStream({
         async start(controller) {
-          // 先告知前端 sessionId，用于后续多轮对话
           controller.enqueue(
             encoder.encode(`data: ${JSON.stringify({ type: 'session', sessionId: newSessionId })}\n\n`)
           )
@@ -47,8 +83,25 @@ export async function POST(
             while (true) {
               const { done, value } = await reader.read()
               if (done) break
+              if (typeof value === 'string') fullResponse += value
               controller.enqueue(encoder.encode(`data: ${JSON.stringify(value)}\n\n`))
             }
+
+            // 持久化 AI 回复
+            if (fullResponse) {
+              const aiMsg: InterviewMessage = {
+                id: `msg_${Date.now()}`,
+                role: 'assistant',
+                content: fullResponse,
+                timestamp: new Date().toISOString(),
+              }
+              existingMessages.push(aiMsg)
+              await prisma.interviewSession.update({
+                where: { id },
+                data: { messages: JSON.stringify(existingMessages) },
+              })
+            }
+
             controller.enqueue(encoder.encode('data: [DONE]\n\n'))
             controller.close()
           } catch (err) {
@@ -69,9 +122,7 @@ export async function POST(
       })
     }
 
-    // ---- Mock 模式（Coze 未配置时） ----
-    await delay(1500)
-
+    // ---- Mock 模式 ----
     const mockReplies = [
       '很好的回答！让我们深入一下。你能解释一下智能指针的实现原理吗？特别是 shared_ptr 的引用计数机制是怎么工作的？',
       '不错！那你能说说 unique_ptr 和 shared_ptr 在使用场景上有什么区别吗？什么时候应该用哪个？',
@@ -81,18 +132,22 @@ export async function POST(
     ]
 
     const aiResponse: InterviewMessage = {
-      id: `msg_${Date.now()}`,
+      id: `msg_${Date.now() + 1}`,
       role: 'assistant',
       content: mockReplies[Math.floor(Math.random() * mockReplies.length)],
       timestamp: new Date().toISOString(),
     }
 
+    // 持久化 AI 回复
+    existingMessages.push(aiResponse)
+    await prisma.interviewSession.update({
+      where: { id },
+      data: { messages: JSON.stringify(existingMessages) },
+    })
+
     return NextResponse.json(createSuccessResponse(aiResponse))
   } catch (error) {
     console.error('Send message error:', error)
-    return NextResponse.json(
-      createErrorResponse('服务器错误'),
-      { status: 500 }
-    )
+    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }
