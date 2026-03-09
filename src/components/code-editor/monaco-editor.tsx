@@ -20,7 +20,7 @@ export function MonacoEditor({
     <Card className="overflow-hidden">
       <Editor
         height={height}
-        defaultLanguage={language}
+        language={language}
         value={value}
         onChange={onChange}
         theme="vs-dark"

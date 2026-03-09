@@ -2,7 +2,7 @@
  * Coze AI 服务层
  *
  * 适配扣子平台「发布为应用」后的 API 格式。
- * 每个 Bot 有独立的 URL 和 project_id，统一使用同一个 API Token 鉴权。
+ * 每个 Bot 独立配置 TOKEN / URL / PROJECT_ID。
  *
  * 支持三种 Bot：
  * - interview:   AI 面试官（流式对话）
@@ -61,25 +61,38 @@ export function isCozeConfigured(botType: BotType): boolean {
   return !!(cfg.token && cfg.url && cfg.projectId);
 }
 
+/** 每个 Bot 独立的环境变量映射 */
+const ENV_MAP: Record<BotType, { token: string; url: string; projectId: string }> = {
+  interview: {
+    token: "COZE_INTERVIEW_TOKEN",
+    url: "COZE_INTERVIEW_URL",
+    projectId: "COZE_INTERVIEW_PROJECT_ID",
+  },
+  codeReview: {
+    token: "COZE_CODE_REVIEW_TOKEN",
+    url: "COZE_CODE_REVIEW_URL",
+    projectId: "COZE_CODE_REVIEW_PROJECT_ID",
+  },
+  knowledge: {
+    token: "COZE_KNOWLEDGE_TOKEN",
+    url: "COZE_KNOWLEDGE_URL",
+    projectId: "COZE_KNOWLEDGE_PROJECT_ID",
+  },
+};
+
 function getBotEnv(botType: BotType) {
-  const token = process.env.COZE_API_TOKEN ?? "";
-  const urlMap: Record<BotType, string | undefined> = {
-    interview: process.env.COZE_INTERVIEW_URL,
-    codeReview: process.env.COZE_CODE_REVIEW_URL,
-    knowledge: process.env.COZE_KNOWLEDGE_URL,
+  const keys = ENV_MAP[botType];
+  return {
+    token: process.env[keys.token] ?? "",
+    url: process.env[keys.url] ?? "",
+    projectId: process.env[keys.projectId] ?? "",
   };
-  const pidMap: Record<BotType, string | undefined> = {
-    interview: process.env.COZE_INTERVIEW_PROJECT_ID,
-    codeReview: process.env.COZE_CODE_REVIEW_PROJECT_ID,
-    knowledge: process.env.COZE_KNOWLEDGE_PROJECT_ID,
-  };
-  return { token, url: urlMap[botType] ?? "", projectId: pidMap[botType] ?? "" };
 }
 
 function getConfig(botType: BotType): BotConfig {
   const cfg = getBotEnv(botType);
   if (!cfg.token || !cfg.url || !cfg.projectId) {
-    throw new Error(`缺少 ${botType} 相关环境变量（COZE_API_TOKEN / URL / PROJECT_ID）`);
+    throw new Error(`缺少 ${botType} 相关环境变量（TOKEN / URL / PROJECT_ID）`);
   }
   return cfg;
 }

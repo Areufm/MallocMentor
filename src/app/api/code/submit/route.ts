@@ -29,7 +29,9 @@ export async function POST(request: NextRequest) {
     let status = 'Passed'
 
     if (isCozeConfigured('codeReview')) {
-      const prompt = `请审查以下 ${language === 'cpp' ? 'C++' : 'C'} 代码（题目：${problem.title}）：\n\n题目描述：${problem.description}\n\n代码：\n\`\`\`${language}\n${code}\n\`\`\`\n\n请给出代码审查意见，包括：正确性评估、代码质量、优化建议。`
+      // 按代码审查 Agent 要求的格式构建 prompt
+      const langLabel = language === 'cpp' ? 'cpp' : 'c'
+      const prompt = `题目：${problem.title}\n语言：${langLabel}\n代码：\n${code}`
 
       try {
         const { answer } = await chatNonStream('codeReview', prompt)
