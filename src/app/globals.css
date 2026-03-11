@@ -144,3 +144,62 @@ body {
   background-color: var(--background);
   color: var(--foreground);
 }
+
+/* =============================================
+   Prose 代码块美化
+   覆盖 @tailwindcss/typography 默认样式，
+   让 highlight.js 主题完全接管代码块外观
+   ============================================= */
+
+/* 行内代码：去掉淡蓝背景，改为深色风格 */
+.prose :where(code):not(:where(pre code)) {
+  background-color: oklch(0.2 0 0);
+  color: oklch(0.85 0.08 200);
+  padding: 0.15em 0.45em;
+  border-radius: 0.3em;
+  font-size: 0.875em;
+  font-weight: 500;
+  border: 1px solid oklch(0.35 0 0);
+}
+
+/* 代码块容器：去掉 prose 默认背景，交给 hljs 主题 */
+.prose :where(pre) {
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin: 1.5em 0 !important;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px -1px oklch(0 0 0 / 0.3),
+    0 2px 4px -2px oklch(0 0 0 / 0.2),
+    0 0 0 1px oklch(0.3 0 0 / 0.5);
+}
+
+/* hljs 代码块本体：确保圆角和内边距正确 */
+.prose :where(pre) .hljs {
+  border-radius: 0.625rem;
+  padding: 1.25em 1.5em !important;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* 代码块顶部装饰条（macOS 风格三点） */
+.prose :where(pre)::before {
+  content: "";
+  display: block;
+  height: 2.5rem;
+  background: oklch(0.22 0 0);
+  border-bottom: 1px solid oklch(0.3 0 0);
+  border-radius: 0.625rem 0.625rem 0 0;
+  background-image: radial-gradient(circle, oklch(0.9 0.15 25) 6px, transparent 6px),
+    radial-gradient(circle, oklch(0.9 0.12 85) 6px, transparent 6px),
+    radial-gradient(circle, oklch(0.6 0.15 145) 6px, transparent 6px);
+  background-size: 14px 14px, 14px 14px, 14px 14px;
+  background-position: 16px center, 36px center, 56px center;
+  background-repeat: no-repeat;
+}
+
+/* 修正 hljs 块顶部圆角（装饰条已接管顶部） */
+.prose :where(pre) .hljs {
+  border-radius: 0 0 0.625rem 0.625rem !important;
+}

@@ -138,7 +138,7 @@ export default function KnowledgeArticlePage() {
                 </div>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-code:before:content-none prose-code:after:content-none prose-li:my-0.5">
+                <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-code:before:content-none prose-code:after:content-none prose-li:my-0.5">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeHighlight]}

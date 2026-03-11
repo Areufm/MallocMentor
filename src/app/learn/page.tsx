@@ -277,19 +277,19 @@ export default function LearnPage() {
                 <CardTitle className="text-base">快速入口</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Link href="/knowledge">
+                <Link href="/knowledge" className="block">
                   <Button variant="outline" className="w-full justify-start">
                     <BookOpen className="h-4 w-4 mr-2" />
                     浏览知识库
                   </Button>
                 </Link>
-                <Link href="/practice">
+                <Link href="/practice" className="block">
                   <Button variant="outline" className="w-full justify-start">
                     <BookOpen className="h-4 w-4 mr-2" />
                     代码练习
                   </Button>
                 </Link>
-                <Link href="/interview">
+                <Link href="/interview" className="block">
                   <Button variant="outline" className="w-full justify-start">
                     <BookOpen className="h-4 w-4 mr-2" />
                     模拟面试

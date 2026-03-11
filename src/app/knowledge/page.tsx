@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { AppLayout } from '@/components/layout/app-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { useState, useEffect } from "react";
+import { AppLayout } from "@/components/layout/app-layout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Search,
   BookOpen,
@@ -14,100 +20,111 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react'
-import Link from 'next/link'
-import { knowledgeApi } from '@/lib/api'
+} from "lucide-react";
+import Link from "next/link";
+import { knowledgeApi } from "@/lib/api";
 
 interface ArticleItem {
-  id: string
-  title: string
-  slug: string
-  category: string
-  summary: string
-  difficulty: string
-  tags: string[]
-  views: number
-  likes: number
-  author: string
-  estimatedTime?: number
-  updatedAt: string
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  summary: string;
+  difficulty: string;
+  tags: string[];
+  views: number;
+  likes: number;
+  author: string;
+  estimatedTime?: number;
+  updatedAt: string;
 }
 
 interface CategoryItem {
-  id: string
-  name: string
-  label: string
-  articleCount: number
+  id: string;
+  name: string;
+  label: string;
+  articleCount: number;
 }
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 10;
 
 export default function KnowledgePage() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [articles, setArticles] = useState<ArticleItem[]>([])
-  const [categories, setCategories] = useState<CategoryItem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [articles, setArticles] = useState<ArticleItem[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
 
-  const totalPages = Math.ceil(total / PAGE_SIZE)
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   useEffect(() => {
     async function loadCategories() {
       try {
-        const res = await knowledgeApi.getCategories()
+        const res = await knowledgeApi.getCategories();
         if (res.success && res.data) {
-          setCategories(res.data as unknown as CategoryItem[])
+          setCategories(res.data as unknown as CategoryItem[]);
         }
       } catch (err) {
-        console.error('Load categories error:', err)
+        console.error("Load categories error:", err);
       }
     }
-    loadCategories()
-  }, [])
+    loadCategories();
+  }, []);
 
   // 切换分类或搜索时重置页码
   useEffect(() => {
-    setPage(1)
-  }, [selectedCategory, searchQuery])
+    setPage(1);
+  }, [selectedCategory, searchQuery]);
 
   useEffect(() => {
     async function loadArticles() {
-      setLoading(true)
+      setLoading(true);
       try {
-        const params: Record<string, string | number> = { page, pageSize: PAGE_SIZE }
-        if (selectedCategory !== 'all') params.category = selectedCategory
-        if (searchQuery) params.search = searchQuery
-        const res = await knowledgeApi.getList(params as Parameters<typeof knowledgeApi.getList>[0])
+        const params: Record<string, string | number> = {
+          page,
+          pageSize: PAGE_SIZE,
+        };
+        if (selectedCategory !== "all") params.category = selectedCategory;
+        if (searchQuery) params.search = searchQuery;
+        const res = await knowledgeApi.getList(
+          params as Parameters<typeof knowledgeApi.getList>[0],
+        );
         if (res.success && res.data) {
-          setArticles(res.data.data as unknown as ArticleItem[])
-          setTotal(res.data.total)
+          setArticles(res.data.data as unknown as ArticleItem[]);
+          setTotal(res.data.total);
         }
       } catch (err) {
-        console.error('Load articles error:', err)
+        console.error("Load articles error:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    loadArticles()
-  }, [selectedCategory, searchQuery, page])
+    loadArticles();
+  }, [selectedCategory, searchQuery, page]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Easy': return 'bg-green-100 text-green-800'
-      case 'Medium': return 'bg-yellow-100 text-yellow-800'
-      case 'Hard': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case "Easy":
+        return "bg-green-100 text-green-800";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800";
+      case "Hard":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <AppLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">知识库</h1>
-          <p className="text-gray-500 mt-1">深入学习 C/C++ 核心概念和最佳实践</p>
+          <p className="text-gray-500 mt-1">
+            深入学习 C/C++ 核心概念和最佳实践
+          </p>
         </div>
 
         {/* 搜索框 */}
@@ -139,12 +156,14 @@ export default function KnowledgePage() {
                     onClick={() => setSelectedCategory(category.name)}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
                       selectedCategory === category.name
-                        ? 'bg-blue-100 text-blue-700 font-medium'
-                        : 'hover:bg-gray-100'
+                        ? "bg-blue-100 text-blue-700 font-medium"
+                        : "hover:bg-gray-100"
                     }`}
                   >
                     <span>{category.label}</span>
-                    <span className="text-xs text-gray-500">{category.articleCount}</span>
+                    <span className="text-xs text-gray-500">
+                      {category.articleCount}
+                    </span>
                   </button>
                 ))}
               </CardContent>
@@ -158,19 +177,23 @@ export default function KnowledgePage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {['智能指针', 'STL 容器', '内存管理', '多线程', '模板编程'].map((topic, index) => (
-                  <div key={topic} className="flex items-center gap-2">
-                    <span className={`text-xs font-bold ${index < 3 ? 'text-red-500' : 'text-gray-400'}`}>
-                      #{index + 1}
-                    </span>
-                    <button
-                      className="flex-1 text-left text-sm hover:text-blue-600 transition-colors"
-                      onClick={() => setSearchQuery(topic)}
-                    >
-                      {topic}
-                    </button>
-                  </div>
-                ))}
+                {["智能指针", "STL 容器", "内存管理", "多线程", "模板编程"].map(
+                  (topic, index) => (
+                    <div key={topic} className="flex items-center gap-2">
+                      <span
+                        className={`text-xs font-bold ${index < 3 ? "text-red-500" : "text-gray-400"}`}
+                      >
+                        #{index + 1}
+                      </span>
+                      <button
+                        className="flex-1 text-left text-sm hover:text-blue-600 transition-colors"
+                        onClick={() => setSearchQuery(topic)}
+                      >
+                        {topic}
+                      </button>
+                    </div>
+                  ),
+                )}
               </CardContent>
             </Card>
           </div>
@@ -180,9 +203,7 @@ export default function KnowledgePage() {
             <Card>
               <CardHeader>
                 <CardTitle>知识文章</CardTitle>
-                <CardDescription>
-                  共 {total} 篇文章
-                </CardDescription>
+                <CardDescription>共 {total} 篇文章</CardDescription>
               </CardHeader>
               <CardContent>
                 {loading ? (
@@ -194,21 +215,36 @@ export default function KnowledgePage() {
                 ) : (
                   <div className="space-y-4">
                     {articles.map((article) => (
-                      <Link key={article.id} href={`/knowledge/${article.id}`}>
+                      <Link
+                        className="block"
+                        key={article.id}
+                        href={`/knowledge/${article.id}`}
+                      >
                         <div className="p-4 border rounded-lg hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer">
                           <div className="flex items-start justify-between mb-2">
                             <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
                               {article.title}
                             </h3>
-                            <Badge className={getDifficultyColor(article.difficulty)} variant="outline">
+                            <Badge
+                              className={getDifficultyColor(article.difficulty)}
+                              variant="outline"
+                            >
                               {article.difficulty}
                             </Badge>
                           </div>
-                          <p className="text-sm text-gray-600 mb-3">{article.summary}</p>
+                          <p className="text-sm text-gray-600 mb-3">
+                            {article.summary}
+                          </p>
                           <div className="flex items-center justify-between">
                             <div className="flex flex-wrap gap-1">
                               {article.tags.map((tag: string) => (
-                                <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                                <Badge
+                                  key={tag}
+                                  variant="secondary"
+                                  className="text-xs"
+                                >
+                                  {tag}
+                                </Badge>
                               ))}
                             </div>
                             <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -237,15 +273,18 @@ export default function KnowledgePage() {
                             variant="outline"
                             size="sm"
                             disabled={page <= 1}
-                            onClick={() => setPage(p => p - 1)}
+                            onClick={() => setPage((p) => p - 1)}
                           >
                             <ChevronLeft className="h-4 w-4 mr-1" />
                             上一页
                           </Button>
-                          {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                          {Array.from(
+                            { length: totalPages },
+                            (_, i) => i + 1,
+                          ).map((p) => (
                             <Button
                               key={p}
-                              variant={p === page ? 'default' : 'outline'}
+                              variant={p === page ? "default" : "outline"}
                               size="sm"
                               className="w-8 h-8 p-0"
                               onClick={() => setPage(p)}
@@ -257,7 +296,7 @@ export default function KnowledgePage() {
                             variant="outline"
                             size="sm"
                             disabled={page >= totalPages}
-                            onClick={() => setPage(p => p + 1)}
+                            onClick={() => setPage((p) => p + 1)}
                           >
                             下一页
                             <ChevronRight className="h-4 w-4 ml-1" />
@@ -273,5 +312,5 @@ export default function KnowledgePage() {
         </div>
       </div>
     </AppLayout>
-  )
+  );
 }
