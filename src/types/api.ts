@@ -209,6 +209,8 @@ export interface LearningPath {
   currentStep: number
   progress: number  // 0-100
   status: 'active' | 'completed' | 'paused'
+  order: number
+  templateId: string | null
   estimatedHours: number
   createdAt: string
   updatedAt: string

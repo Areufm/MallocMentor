@@ -169,6 +169,9 @@ model LearningPath {
 
   status      String   @default("active") // active, completed, paused
 
+  order       Int      @default(0)  // 路径阶段序号，用于排序与解锁判断
+  templateId  String?               // 关联模板标识，null 表示 AI 生成或自定义路径
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

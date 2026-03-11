@@ -150,7 +150,7 @@ export const interviewApi = {
 
 export const learningPathApi = {
   /**
-   * 获取学习路径列表
+   * 获取学习路径列表（含所有阶段）
    */
   getList: (userId?: string) => 
     get<LearningPath[]>('/learning-paths', userId ? { userId } : undefined),
@@ -162,10 +162,26 @@ export const learningPathApi = {
     get<LearningPath>(`/learning-paths/${id}`),
 
   /**
+   * 根据模板 ID 创建一条新路径（用于解锁后开始学习）
+   */
+  create: (templateId: string) =>
+    post<LearningPath>('/learning-paths', { templateId }),
+
+  /**
    * 更新学习进度
    */
   updateProgress: (pathId: string, data: UpdateProgressRequest) => 
-    post<{ updated: boolean }>(`/learning-paths/${pathId}/progress`, data),
+    post<{ updated: boolean; progress: number; currentStep: number; pathCompleted: boolean; nextPathCreated: boolean }>(
+      `/learning-paths/${pathId}/progress`, data,
+    ),
+
+  /**
+   * 获取 AI 学习推荐
+   */
+  getRecommendation: () =>
+    post<{ focusAreas: string[]; reason: string; suggestedTemplateId: string | null; customSteps?: Array<{ title: string; description: string; duration: string }> }>(
+      '/learning-paths/recommend', {},
+    ),
 }
 
 // ============================================

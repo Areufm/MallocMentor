@@ -36,18 +36,31 @@ export async function GET(
       content = `# ${article.title}\n\n内容正在编写中...`
     }
 
-    // 记录阅读活动
+    // 记录阅读活动（同一篇文章 30 分钟内不重复记录）
     const userId = await getCurrentUserId()
     if (userId) {
-      await prisma.activityLog.create({
-        data: {
+      const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000)
+      const recent = await prisma.activityLog.findFirst({
+        where: {
           userId,
           type: 'learning',
           title: `阅读了文章「${article.title}」`,
-          description: article.summary || '',
-          metadata: JSON.stringify({ articleId: article.id }),
+          createdAt: { gte: thirtyMinAgo },
         },
-      }).catch(() => { /* 活动日志写入失败不影响主流程 */ })
+        orderBy: { createdAt: 'desc' },
+      }).catch(() => null)
+
+      if (!recent) {
+        await prisma.activityLog.create({
+          data: {
+            userId,
+            type: 'learning',
+            title: `阅读了文章「${article.title}」`,
+            description: article.summary || '',
+            metadata: JSON.stringify({ articleId: article.id }),
+          },
+        }).catch(() => { /* 活动日志写入失败不影响主流程 */ })
+      }
     }
 
     return NextResponse.json(createSuccessResponse({

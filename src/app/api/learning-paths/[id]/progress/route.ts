@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
+import { getNextTemplate, buildStepsJson } from '@/lib/learning-path-templates'
 
 // POST /api/learning-paths/[id]/progress - 更新学习进度
 export async function POST(
@@ -26,8 +27,7 @@ export async function POST(
       return NextResponse.json(createErrorResponse('学习路径不存在'), { status: 404 })
     }
 
-    // 更新步骤状态
-    const steps = JSON.parse(path.steps) as Array<{ id: number; status: string; [k: string]: unknown }>
+    const steps = JSON.parse(path.steps) as Array<{ id: number; status: string; title?: string; [k: string]: unknown }>
     const stepIndex = steps.findIndex(s => s.id === stepId)
     if (stepIndex === -1) {
       return NextResponse.json(createErrorResponse('步骤不存在'), { status: 404 })
@@ -44,7 +44,8 @@ export async function POST(
     const completedCount = steps.filter(s => s.status === 'completed').length
     const progress = Math.round((completedCount / steps.length) * 100)
     const currentStep = completed ? Math.min(stepId + 1, steps.length) : stepId
-    const status = progress === 100 ? 'completed' : 'active'
+    const pathCompleted = progress === 100
+    const status = pathCompleted ? 'completed' : 'active'
 
     await prisma.learningPath.update({
       where: { id },
@@ -56,20 +57,56 @@ export async function POST(
       },
     })
 
+    // 路径完成时，自动创建下一条模板路径
+    let nextPathCreated = false
+    if (pathCompleted && path.templateId) {
+      const nextTpl = getNextTemplate(path.templateId)
+      if (nextTpl) {
+        const alreadyExists = await prisma.learningPath.findFirst({
+          where: { userId, templateId: nextTpl.templateId },
+        })
+        if (!alreadyExists) {
+          await prisma.learningPath.create({
+            data: {
+              userId,
+              title: nextTpl.title,
+              description: nextTpl.description,
+              steps: buildStepsJson(nextTpl),
+              currentStep: 1,
+              progress: 0,
+              status: 'active',
+              order: nextTpl.order,
+              templateId: nextTpl.templateId,
+            },
+          })
+          nextPathCreated = true
+        }
+      }
+    }
+
     // 写入活动日志
     if (completed) {
+      const logTitle = pathCompleted
+        ? `完成了学习路径「${path.title}」`
+        : `完成了学习章节「${steps[stepIndex].title ?? `第 ${stepId} 章`}」`
       await prisma.activityLog.create({
         data: {
           userId,
           type: 'learning',
-          title: `完成了学习章节「${steps[stepIndex].title}」`,
+          title: logTitle,
           description: `学习路径进度：${progress}%`,
-          metadata: JSON.stringify({ pathId: id, stepId, progress }),
+          metadata: JSON.stringify({ pathId: id, stepId, progress, pathCompleted }),
         },
       }).catch(() => {})
     }
 
-    return NextResponse.json(createSuccessResponse({ updated: true, progress, currentStep }, '进度更新成功'))
+    return NextResponse.json(createSuccessResponse({
+      updated: true,
+      progress,
+      currentStep,
+      pathCompleted,
+      nextPathCreated,
+    }, pathCompleted ? '恭喜完成当前路径！' : '进度更新成功'))
   } catch (error) {
     console.error('Update progress error:', error)
     return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })

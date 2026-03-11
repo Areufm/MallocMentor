@@ -4,15 +4,16 @@
  * 适配扣子平台「发布为应用」后的 API 格式。
  * 每个 Bot 独立配置 TOKEN / URL / PROJECT_ID。
  *
- * 支持三种 Bot：
- * - interview:   AI 面试官（流式对话）
- * - codeReview:  代码审查（收集完整回复后返回）
- * - knowledge:   知识助手（流式对话）
+ * 支持四种 Bot：
+ * - interview:     AI 面试官（流式对话）
+ * - codeReview:    代码审查（收集完整回复后返回）
+ * - knowledge:     知识助手（流式对话）
+ * - learningPath:  学习路径推荐（非流式，返回 JSON）
  */
 
 import { randomUUID } from "crypto";
 
-export type BotType = "interview" | "codeReview" | "knowledge";
+export type BotType = "interview" | "codeReview" | "knowledge" | "learningPath";
 
 // ---------- 类型定义 ----------
 
@@ -77,6 +78,11 @@ const ENV_MAP: Record<BotType, { token: string; url: string; projectId: string }
     token: "COZE_KNOWLEDGE_TOKEN",
     url: "COZE_KNOWLEDGE_URL",
     projectId: "COZE_KNOWLEDGE_PROJECT_ID",
+  },
+  learningPath: {
+    token: "COZE_LEARNING_PATH_TOKEN",
+    url: "COZE_LEARNING_PATH_URL",
+    projectId: "COZE_LEARNING_PATH_PROJECT_ID",
   },
 };
 
