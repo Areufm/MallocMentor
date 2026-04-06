@@ -1,0 +1,186 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="flowchart_diagram" name="Page-1">
+    <mxGraphModel dx="202" dy="112" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1000" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=24;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="代码提交与 AI 评审流程图 (Flowchart)" vertex="1">
+          <mxGeometry height="40" width="700" x="50" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="开始: 用户打开题目" vertex="1">
+          <mxGeometry height="60" width="200" x="300" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="step1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="1. 打开 Monaco Editor&#xa;加载问题描述与测试用例" vertex="1">
+          <mxGeometry height="70" width="250" x="275" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="step2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="2. 用户编写代码&#xa;执行本地测试运行" vertex="1">
+          <mxGeometry height="70" width="250" x="275" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="decision1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="用户是否&#xa;点击提交?" vertex="1">
+          <mxGeometry height="100" width="150" x="325" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_edit_more" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="step2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="500" />
+              <mxPoint x="550" y="365" />
+            </Array>
+            <mxPoint x="475" y="500" as="sourcePoint" />
+            <mxPoint x="550" y="365" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label_no" connectable="0" parent="flow_edit_more" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Noto Sans JP;" value="否 (继续编辑)" vertex="1">
+          <mxGeometry relative="1" y="-15" as="geometry" />
+        </mxCell>
+        <mxCell id="step3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="4. 构建代码提交请求&#xa;(code, problemId, language)" vertex="1">
+          <mxGeometry height="70" width="250" x="275" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="step4" parent="1" style="parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="5. POST /api/code/submit" vertex="1">
+          <mxGeometry height="70" width="250" x="275" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="step5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;fillColor=#e1f5ff;" value="6. 调用 Coze Bot: codeReview&#xa;传入代码与问题描述" vertex="1">
+          <mxGeometry height="80" width="250" x="275" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="step6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="7. 解析 Coze JSON 响应&#xa;提取 overallScore, feedback, issues" vertex="1">
+          <mxGeometry height="80" width="250" x="275" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="decision2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="overallScore&#xa;≥ 60?" vertex="1">
+          <mxGeometry height="100" width="150" x="325" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="step7a" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fontFamily=Noto Sans JP;align=center;fillColor=#c8e6c9;" value="8a. 更新提交状态为 Passed&#xa;记录 CodeSubmission" vertex="1">
+          <mxGeometry height="70" width="200" x="50" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="step7b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fontFamily=Noto Sans JP;align=center;fillColor=#ffcccc;" value="8b. 更新提交状态为 Failed&#xa;记录 CodeSubmission" vertex="1">
+          <mxGeometry height="70" width="200" x="300" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="zd5UfqAqOJ9TCrcM6Ebb-4" edge="1" parent="1" source="step8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="step9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" value="9. 更新能力雷达&#xa;(if capabilityScores provided)" vertex="1">
+          <mxGeometry height="70" width="200" x="295" y="1390" as="geometry" />
+        </mxCell>
+        <mxCell id="step9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fontFamily=Noto Sans JP;align=center;" value="10. 调用 checkAndAwardAchievements()&#xa;检测新解锁成就" vertex="1">
+          <mxGeometry height="80" width="250" x="270" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="step10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fontFamily=Noto Sans JP;align=center;" value="11. 创建 ActivityLog 记录&#xa;类型: practice, 标题: 题目名, 描述: 结果摘要" vertex="1">
+          <mxGeometry height="80" width="250" x="270" y="1630" as="geometry" />
+        </mxCell>
+        <mxCell id="step11" parent="1" style="parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=13;fontFamily=Noto Sans JP;align=center;" value="12. 返回 API 响应&#xa;{ submission, review, newAchievements }" vertex="1">
+          <mxGeometry height="80" width="250" x="270" y="1750" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="结束: 展示评审结果给用户" vertex="1">
+          <mxGeometry height="60" width="200" x="295" y="1880" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_start" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="160" as="sourcePoint" />
+            <mxPoint x="400" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_1_2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="280" as="sourcePoint" />
+            <mxPoint x="400" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_2_d1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="400" as="sourcePoint" />
+            <mxPoint x="400" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_d1_yes" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="550" as="sourcePoint" />
+            <mxPoint x="400" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label_yes" connectable="0" parent="flow_d1_yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Noto Sans JP;fontStyle=1;" value="是 (提交)" vertex="1">
+          <mxGeometry relative="1" y="-15" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_3_4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="670" as="sourcePoint" />
+            <mxPoint x="400" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_4_5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="790" as="sourcePoint" />
+            <mxPoint x="400" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_5_6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="920" as="sourcePoint" />
+            <mxPoint x="400" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_6_d2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="1050" as="sourcePoint" />
+            <mxPoint x="400" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_d2_true" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="1150" />
+            </Array>
+            <mxPoint x="325" y="1150" as="sourcePoint" />
+            <mxPoint x="150" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label_true" connectable="0" parent="flow_d2_true" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Noto Sans JP;" value="是 (≥60)" vertex="1">
+          <mxGeometry relative="1" y="-15" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_d2_false" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="1150" />
+              <mxPoint x="500" y="1240" />
+            </Array>
+            <mxPoint x="475" y="1150" as="sourcePoint" />
+            <mxPoint x="400" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label_false" connectable="0" parent="flow_d2_false" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontFamily=Noto Sans JP;" value="否 (&lt;60)" vertex="1">
+          <mxGeometry relative="1" y="-15" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_9_10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="395" y="1590" as="sourcePoint" />
+            <mxPoint x="395" y="1630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_10_11" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="395" y="1710" as="sourcePoint" />
+            <mxPoint x="395" y="1750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_11_end" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="395" y="1830" as="sourcePoint" />
+            <mxPoint x="395" y="1880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zd5UfqAqOJ9TCrcM6Ebb-6" edge="1" parent="1" source="step7b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="1390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zd5UfqAqOJ9TCrcM6Ebb-7" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.525;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="step8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="1345" />
+              <mxPoint x="400" y="1345" />
+            </Array>
+            <mxPoint x="150" y="1310" as="sourcePoint" />
+            <mxPoint x="395" y="1380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,101 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="7I4M_JnPmq-aXms70IBe" name="第 2 页">
+    <mxGraphModel dx="1278" dy="1109" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Xew382loi2mXaUNfF7P9-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="570" width="250" x="504" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-2" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="前端/Monaco" vertex="1">
+          <mxGeometry height="30" width="200" x="244" y="274" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-3" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="服务端逻辑" vertex="1">
+          <mxGeometry height="30" width="180" x="539" y="274" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-4" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="外部模型" vertex="1">
+          <mxGeometry height="30" width="220" x="824" y="374" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-5" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="数据库" vertex="1">
+          <mxGeometry height="30" width="220" x="824" y="674" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-6" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="Xew382loi2mXaUNfF7P9-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-7" connectable="0" parent="Xew382loi2mXaUNfF7P9-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST" vertex="1">
+          <mxGeometry relative="1" x="-0.118" y="4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="学生提交代码" vertex="1">
+          <mxGeometry height="55" width="200" x="244" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-9" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Xew382loi2mXaUNfF7P9-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-10" connectable="0" parent="Xew382loi2mXaUNfF7P9-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="发送请求" vertex="1">
+          <mxGeometry relative="1" x="-0.0425" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="API Code Submit&lt;br&gt;(解析请求)" vertex="1">
+          <mxGeometry height="55" width="200" x="529" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-12" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Xew382loi2mXaUNfF7P9-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-13" connectable="0" parent="Xew382loi2mXaUNfF7P9-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST" vertex="1">
+          <mxGeometry relative="1" x="0.1706" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="buildReviewPrompt&lt;br&gt;(构造模型提示词)" vertex="1">
+          <mxGeometry height="55" width="200" x="529" y="414" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="Coze codeReview Bot&lt;br&gt;(大模型异步推理)" vertex="1">
+          <mxGeometry height="55" width="220" x="834" y="414" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="parseJsonAnswer&lt;br&gt;(去除围栏与解析)" vertex="1">
+          <mxGeometry height="55" width="200" x="529" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="更新 CapabilityRadar&lt;br&gt;(加权平滑更新)" vertex="1">
+          <mxGeometry height="55" width="200" x="529" y="614" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="落库保存 Submission&lt;br&gt;关联当前 User" vertex="1">
+          <mxGeometry height="55" width="200" x="529" y="714" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="PostgreSQL DB" vertex="1">
+          <mxGeometry height="55" width="220" x="834" y="714" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="返回成功结果" vertex="1">
+          <mxGeometry height="55" width="200" x="244" y="714" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-21" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=14;fontFamily=Noto Sans JP;dashed=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;" target="Xew382loi2mXaUNfF7P9-16" value="返回 JSON">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="944" y="489" />
+              <mxPoint x="629" y="489" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-22" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=14;fontFamily=Noto Sans JP;dashed=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;" target="Xew382loi2mXaUNfF7P9-20" value="响应 200">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="484" y="742" />
+              <mxPoint x="484" y="742" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-23" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-16" target="Xew382loi2mXaUNfF7P9-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-24" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-17" target="Xew382loi2mXaUNfF7P9-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xew382loi2mXaUNfF7P9-25" edge="1" parent="1" source="Xew382loi2mXaUNfF7P9-18" target="Xew382loi2mXaUNfF7P9-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,161 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="seq_code_review" name="Page-1">
+    <mxGraphModel dx="1278" dy="1109" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1500" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="学生用户" vertex="1">
+          <mxGeometry height="50" width="160" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Practice 页面" vertex="1">
+          <mxGeometry height="50" width="160" x="240" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Code API\n/api/code/submit" vertex="1">
+          <mxGeometry height="50" width="200" x="460" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Coze 评审 Bot" vertex="1">
+          <mxGeometry height="50" width="170" x="700" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Prisma / PostgreSQL" vertex="1">
+          <mxGeometry height="50" width="180" x="910" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="成就服务" vertex="1">
+          <mxGeometry height="50" width="160" x="1130" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lf1" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="130" as="sourcePoint" />
+            <mxPoint x="120" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="130" as="sourcePoint" />
+            <mxPoint x="320" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf3" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="130" as="sourcePoint" />
+            <mxPoint x="560" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf4" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="130" as="sourcePoint" />
+            <mxPoint x="785" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf5" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1000" y="130" as="sourcePoint" />
+            <mxPoint x="1000" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf6" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1210" y="130" as="sourcePoint" />
+            <mxPoint x="1210" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="730" width="14" x="313" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="act3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="660" width="14" x="553" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="act4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="90" width="14" x="778" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="act5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="280" width="14" x="993" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="act6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="180" width="14" x="1203" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="1: 点击提交代码">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="180" as="sourcePoint" />
+            <mxPoint x="320" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="2: POST /api/code/submit">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="240" as="sourcePoint" />
+            <mxPoint x="560" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="3: 发送代码与题目上下文">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="300" as="sourcePoint" />
+            <mxPoint x="785" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="4: 返回评分与反馈">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="360" as="sourcePoint" />
+            <mxPoint x="560" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="5: 解析 JSON / 计算评分">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="420" />
+              <mxPoint x="620" y="450" />
+            </Array>
+            <mxPoint x="560" y="420" as="sourcePoint" />
+            <mxPoint x="560" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="6: 保存 CodeSubmission">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="500" as="sourcePoint" />
+            <mxPoint x="1000" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="7: 更新 CapabilityRadar">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="560" as="sourcePoint" />
+            <mxPoint x="1000" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="8: 调用 checkAndAwardAchievements()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="620" as="sourcePoint" />
+            <mxPoint x="1210" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="9: 写入 UserAchievement（可选）">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1210" y="680" as="sourcePoint" />
+            <mxPoint x="1000" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="10: 成就结果">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1000" y="740" as="sourcePoint" />
+            <mxPoint x="1210" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="11: 返回解锁成就列表">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1210" y="800" as="sourcePoint" />
+            <mxPoint x="560" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="12: 返回 submission + review + achievements">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="860" as="sourcePoint" />
+            <mxPoint x="320" y="860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="13: 展示评审结果">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="920" as="sourcePoint" />
+            <mxPoint x="120" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

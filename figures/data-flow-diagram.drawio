@@ -1,0 +1,185 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="2">
+  <diagram id="dfd_level_0" name="Page-1">
+    <mxGraphModel dx="469" dy="407" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="entity_user" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="学生用户" vertex="1">
+          <mxGeometry height="130" width="130" x="90" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="entity_admin" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="教师/管理员" vertex="1">
+          <mxGeometry height="140" width="140" x="1360" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="entity_ai" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="Coze AI服务" vertex="1">
+          <mxGeometry height="140" width="140" x="1360" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="entity_sandbox" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;aspect=fixed;" value="代码沙盒&lt;div&gt;Piston/Judge0&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="180" x="670" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="process_system" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=22;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="MallocMentor学习助手系统" vertex="1">
+          <mxGeometry height="250" width="430" x="560" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="flow_user_to_system" edge="1" parent="1" source="entity_user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="process_system" value="登录/学习/练习/面试请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="370" />
+              <mxPoint x="280" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_system_to_user" edge="1" parent="1" source="process_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="entity_user" value="学习反馈/评审结果/面试回复">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="500" />
+              <mxPoint x="430" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_admin_to_system" edge="1" parent="1" source="entity_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="process_system" value="题库维护/配置管理/统计查询">
+          <mxGeometry relative="1" x="0.1028" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1175" y="310" />
+              <mxPoint x="1175" y="405" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_system_to_admin" edge="1" parent="1" source="process_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="entity_admin" value="运行状态/统计报表">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="320" />
+              <mxPoint x="1040" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_system_to_ai" edge="1" parent="1" source="process_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="entity_ai" value="代码审查/面试问答/知识问答请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1175" y="405" />
+              <mxPoint x="1175" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_ai_to_system" edge="1" parent="1" source="entity_ai" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="process_system" value="评审意见/面试反馈/推荐结果">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="560" />
+              <mxPoint x="1020" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_system_to_sandbox" edge="1" parent="1" source="process_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;exitX=0.369;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;" value="代码执行请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="530" />
+            </Array>
+            <mxPoint x="680.0000000000002" y="540" as="sourcePoint" />
+            <mxPoint x="720.0000000000002" y="770.5572809000084" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow_sandbox_to_system" edge="1" parent="1" source="entity_sandbox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;exitX=0.723;exitY=0.053;exitDx=0;exitDy=0;exitPerimeter=0;" value="编译运行结果">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="529" />
+            </Array>
+            <mxPoint x="850" y="785.1668522645209" as="sourcePoint" />
+            <mxPoint x="800" y="529" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="te6ShN3QtBBBtdbcfJaL" name="第 2 页">
+    <mxGraphModel dx="1004" dy="871" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5iE-HLwZifXDB80p7otZ-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="学生用户" vertex="1">
+          <mxGeometry height="130" width="130" x="319" y="479" as="geometry" />
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="教师/管理员" vertex="1">
+          <mxGeometry height="140" width="140" x="1589" y="309" as="geometry" />
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Noto Sans JP;aspect=fixed;" value="Coze AI服务" vertex="1">
+          <mxGeometry height="140" width="140" x="1589" y="619" as="geometry" />
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;aspect=fixed;" value="代码沙盒&lt;div&gt;Piston/Judge0&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="180" x="899" y="899" as="geometry" />
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=22;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="MallocMentor学习助手系统" vertex="1">
+          <mxGeometry height="250" width="430" x="789" y="419" as="geometry" />
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-6" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-5" value="登录/学习/练习/面试请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="509" y="509" />
+              <mxPoint x="509" y="509" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-7" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-1" value="学习反馈/评审结果/面试回复">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="732" y="559" />
+              <mxPoint x="732" y="559" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-8" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-5" value="题库维护/配置管理/统计查询">
+          <mxGeometry relative="1" x="0.1028" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1404" y="449" />
+              <mxPoint x="1404" y="544" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-9" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-2" value="运行状态/统计报表">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1269" y="459" />
+              <mxPoint x="1269" y="399" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-10" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-3" value="代码审查/面试问答/知识问答请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1404" y="544" />
+              <mxPoint x="1404" y="629" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-11" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;" target="5iE-HLwZifXDB80p7otZ-5" value="评审意见/面试反馈/推荐结果">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1249" y="699" />
+              <mxPoint x="1249" y="629" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-12" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;exitX=0.369;exitY=1.001;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.183;entryY=0.098;entryDx=0;entryDy=0;entryPerimeter=0;" target="5iE-HLwZifXDB80p7otZ-4" value="代码执行请求">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="933" y="669" />
+              <mxPoint x="933" y="910" />
+              <mxPoint x="932" y="910" />
+            </Array>
+            <mxPoint x="909.0000000000002" y="679" as="sourcePoint" />
+            <mxPoint x="949.0000000000002" y="909.5572809000084" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5iE-HLwZifXDB80p7otZ-13" edge="1" parent="1" source="5iE-HLwZifXDB80p7otZ-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;fontSize=14;fontFamily=Noto Sans JP;exitX=0.798;exitY=0.091;exitDx=0;exitDy=0;exitPerimeter=0;" value="编译运行结果">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1043" y="909" />
+              <mxPoint x="1043" y="668" />
+            </Array>
+            <mxPoint x="1079" y="924.1668522645209" as="sourcePoint" />
+            <mxPoint x="1043" y="668" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

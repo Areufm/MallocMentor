@@ -1,0 +1,127 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="seq_login_auth" name="Page-1">
+    <mxGraphModel dx="1082" dy="938" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="用户" vertex="1">
+          <mxGeometry height="50" width="140" x="80" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="登录页面" vertex="1">
+          <mxGeometry height="50" width="140" x="300" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="认证接口&lt;div&gt;/api/auth&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="520" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="NextAuth" vertex="1">
+          <mxGeometry height="50" width="160" x="740" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="用户数据库" vertex="1">
+          <mxGeometry height="50" width="160" x="960" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lf1" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="130" as="sourcePoint" />
+            <mxPoint x="150" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="130" as="sourcePoint" />
+            <mxPoint x="370" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf3" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="130" as="sourcePoint" />
+            <mxPoint x="600" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf4" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="130" as="sourcePoint" />
+            <mxPoint x="820" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf5" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1040" y="130" as="sourcePoint" />
+            <mxPoint x="1040" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="520" width="14" x="363" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="act3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="470" width="14" x="593" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="act4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="230" width="14" x="813" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="act5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="250" width="14" x="1033" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="1: 输入账号密码并点击登录">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="180" as="sourcePoint" />
+            <mxPoint x="370" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="2: POST 登录请求">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="240" as="sourcePoint" />
+            <mxPoint x="600" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="3: 调用 Credentials 校验">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="300" as="sourcePoint" />
+            <mxPoint x="820" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="4: 查询用户信息">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="360" as="sourcePoint" />
+            <mxPoint x="1040" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="5: 返回用户记录">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1040" y="420" as="sourcePoint" />
+            <mxPoint x="820" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="6: 返回鉴权结果">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="480" as="sourcePoint" />
+            <mxPoint x="600" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="7: 创建会话并持久化">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="540" as="sourcePoint" />
+            <mxPoint x="1040" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="8: 返回 sessionToken">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1040" y="600" as="sourcePoint" />
+            <mxPoint x="600" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="9: 返回登录成功响应">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="660" as="sourcePoint" />
+            <mxPoint x="370" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;" value="10: 跳转 Dashboard">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="720" as="sourcePoint" />
+            <mxPoint x="150" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

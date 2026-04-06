@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="29.0.0" type="device">
+  <diagram id="dfd_level_1" name="Page-1">
+    <mxGraphModel dx="1280" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0" defaultFontFamily="Noto Sans JP">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="图4-2：系统数据流图（1层 / 业务主流程）" style="text;html=1;fontSize=32;fontFamily=Noto Sans JP;fontStyle=1;fontColor=#c62828;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="900" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="entity_user" value="学生用户" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="80" y="430" width="120" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="entity_admin" value="管理员" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="180" width="120" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="entity_ai" value="AI评审服务" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="690" width="120" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p1" value="1.0 用户认证" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="220" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2" value="2.0 学习路径管理" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="220" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3" value="3.0 代码练习与评审" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="220" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p4" value="4.0 模拟面试" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="500" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5" value="5.0 学习追踪与统计" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="960" y="500" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="d1" value="D1 用户数据" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="800" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="D2 题库与知识库" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="610" y="800" width="200" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="d3" value="D3 提交记录" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="890" y="800" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="d4" value="D4 面试与进度记录" style="shape=datastore;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="800" width="220" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="f_user_p1" value="注册/登录信息" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_user" target="p1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_user_p2" value="学习请求" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_user" target="p2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_user_p3" value="提交代码" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_user" target="p3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_user_p4" value="面试请求" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_user" target="p4"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="f_p2_user" value="路径与文章" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p2" target="entity_user"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p3_user" value="评审结果" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p3" target="entity_user"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="300" y="350"/></Array></mxGeometry></mxCell>
+        <mxCell id="f_p4_user" value="面试反馈" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p4" target="entity_user"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="f_admin_p3" value="题库/评审策略" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_admin" target="p3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_admin_p5" value="统计查询" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_admin" target="p5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p5_admin" value="统计报表" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p5" target="entity_admin"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="f_p3_ai" value="代码上下文" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p3" target="entity_ai"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_ai_p3" value="审查建议" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_ai" target="p3"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1380" y="770"/><mxPoint x="1380" y="265"/></Array></mxGeometry></mxCell>
+        <mxCell id="f_p4_ai" value="面试对话上下文" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p4" target="entity_ai"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_ai_p4" value="追问与评分" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=13;fontFamily=Noto Sans JP;" edge="1" parent="1" source="entity_ai" target="p4"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="f_p1_d1" value="用户档案" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=12;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p1" target="d1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p2_d2" value="读取/更新学习数据" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=12;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p2" target="d2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p3_d3" value="提交与评分记录" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=12;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p3" target="d3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p4_d4" value="会话记录" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=12;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p4" target="d4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f_p5_d4" value="活动统计" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;fontSize=12;fontFamily=Noto Sans JP;" edge="1" parent="1" source="p5" target="d4"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="note" value="注：1层图对系统主处理过程进行了分解，保留关键外部实体、主要处理单元与核心数据存储。" style="text;html=1;fontSize=14;fontFamily=Noto Sans JP;fontColor=#555555;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1120" width="1400" height="40" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

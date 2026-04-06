@@ -1,0 +1,206 @@
+<mxfile host="Electron" modified="2026-04-06T00:00:00.000Z" agent="Mozilla/5.0" version="22.1.2" type="device">
+  <diagram name="ER Diagram" id="er_diagram">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0" defaultFontFamily="Noto Sans JP">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="MallocMentor 系统实体关系图（E-R）" style="text;html=1;fontSize=26;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="20" width="740" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="E_User" value="用户" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="500" y="400" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_Account" value="第三方账号" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="100" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_Session" value="登录会话" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="250" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_CapabilityRadar" value="能力雷达" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="400" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_ActivityLog" value="行为日志" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="550" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_UserAchievement" value="用户成就" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="700" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_LearningPath" value="学习路径" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="500" y="100" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_CodeSubmission" value="提交记录" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="900" y="250" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_Problem" value="练习题目" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="250" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_InterviewSession" value="面试会话" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="900" y="400" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_InterviewTemplate" value="面试模板" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="400" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_UserLearningProgress" value="阅读进度" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="400" y="650" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_UserFavorite" value="收藏记录" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="700" y="650" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="E_KnowledgeArticle" value="知识文章" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="550" y="850" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Note_MN_Problem" value="用户 与 练习题目：M:N（通过“提交记录”实现）" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fontFamily=Noto Sans JP;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="900" y="530" width="480" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="Note_MN_Article" value="用户 与 知识文章：M:N（通过“收藏记录/阅读进度”实现）" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fontFamily=Noto Sans JP;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="900" y="588" width="480" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="R_User_Account" value="拥有" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Session" value="拥有" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="250" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Radar" value="对应" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="400" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Log" value="产生" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="550" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Achievement" value="获得" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="700" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_LearningPath" value="制定" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="515" y="250" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Submission" value="提交" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="700" y="250" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_Problem_Submission" value="属于" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="250" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Interview" value="发起" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="700" y="400" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_Interview_Template" value="基于" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="400" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Progress" value="跟踪" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="420" y="520" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_Article_Progress" value="对应" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="420" y="750" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_User_Favorite" value="收藏" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="710" y="520" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="R_Article_Favorite" value="对应" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="710" y="750" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Acc1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Acc2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Account" target="E_Account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Sess1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Session">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Sess2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Session" target="E_Session">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Radar1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Radar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Radar2" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Radar" target="E_CapabilityRadar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Log1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Log">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Log2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Log" target="E_ActivityLog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Achieve1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Achievement">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Achieve2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Achievement" target="E_UserAchievement">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Learn1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_LearningPath">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Learn2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_LearningPath" target="E_LearningPath">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Sub1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Submission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Sub2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Submission" target="E_CodeSubmission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_Prob_Sub1" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_CodeSubmission" target="R_Problem_Submission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_Prob_Sub2" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_Problem_Submission" target="E_Problem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Int1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Interview">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Int2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Interview" target="E_InterviewSession">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_Int_Temp1" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_InterviewSession" target="R_Interview_Template">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_Int_Temp2" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_Interview_Template" target="E_InterviewTemplate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Prog1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Progress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Prog2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Progress" target="E_UserLearningProgress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_Art_Prog1" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_UserLearningProgress" target="R_Article_Progress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_Art_Prog2" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_Article_Progress" target="E_KnowledgeArticle">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_User_Fav1" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_User" target="R_User_Favorite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_User_Fav2" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_User_Favorite" target="E_UserFavorite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Edge_Art_Fav1" value="N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="E_UserFavorite" target="R_Article_Favorite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Edge_Art_Fav2" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;strokeWidth=2;fontFamily=Noto Sans JP;fontSize=14;" edge="1" parent="1" source="R_Article_Favorite" target="E_KnowledgeArticle">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="29.0.0" type="device">
+  <diagram id="usecase_diagram" name="Page-1">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1400" pageHeight="1200" math="0" shadow="0" defaultFontFamily="Noto Sans JP">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="系统用例图 (Use Case Diagram)" style="text;html=1;fontSize=24;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="900" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="system_boundary" value="MallocMentor 学习系统" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="800" height="900" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="actor_student" value="学生用户" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="420" width="80" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="actor_ai" value="Coze&#10;AI Bot" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="420" width="80" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc_auth" value="用户注册/登录" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_learn" value="查看学习路径" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="160" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_knowledge" value="阅读知识文章" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="160" width="160" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc_practice" value="练习代码题目" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="320" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_submit" value="提交代码求评审" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;fillColor=#fff9c4;" vertex="1" parent="1">
+          <mxGeometry x="560" y="320" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_interview" value="模拟面试" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;fillColor=#fff9c4;" vertex="1" parent="1">
+          <mxGeometry x="760" y="320" width="160" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc_radar" value="查看能力雷达图" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="480" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_achievement" value="查看成就解锁情况" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="480" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_activity" value="查看活动日志历史" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="480" width="160" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc_ai_review" value="执行 AI 代码审查" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fontFamily=Noto Sans JP;align=center;fillColor=#f0f0f0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="650" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_ai_dialogue" value="进行 AI 多轮对话与评估" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fontFamily=Noto Sans JP;align=center;fillColor=#f0f0f0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="650" width="160" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="a1" edge="1" parent="1" source="actor_student" target="uc_auth" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="actor_student" target="uc_learn" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="actor_student" target="uc_knowledge" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="actor_student" target="uc_practice" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="actor_student" target="uc_submit" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2.5;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="actor_student" target="uc_interview" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2.5;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="actor_student" target="uc_radar" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a8" edge="1" parent="1" source="actor_student" target="uc_achievement" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a9" edge="1" parent="1" source="actor_student" target="uc_activity" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="b1" edge="1" parent="1" source="actor_ai" target="uc_ai_review" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2.5;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="b2" edge="1" parent="1" source="actor_ai" target="uc_ai_dialogue" style="endArrow=none;startArrow=none;html=1;strokeColor=#1F2937;strokeWidth=2.5;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="inc1" value="&lt;&lt;include&gt;&gt;" edge="1" parent="1" source="uc_submit" target="uc_ai_review" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;dashed=1;fontSize=11;fontFamily=Noto Sans JP;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="inc2" value="&lt;&lt;include&gt;&gt;" edge="1" parent="1" source="uc_interview" target="uc_ai_dialogue" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;dashed=1;fontSize=11;fontFamily=Noto Sans JP;strokeColor=#1F2937;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext1" value="&lt;&lt;extend&gt;&gt;" edge="1" parent="1" source="uc_achievement" target="uc_submit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;dashed=1;fontSize=11;fontFamily=Noto Sans JP;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="430"/>
+              <mxPoint x="640" y="430"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="note" value="注：黄色用例表示核心 AI 增强流程；灰色用例表示系统内部 AI 子过程；虚线表示 include/extend 关系。" style="text;html=1;fontSize=12;fontFamily=Noto Sans JP;fontColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1070" width="900" height="50" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

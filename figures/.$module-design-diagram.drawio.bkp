@@ -1,0 +1,221 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="module_diagram" name="Page-1">
+    <mxGraphModel dx="1619" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=24;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="系统模块结构设计与依赖关系图" vertex="1">
+          <mxGeometry height="40" width="900" x="50" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="group_pages" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="140" width="1100" x="50" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="group_components" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="120" width="1100" x="50" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="group_services" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="180" width="1100" x="50" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="group_data" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="170" width="1100" x="45" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="group_external" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="140" width="1100" x="50" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="label_pages" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;fontColor=#333333;" value="页面层 (Pages &amp; Routes)" vertex="1">
+          <mxGeometry height="25" width="1040" x="80" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="label_components" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;fontColor=#333333;" value="组件层 (UI &amp; Layout)" vertex="1">
+          <mxGeometry height="25" width="1040" x="80" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="label_services" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;fontColor=#333333;" value="业务服务层 (API &amp; Logic)" vertex="1">
+          <mxGeometry height="25" width="1040" x="80" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="label_data" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;fontColor=#333333;" value="数据持久层 (ORM &amp; DB)" vertex="1">
+          <mxGeometry height="25" width="1040" x="80" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="label_external" parent="1" style="text;html=1;fontSize=18;fontFamily=Noto Sans JP;fontStyle=1;align=center;fontColor=#333333;" value="外部集成 (Third-Party)" vertex="1">
+          <mxGeometry height="25" width="1040" x="80" y="1072" as="geometry" />
+        </mxCell>
+        <mxCell id="page_learn" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="learn/ — 学习路径页" vertex="1">
+          <mxGeometry height="60" width="200" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="page_practice" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="practice/ — 练习与编辑" vertex="1">
+          <mxGeometry height="60" width="200" x="300" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="page_interview" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="interview/ — 模拟面试" vertex="1">
+          <mxGeometry height="60" width="200" x="530" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="page_knowledge" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="knowledge/ — 知识库浏览" vertex="1">
+          <mxGeometry height="60" width="200" x="760" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="page_dashboard" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="dashboard/ — 仪表盘" vertex="1">
+          <mxGeometry height="60" width="130" x="990" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="api_routes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;fontStyle=1;" value="api/* 路由 — HTTP 端点" vertex="1">
+          <mxGeometry height="35" width="1050" x="70" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_editor" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="code-editor/&#xa;MonacoEditor" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_chat" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="interview/&#xa;ChatWindow" vertex="1">
+          <mxGeometry height="60" width="180" x="290" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_layout" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="layout/&#xa;AppLayout" vertex="1">
+          <mxGeometry height="60" width="180" x="510" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_ui" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="ui/&#xa;Radix+Tailwind" vertex="1">
+          <mxGeometry height="60" width="180" x="730" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_providers" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="providers/&#xa;Context &amp; Hooks" vertex="1">
+          <mxGeometry height="60" width="170" x="950" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_api_client" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="API Client&#xa;(api-client.ts)" vertex="1">
+          <mxGeometry height="70" width="200" x="70" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_api_services" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;" value="业务 API 服务&#xa;(api/index.ts)&#xa;— auth, problem,&#xa;code, interview, etc." vertex="1">
+          <mxGeometry height="70" width="320" x="300" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_achievements" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="成就系统&#xa;(achievements.ts)" vertex="1">
+          <mxGeometry height="70" width="200" x="660" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_learning" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;" value="学习路径&#xa;(learning-path-templates.ts)" vertex="1">
+          <mxGeometry height="70" width="220" x="900" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_ai" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="AI 集成&#xa;(ai/coze.ts)" vertex="1">
+          <mxGeometry height="55" width="200" x="70" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_auth" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;" value="认证系统&#xa;(auth.ts, auth.config.ts)" vertex="1">
+          <mxGeometry height="55" width="200" x="300" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_types" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="共享类型&#xa;(types/api.ts)" vertex="1">
+          <mxGeometry height="55" width="200" x="530" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_utils" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fontFamily=Noto Sans JP;" value="工具函数&#xa;(utils.ts, responses)" vertex="1">
+          <mxGeometry height="55" width="200" x="760" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="data_prisma" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;" value="Prisma ORM&#xa;(schema.prisma)" vertex="1">
+          <mxGeometry height="65" width="400" x="400" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_coze" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="Coze AI Bot&#xa;(代码审查/面试)" vertex="1">
+          <mxGeometry height="60" width="250" x="150" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_nextauth" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="NextAuth.js&#xa;(会话管理)" vertex="1">
+          <mxGeometry height="60" width="250" x="475" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_postgres" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;" value="PostgreSQL DB&#xa;(数据存储)" vertex="1">
+          <mxGeometry height="60" width="250" x="800" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_page_comp1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="215" as="sourcePoint" />
+            <mxPoint x="160" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_page_comp2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="390" y="215" as="sourcePoint" />
+            <mxPoint x="390" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_page_comp3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="215" as="sourcePoint" />
+            <mxPoint x="620" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_page_svc" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="332" />
+              <mxPoint x="550" y="332" />
+            </Array>
+            <mxPoint x="550" y="215" as="sourcePoint" />
+            <mxPoint x="550" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_comp_svc1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="390" as="sourcePoint" />
+            <mxPoint x="160" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_comp_svc2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="390" as="sourcePoint" />
+            <mxPoint x="460" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_client_to_api" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="269" y="545" as="sourcePoint" />
+            <mxPoint x="300" y="545" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_svc_types1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="595" />
+              <mxPoint x="630" y="595" />
+            </Array>
+            <mxPoint x="460" y="580" as="sourcePoint" />
+            <mxPoint x="630" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_svc_prisma1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="692" />
+              <mxPoint x="500" y="692" />
+            </Array>
+            <mxPoint x="170" y="665" as="sourcePoint" />
+            <mxPoint x="500" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_svc_prisma2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="665" as="sourcePoint" />
+            <mxPoint x="600" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_prisma_db" edge="1" parent="1" source="data_prisma" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="598" y="865" />
+              <mxPoint x="598" y="930" />
+              <mxPoint x="922" y="930" />
+            </Array>
+            <mxPoint x="598" y="870" as="sourcePoint" />
+            <mxPoint x="922.5" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_ai_coze" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ext_coze">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="770" />
+              <mxPoint x="275" y="770" />
+            </Array>
+            <mxPoint x="170" y="665" as="sourcePoint" />
+            <mxPoint x="275" y="875" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow_auth_nextauth" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;fontFamily=Noto Sans JP;endArrow=classic;" target="group_external">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="1000" />
+              <mxPoint x="600" y="1000" />
+            </Array>
+            <mxPoint x="400" y="665" as="sourcePoint" />
+            <mxPoint x="600" y="875" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="text;html=1;fontSize=12;fontFamily=Noto Sans JP;fontColor=#666666;align=left;" value="注: 实线箭头表示直接依赖，虚线表示间接或可选依赖。所有服务层需要导入类型系统为所有操作提供类型安全。API 路由作为适配层，连接页面和业务服务。" vertex="1">
+          <mxGeometry height="60" width="1100" x="60" y="1270" as="geometry" />
+        </mxCell>
+        <mxCell id="0T0CA6EhnfKjvKe_oajW-2" edge="1" parent="1" source="group_external" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="group_external">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
