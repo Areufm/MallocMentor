@@ -1,0 +1,20 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "gemini-api-key",
+      "description": "Google Gemini API Key for nanobanana-mcp-server",
+      "password": true
+    }
+  ],
+  "servers": {
+    "nanobanana": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "nanobanana_mcp_server.server"],
+      "env": {
+        "GEMINI_API_KEY": "AIzaSyAhlBBeKMGYwF3F_N-5l-u5HKjep3wmFcw"
+      }
+    }
+  }
+}

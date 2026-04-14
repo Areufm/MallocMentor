@@ -1,0 +1,112 @@
+<mxfile host="app.diagrams.net" agent="GitHub Copilot">
+  <diagram id="ch2_sse_seq" name="Page-1">
+    <mxGraphModel dx="1888" dy="1048" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Browser Client" vertex="1">
+          <mxGeometry height="52" width="180" x="80" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Next.js API Route" vertex="1">
+          <mxGeometry height="52" width="210" x="380" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="Coze Bot Service" vertex="1">
+          <mxGeometry height="52" width="200" x="720" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;fontStyle=1;align=center;" value="PostgreSQL" vertex="1">
+          <mxGeometry height="52" width="180" x="1040" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="lf1" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="147" as="sourcePoint" />
+            <mxPoint x="170" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="147" as="sourcePoint" />
+            <mxPoint x="485" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf3" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="147" as="sourcePoint" />
+            <mxPoint x="820" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lf4" edge="1" parent="1" style="endArrow=none;dashed=1;strokeWidth=1;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1130" y="147" as="sourcePoint" />
+            <mxPoint x="1130" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="730" width="14" x="478" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="act3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="340" width="14" x="813" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="act4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="560" width="14" x="1123" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="1: 用户发送消息">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="200" as="sourcePoint" />
+            <mxPoint x="485" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="2: 创建/复用 session_id">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="260" as="sourcePoint" />
+            <mxPoint x="1130" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="3: 持久化用户消息">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1130" y="320" as="sourcePoint" />
+            <mxPoint x="485" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="4: 请求 Coze 流式生成">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="380" as="sourcePoint" />
+            <mxPoint x="820" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="5: answer chunk (loop)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="450" as="sourcePoint" />
+            <mxPoint x="485" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="6: data: {...}&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;\n\n SSE 帧转发&lt;/span&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="520" as="sourcePoint" />
+            <mxPoint x="170" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="7: 浏览器增量渲染">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="590" as="sourcePoint" />
+            <mxPoint x="485" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="endArrow=classic;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="8: 写入助手最终消息">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="700" as="sourcePoint" />
+            <mxPoint x="1130" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="endArrow=classic;dashed=1;html=1;fontSize=13;fontFamily=Noto Sans JP;strokeWidth=2;" value="9: 返回 [DONE] 并结束 loading">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="790" as="sourcePoint" />
+            <mxPoint x="170" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="loop" parent="1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fontFamily=Noto Sans JP;fontSize=12;align=left;strokeColor=#6B7280;" value="loop: Coze 连续产生 token，API 连续转发 SSE chunk" vertex="1">
+          <mxGeometry height="70" width="250" x="527" y="465" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
