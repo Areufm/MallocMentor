@@ -1,0 +1,95 @@
+﻿<mxfile host="65bd71144e">
+    <diagram id="ch4_2_4_module_tree" name="Page-1">
+        <mxGraphModel dx="1105" dy="632" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e_r_m1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" parent="1" source="root_mod" target="m1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1100" y="204"/>
+                            <mxPoint x="325" y="204"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_r_m2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="root_mod" target="m2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_r_m3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="root_mod" target="m3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_r_m4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="root_mod" target="m4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1100" y="204"/>
+                            <mxPoint x="1795" y="204"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e_m1_s11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m1" target="s11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m1_s12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m1" target="s12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m2_s21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m2" target="s21" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m2_s22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m2" target="s22" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m3_s31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m3" target="s31" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m3_s32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m3" target="s32" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m4_s41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m4" target="s41" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_m4_s42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;strokeColor=#000000;" parent="1" source="m4" target="s42" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="root_mod" value="AI学习路径与成就系统模块" style="rounded=1;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="850" y="70" width="500" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="m1" value="路径模板与实例化" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="250" width="390" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="m2" value="进度推进与阶段解锁" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="250" width="390" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="m3" value="推荐引擎双通道" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="1110" y="250" width="390" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="m4" value="成就引擎事件驱动" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="1600" y="250" width="390" height="92" as="geometry"/>
+                </mxCell>
+                <mxCell id="s11" value="五条预置模板路径" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s12" value="前置依赖与解锁校验" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="335" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s21" value="步骤完成率计算" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s22" value="完成后自动创建下一路径" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="825" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s31" value="AI推荐与 JSON 解析" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="1110" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s32" value="规则回退最低维映射" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="1315" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s41" value="候选规则筛选判定" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="1600" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="s42" value="幂等写入与唯一约束" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="1805" y="470" width="185" height="86" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

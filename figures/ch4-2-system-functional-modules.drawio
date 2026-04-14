@@ -1,0 +1,95 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0">
+  <diagram id="ch4_2_modules_simple" name="Page-1">
+    <mxGraphModel dx="1743" dy="968" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="583" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="e_root_m1" edge="1" parent="1" source="root_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="204" />
+              <mxPoint x="375" y="204" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_root_m2" edge="1" parent="1" source="root_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_root_m3" edge="1" parent="1" source="root_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_root_m4" edge="1" parent="1" source="root_system" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="204" />
+              <mxPoint x="1785" y="204" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_m1_s1" edge="1" parent="1" source="m1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m1s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m1_s2" edge="1" parent="1" source="m1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m1s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m2_s1" edge="1" parent="1" source="m2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m2s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m2_s2" edge="1" parent="1" source="m2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m2s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m3_s1" edge="1" parent="1" source="m3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m3s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m3_s2" edge="1" parent="1" source="m3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m3s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m4_s1" edge="1" parent="1" source="m4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m4s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_m4_s2" edge="1" parent="1" source="m4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=none;strokeWidth=2;" target="m4s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="root_system" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=24;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="MallocMentor 学习助手系统" vertex="1">
+          <mxGeometry height="88" width="460" x="920" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="用户认证与数据看板模块" vertex="1">
+          <mxGeometry height="92" width="410" x="170" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="编程练习与代码审查模块" vertex="1">
+          <mxGeometry height="92" width="410" x="640" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="面试对话与知识学习模块" vertex="1">
+          <mxGeometry height="92" width="410" x="1110" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=2;" value="AI学习路径与成就激励模块" vertex="1">
+          <mxGeometry height="92" width="410" x="1580" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="m1s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="注册登录与会话维护" vertex="1">
+          <mxGeometry height="86" width="195" x="170" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m1s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="访问控制与看板聚合" vertex="1">
+          <mxGeometry height="86" width="195" x="385" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m2s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="题库练习与沙盒运行" vertex="1">
+          <mxGeometry height="86" width="195" x="640" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m2s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="提交评审与能力更新" vertex="1">
+          <mxGeometry height="86" width="195" x="855" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m3s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="模拟面试与SSE对话" vertex="1">
+          <mxGeometry height="86" width="195" x="1110" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m3s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="知识文章与助手问答" vertex="1">
+          <mxGeometry height="86" width="195" x="1325" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m4s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="路径推荐与进度推进" vertex="1">
+          <mxGeometry height="86" width="195" x="1580" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="m4s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Noto Sans JP;align=center;verticalAlign=middle;strokeWidth=2;" value="成就判定与活动日志" vertex="1">
+          <mxGeometry height="86" width="195" x="1795" y="460" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
