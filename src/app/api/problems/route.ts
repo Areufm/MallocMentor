@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withErrorBoundary } from '@/lib/api/handler'
+import { parseTags, parseTestCases, parseHints } from '@/lib/utils/json-fields'
 
 // GET /api/problems - 获取题目列表（支持筛选和分页）
 export const GET = withErrorBoundary(async ({ req }) => {
@@ -40,9 +41,9 @@ export const GET = withErrorBoundary(async ({ req }) => {
   // 将 JSON 字符串字段解析为对象
   const parsed = problems.map(p => ({
     ...p,
-    tags: JSON.parse(p.tags),
-    testCases: JSON.parse(p.testCases),
-    hints: p.hints ? JSON.parse(p.hints) : [],
+    tags: parseTags(p.tags),
+    testCases: parseTestCases(p.testCases),
+    hints: parseHints(p.hints),
   }))
 
   return NextResponse.json(createSuccessResponse({

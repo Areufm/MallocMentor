@@ -36,13 +36,13 @@
 
 ## 阶段 3 — JSON / SSE 收口
 
-- [ ] 3.1 新增 `src/lib/utils/json-fields.ts`（含 parseTags / parseLearningSteps / parseInterviewMessages）
-- [ ] 3.2 全仓 grep `JSON.parse(`（限定 src/app/api），逐个替换为 `parseXxx()`
-- [ ] 3.3 新增 `src/lib/utils/sse.ts`（client 端 parseSSEStream 异步生成器）
-- [ ] 3.4 重构 `src/components/interview/chat-window.tsx` 使用 parseSSEStream
-- [ ] 3.5 重构 `src/components/knowledge-assistant/chat-widget.tsx` 使用 parseSSEStream
-- [ ] 3.6 移除 `src/app/api/interviews/[id]/message/route.ts` 中的硬编码 mockReplies，未配置时返回明确提示
-- [ ] 3.7 `pnpm build` 通过 + 提交 commit "refactor: unify JSON field & SSE parsing"
+- [x] 3.1 新增 `src/lib/utils/json-fields.ts`（safeJsonParse + parseTags/parseTestCases/parseHints/parseLearningSteps/parseInterviewMessages/parseInterviewEvaluation/parseTopics）
+- [x] 3.2 全仓替换 `JSON.parse(` 在 src/app/api 中的所有 DB 字段解析（剩 1 处 end/route.ts 解析 AI 文本，非 DB 字段，合法保留）
+- [x] 3.3 新增 `src/lib/utils/sse.ts`（parseSSEStream 异步生成器 + parseBlock 单元）
+- [x] 3.4 重构 `chat-window.tsx`（从 35 行手写流解析 → for-await）
+- [x] 3.5 重构 `chat-widget.tsx`（同上）
+- [x] 3.6 移除 message/route.ts 的 mockReplies，Coze 未配置时返回 503 明确提示
+- [x] 3.7 `pnpm build` 通过 + read_lints 全绿
 - [ ] 3.8 7 步走查通过（重点测面试 + 知识助手 SSE）
 
 ## 阶段 4 — 数据层统一 + 拆 page

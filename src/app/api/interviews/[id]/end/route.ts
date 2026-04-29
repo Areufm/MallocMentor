@@ -4,6 +4,7 @@ import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
 import { ApiError } from '@/lib/utils/api-error'
 import { logger } from '@/lib/utils/logger'
+import { parseInterviewMessages, parseInterviewEvaluation } from '@/lib/utils/json-fields'
 import { chatNonStream, isCozeConfigured } from '@/lib/ai/coze'
 import { checkAndAwardAchievements } from '@/lib/achievements'
 
@@ -22,12 +23,12 @@ export const POST = withAuth<{ id: string }>(async ({ userId, params }) => {
   if (session.status === 'completed') {
     return NextResponse.json(createSuccessResponse({
       ...session,
-      messages: JSON.parse(session.messages),
-      evaluation: session.evaluation ? JSON.parse(session.evaluation) : null,
+      messages: parseInterviewMessages(session.messages),
+      evaluation: parseInterviewEvaluation(session.evaluation),
     }, '面试已经结束'))
   }
 
-  const messages = JSON.parse(session.messages)
+  const messages = parseInterviewMessages(session.messages)
 
   let evaluation = {
     overallScore: 75,

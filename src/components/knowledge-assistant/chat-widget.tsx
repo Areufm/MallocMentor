@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
+import { parseSSEStream } from '@/lib/utils/sse'
 import {
   MessageCircleQuestion,
   X,
@@ -133,44 +134,19 @@ export function KnowledgeAssistantWidget() {
         throw new Error(`请求失败: ${res.status}`)
       }
 
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let buffer = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        buffer += decoder.decode(value, { stream: true })
-        const blocks = buffer.split('\n\n')
-        buffer = blocks.pop() ?? ''
-
-        for (const block of blocks) {
-          const line = block.replace(/^data:\s*/, '').trim()
-          if (!line || line === '[DONE]') continue
-
-          try {
-            const parsed = JSON.parse(line)
-            // sessionId 事件
-            if (parsed?.type === 'session' && parsed.sessionId) {
-              setSessionId(parsed.sessionId)
-              continue
-            }
-            if (parsed?.type === 'error') continue
-            // 文本片段
-            if (typeof parsed === 'string') {
-              setMessages(prev =>
-                prev.map(m =>
-                  m.id === assistantId
-                    ? { ...m, content: m.content + parsed }
-                    : m
-                )
-              )
-            }
-          } catch {
-            // 非 JSON，跳过
-          }
+      for await (const event of parseSSEStream(res.body)) {
+        if (event.type === 'session') {
+          setSessionId(event.sessionId)
+        } else if (event.type === 'text') {
+          setMessages(prev =>
+            prev.map(m =>
+              m.id === assistantId
+                ? { ...m, content: m.content + event.text }
+                : m,
+            ),
+          )
         }
+        // type === 'error' 由下方 catch 兜底
       }
     } catch (err) {
       setMessages(prev =>

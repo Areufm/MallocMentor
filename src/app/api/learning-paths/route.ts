@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
 import { ApiError } from '@/lib/utils/api-error'
+import { parseLearningSteps } from '@/lib/utils/json-fields'
 import {
   LEARNING_PATH_TEMPLATES,
   getTemplate,
@@ -44,7 +45,7 @@ export const GET = withAuth(async ({ userId }) => {
     if (existing) {
       return {
         ...existing,
-        steps: JSON.parse(existing.steps),
+        steps: parseLearningSteps(existing.steps),
       }
     }
 
@@ -75,7 +76,7 @@ export const GET = withAuth(async ({ userId }) => {
     if (!p.templateId || !existingTemplateIds.has(p.templateId) || !LEARNING_PATH_TEMPLATES.some(t => t.templateId === p.templateId)) {
       // 已经在上面模板映射中处理过的跳过
       if (LEARNING_PATH_TEMPLATES.some(t => t.templateId === p.templateId)) continue
-      result.push({ ...p, steps: JSON.parse(p.steps) })
+      result.push({ ...p, steps: parseLearningSteps(p.steps) })
     }
   }
 
@@ -103,7 +104,7 @@ export const POST = withAuth(async ({ userId, req }) => {
   if (existing) {
     return NextResponse.json(createSuccessResponse({
       ...existing,
-      steps: JSON.parse(existing.steps),
+      steps: parseLearningSteps(existing.steps),
     }))
   }
 
@@ -133,6 +134,6 @@ export const POST = withAuth(async ({ userId, req }) => {
 
   return NextResponse.json(createSuccessResponse({
     ...created,
-    steps: JSON.parse(created.steps),
+    steps: parseLearningSteps(created.steps),
   }))
 })

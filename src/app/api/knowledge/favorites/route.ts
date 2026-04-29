@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
+import { parseTags } from '@/lib/utils/json-fields'
 
 // GET /api/knowledge/favorites - 获取当前用户的收藏文章列表
 export const GET = withAuth(async ({ userId, req }) => {
@@ -22,7 +23,7 @@ export const GET = withAuth(async ({ userId, req }) => {
 
   const articles = favorites.map(f => ({
     ...f.article,
-    tags: JSON.parse(f.article.tags),
+    tags: parseTags(f.article.tags),
     favoritedAt: f.createdAt,
   }))
 

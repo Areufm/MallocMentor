@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
+import { parseInterviewEvaluation } from '@/lib/utils/json-fields'
 
 // GET /api/interviews/stats - 获取面试统计数据
 export const GET = withAuth(async ({ userId }) => {
@@ -17,14 +18,10 @@ export const GET = withAuth(async ({ userId }) => {
   let scoreCount = 0
 
   for (const s of completedSessions) {
-    if (s.evaluation) {
-      try {
-        const evalData = JSON.parse(s.evaluation)
-        if (evalData.overallScore) {
-          totalScore += evalData.overallScore
-          scoreCount++
-        }
-      } catch { /* ignore parse errors */ }
+    const evalData = parseInterviewEvaluation(s.evaluation)
+    if (evalData?.overallScore) {
+      totalScore += evalData.overallScore
+      scoreCount++
     }
   }
 

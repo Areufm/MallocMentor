@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma'
 import { createSuccessResponse, getCurrentUserId } from '@/lib/utils/response'
 import { withErrorBoundary } from '@/lib/api/handler'
 import { ApiError } from '@/lib/utils/api-error'
+import { parseTags } from '@/lib/utils/json-fields'
 
 // GET /api/knowledge/[id] - 获取知识库文章详情（含 Markdown 内容）
 // 未登录也可读，使用 withErrorBoundary
@@ -64,7 +65,7 @@ export const GET = withErrorBoundary<{ id: string }>(async ({ params }) => {
 
   return NextResponse.json(createSuccessResponse({
     ...article,
-    tags: JSON.parse(article.tags),
+    tags: parseTags(article.tags),
     content,
   }))
 })

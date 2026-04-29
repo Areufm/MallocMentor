@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
 import { ApiError } from '@/lib/utils/api-error'
+import { parseLearningSteps } from '@/lib/utils/json-fields'
 import { getNextTemplate, buildStepsJson } from '@/lib/learning-path-templates'
 import { checkAndAwardAchievements } from '@/lib/achievements'
 
@@ -22,7 +23,7 @@ export const POST = withAuth<{ id: string }>(async ({ userId, req, params }) => 
     throw new ApiError(404, '学习路径不存在')
   }
 
-  const steps = JSON.parse(path.steps) as Array<{ id: number; status: string; title?: string; [k: string]: unknown }>
+  const steps = parseLearningSteps(path.steps)
   const stepIndex = steps.findIndex(s => s.id === stepId)
   if (stepIndex === -1) {
     throw new ApiError(404, '步骤不存在')
