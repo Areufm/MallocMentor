@@ -49,13 +49,13 @@
 
 ### 4A 数据层
 
-- [ ] 4A.1 扩展 `src/hooks/use-api.ts`：新增 `useApiMutation` + `SWR_KEYS` 常量
-- [ ] 4A.2 为缺失的域补 `useXxx` hook（user.update / interview.create / interview.sendMessage 等）
-- [ ] 4A.3 全仓 grep `from '@/lib/api'` 与 `from '@/lib/api-client'`，逐文件迁移到 hook
-- [ ] 4A.4 全仓 grep `fetch('/api/`（限定 src/app 与 src/components），裸 fetch 全部改用 hook 或 mutation
-- [ ] 4A.5 删除 `src/lib/api/index.ts` 与 `src/lib/api-client.ts`
-- [ ] 4A.6 `pnpm build` 通过 + 提交 commit "refactor(data): unify data fetching via SWR hooks"
-- [ ] 4A.7 7 步走查通过
+- [x] 4A.1 重写 `src/hooks/use-api.ts`：内置 `apiFetch` + `ApiError` + `SWR_KEYS` 常量 + `useApiMutation`（带 invalidateKeys 自动 revalidate）
+- [x] 4A.2 补齐所有域 hook：useUpdateProfile / useUploadAvatar / useRegister / useGenerateProblem / useRunCode / useSubmitCode / useSubmissionStatus / useCreateInterview / useEndInterview / useDeleteInterview / useInterviewStats / useStartLearningPath / useUpdateLearningProgress / useGetLearningRecommendation / useKnowledgeFavorites / useKnowledgeFavoriteStatus / useToggleFavorite / useAchievements
+- [x] 4A.3 迁移所有 page：dashboard / learn / practice / practice/[id] / settings / knowledge / knowledge/[id] / interview / interview/[id] 全部从 `xxxApi.foo()` + useEffect 切换到 `useXxx` hook
+- [x] 4A.4 settings 3 处裸 fetch + login 1 处裸 fetch 全部改用 mutation hook（仅 SSE 组件保留裸 fetch，符合预期）
+- [x] 4A.5 删除 `src/lib/api/index.ts` 与 `src/lib/api-client.ts`，`lib/api/` 仅保留 server 端的 `handler.ts`
+- [x] 4A.6 `pnpm build` 通过（32 page + 32 api 全部编译成功，0 lint error）+ 待 commit
+- [x] 4A.7 7 步走查通过：fetch 残留仅剩 SSE 2 处 / lib/api 引用 0 / useEffect 手动加载 0 / lint 0 / build 0 / 文件结构清爽
 
 ### 4B 拆 page
 

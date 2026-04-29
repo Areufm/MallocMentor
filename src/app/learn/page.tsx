@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppLayout } from '@/components/layout/app-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -22,7 +22,13 @@ import {
   Star,
 } from 'lucide-react'
 import Link from 'next/link'
-import { learningPathApi, knowledgeApi } from '@/lib/api'
+import {
+  useLearningPaths,
+  useKnowledgeArticles,
+  useStartLearningPath,
+  useUpdateLearningProgress,
+  useGetLearningRecommendation,
+} from '@/hooks/use-api'
 
 // ---------- 类型 ----------
 
@@ -76,40 +82,27 @@ interface Recommendation {
 
 export default function LearnPage() {
   const router = useRouter()
-  const [allPaths, setAllPaths] = useState<LearningPathData[]>([])
-  const [loading, setLoading] = useState(true)
-  const [articleMap, setArticleMap] = useState<Record<string, string>>({})
-  const [celebratePathId, setCelebratePathId] = useState<string | null>(null)
-  const [recommendation, setRecommendation] = useState<Recommendation | null>(null)
-  const [recLoading, setRecLoading] = useState(false)
-  const [selectedPathId, setSelectedPathId] = useState<string | null>(null)
+  const { data: pathsData, isLoading: pathsLoading } = useLearningPaths()
+  const { data: articlesData, isLoading: articlesLoading } = useKnowledgeArticles({ page: 1, pageSize: 100 })
+  const startPath = useStartLearningPath()
+  const updateProgress = useUpdateLearningProgress()
+  const getRecommendation = useGetLearningRecommendation()
+  const recLoading = getRecommendation.isLoading
+  const recommendation = getRecommendation.data ?? null
 
-  const loadData = useCallback(async () => {
-    try {
-      const [pathsRes, articlesRes] = await Promise.all([
-        learningPathApi.getList(),
-        knowledgeApi.getList({ page: 1, pageSize: 100 }),
-      ])
+  const allPaths = (pathsData ?? []) as unknown as LearningPathData[]
+  const loading = pathsLoading || articlesLoading
 
-      if (pathsRes.success && pathsRes.data) {
-        setAllPaths(pathsRes.data as unknown as LearningPathData[])
-      }
-
-      if (articlesRes.success && articlesRes.data?.data) {
-        const map: Record<string, string> = {}
-        for (const a of articlesRes.data.data as unknown as Array<{ slug: string; id: string }>) {
-          map[a.slug] = a.id
-        }
-        setArticleMap(map)
-      }
-    } catch (err) {
-      console.error('Load learn data error:', err)
-    } finally {
-      setLoading(false)
+  const articleMap = useMemo(() => {
+    const map: Record<string, string> = {}
+    for (const a of (articlesData?.data ?? []) as unknown as Array<{ slug: string; id: string }>) {
+      map[a.slug] = a.id
     }
-  }, [])
+    return map
+  }, [articlesData])
 
-  useEffect(() => { loadData() }, [loadData])
+  const [celebratePathId, setCelebratePathId] = useState<string | null>(null)
+  const [selectedPathId, setSelectedPathId] = useState<string | null>(null)
 
   // 当前活跃路径
   const activePath = allPaths.find(p => p.status === 'active')
@@ -145,13 +138,10 @@ export default function LearnPage() {
     return '/knowledge'
   }
 
-  // 开始一条"unlocked"路径 — 调 POST 创建后刷新
+  // 开始一条"unlocked"路径 — 调 POST 创建后由 hook 自动 invalidate 列表
   const handleStartPath = async (templateId: string) => {
     try {
-      const res = await learningPathApi.create(templateId)
-      if (res.success) {
-        await loadData()
-      }
+      await startPath.trigger(templateId)
     } catch (err) {
       console.error('Start path error:', err)
     }
@@ -159,13 +149,12 @@ export default function LearnPage() {
 
   const handleCompleteStep = async (pathId: string, stepId: number) => {
     try {
-      const res = await learningPathApi.updateProgress(pathId, { pathId, stepId, completed: true })
-      if (res.success) {
-        const data = res.data as unknown as { pathCompleted?: boolean; nextPathCreated?: boolean }
-        if (data?.pathCompleted) {
-          setCelebratePathId(pathId)
-        }
-        await loadData()
+      const result = await updateProgress.trigger({
+        pathId,
+        data: { pathId, stepId, completed: true },
+      })
+      if (result.pathCompleted) {
+        setCelebratePathId(pathId)
       }
     } catch (err) {
       console.error('Update progress error:', err)
@@ -173,16 +162,10 @@ export default function LearnPage() {
   }
 
   const fetchRecommendation = async () => {
-    setRecLoading(true)
     try {
-      const res = await learningPathApi.getRecommendation()
-      if (res.success && res.data) {
-        setRecommendation(res.data as unknown as Recommendation)
-      }
+      await getRecommendation.trigger()
     } catch (err) {
       console.error('Fetch recommendation error:', err)
-    } finally {
-      setRecLoading(false)
     }
   }
 

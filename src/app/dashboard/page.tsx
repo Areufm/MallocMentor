@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import {
   Card,
@@ -31,18 +31,15 @@ import {
   Legend,
 } from "recharts";
 import {
-  userApi,
-  capabilityApi,
-  activityApi,
-  learningPathApi,
-  achievementApi,
-} from "@/lib/api";
+  useUserStats,
+  useCapabilityRadar,
+  useActivities,
+  useLearningPaths,
+  useAchievements,
+} from "@/hooks/use-api";
 import type {
-  UserStats,
   CapabilityRadar,
-  ActivityLog,
   LearningPath,
-  Achievement,
 } from "@/types/api";
 
 // 雷达图数据项类型
@@ -155,71 +152,48 @@ function toLearningGoal(path: LearningPath & { order?: number }) {
 }
 
 export default function DashboardPage() {
-  const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [radarData, setRadarData] = useState<RadarDataItem[]>([]);
-  const [radarMeta, setRadarMeta] = useState({
-    overallScore: 0,
-    topDimension: "",
-  });
-  const [activities, setActivities] = useState<ActivityLog[]>([]);
-  const [recentAchievements, setRecentAchievements] = useState<Achievement[]>([]);
-  const [achievementStats, setAchievementStats] = useState({ total: 0, unlocked: 0 });
-  const [learningGoals, setLearningGoals] = useState<
-    ReturnType<typeof toLearningGoal>[]
-  >([]);
-  const [loading, setLoading] = useState(true);
+  const { data: userStats, isLoading: statsLoading } = useUserStats();
+  const { data: radar, isLoading: radarLoading } = useCapabilityRadar();
+  const { data: activitiesPage, isLoading: actLoading } = useActivities({ pageSize: 5 });
+  const { data: paths, isLoading: pathsLoading } = useLearningPaths();
+  const { data: achievementsData, isLoading: achLoading } = useAchievements();
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [statsRes, radarRes, activitiesRes, pathsRes, achievementsRes] = await Promise.all(
-          [
-            userApi.getStats(),
-            capabilityApi.get(),
-            activityApi.getList({ pageSize: 5 }),
-            learningPathApi.getList(),
-            achievementApi.getList(),
-          ],
-        );
+  const loading = statsLoading || radarLoading || actLoading || pathsLoading || achLoading;
 
-        if (statsRes.success && statsRes.data) {
-          setUserStats(statsRes.data);
-        }
-
-        if (radarRes.success && radarRes.data) {
-          setRadarData(toRadarData(radarRes.data));
-          setRadarMeta({
-            overallScore: calcOverallScore(radarRes.data),
-            topDimension: findTopDimension(radarRes.data),
-          });
-        }
-
-        if (activitiesRes.success && activitiesRes.data) {
-          setActivities(activitiesRes.data.data);
-        }
-
-        if (pathsRes.success && pathsRes.data) {
-          setLearningGoals(pathsRes.data.map(toLearningGoal));
-        }
-
-        if (achievementsRes.success && achievementsRes.data) {
-          const { achievements, total, unlocked } = achievementsRes.data;
-          setRecentAchievements(
-            achievements.filter(a => a.unlocked).sort(
-              (a, b) => new Date(b.unlockedAt!).getTime() - new Date(a.unlockedAt!).getTime(),
-            ).slice(0, 4),
-          );
-          setAchievementStats({ total, unlocked });
-        }
-      } catch (err) {
-        console.error("Dashboard data fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
+  const radarData: RadarDataItem[] = useMemo(
+    () => (radar ? toRadarData(radar) : []),
+    [radar],
+  );
+  const radarMeta = useMemo(
+    () =>
+      radar
+        ? {
+            overallScore: calcOverallScore(radar),
+            topDimension: findTopDimension(radar),
+          }
+        : { overallScore: 0, topDimension: "" },
+    [radar],
+  );
+  const activities = activitiesPage?.data ?? [];
+  const learningGoals = useMemo(
+    () => (paths ?? []).map(toLearningGoal),
+    [paths],
+  );
+  const recentAchievements = useMemo(
+    () =>
+      (achievementsData?.achievements ?? [])
+        .filter((a) => a.unlocked)
+        .sort(
+          (a, b) =>
+            new Date(b.unlockedAt!).getTime() - new Date(a.unlockedAt!).getTime(),
+        )
+        .slice(0, 4),
+    [achievementsData],
+  );
+  const achievementStats = {
+    total: achievementsData?.total ?? 0,
+    unlocked: achievementsData?.unlocked ?? 0,
+  };
 
   // 活动类型映射为点颜色样式
   const getActivityDotClass = (type: string) => {

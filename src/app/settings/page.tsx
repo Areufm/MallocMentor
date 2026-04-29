@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect, useRef, useTransition } from "react";
+import { Suspense, useState, useRef, useTransition } from "react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
@@ -25,8 +25,12 @@ import {
   Lock as LockIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import { achievementApi } from "@/lib/api";
-import type { Achievement } from "@/types/api";
+import {
+  useAchievements,
+  useUpdateProfile,
+  useUploadAvatar,
+  ApiError,
+} from "@/hooks/use-api";
 
 export default function SettingsPage() {
   return (
@@ -114,9 +118,12 @@ function ProfileTab({
 }) {
   const [name, setName] = useState(user?.name ?? "");
   const [avatarUrl, setAvatarUrl] = useState(user?.image ?? "");
-  const [uploading, setUploading] = useState(false);
   const [saving, startSaving] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const uploadAvatar = useUploadAvatar();
+  const updateProfile = useUpdateProfile();
+  const uploading = uploadAvatar.isLoading;
 
   const initials = (user?.name ?? user?.email ?? "U").charAt(0).toUpperCase();
 
@@ -130,29 +137,14 @@ function ProfileTab({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        toast.error(data.error ?? "上传失败");
-        return;
-      }
-
+      const result = await uploadAvatar.trigger(file);
       // 先在本地预览，保存时一并提交
-      setAvatarUrl(data.data.url);
+      setAvatarUrl(result.url);
       toast.success("头像已上传，点击「保存修改」生效");
-    } catch {
-      toast.error("网络错误，请稍后重试");
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : "上传失败");
     } finally {
-      setUploading(false);
       // 清空 input 以便再次选同一文件
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
@@ -161,7 +153,7 @@ function ProfileTab({
   /** 保存昵称 & 头像到数据库，并刷新 Session */
   function handleSave() {
     startSaving(async () => {
-      const payload: Record<string, string> = {};
+      const payload: { name?: string; image?: string } = {};
       if (name.trim() !== (user?.name ?? "")) payload.name = name.trim();
       if (avatarUrl !== (user?.image ?? "")) payload.image = avatarUrl;
 
@@ -170,21 +162,13 @@ function ProfileTab({
         return;
       }
 
-      const res = await fetch("/api/user/update", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        toast.error(data.error ?? "保存失败");
-        return;
+      try {
+        const updated = await updateProfile.trigger(payload);
+        await onUpdate({ user: updated });
+        toast.success("个人资料已保存");
+      } catch (err) {
+        toast.error(err instanceof ApiError ? err.message : "保存失败");
       }
-
-      // 刷新 next-auth Session，更新 Header 中显示的昵称/头像
-      await onUpdate({ user: data.data });
-      toast.success("个人资料已保存");
     });
   }
 
@@ -282,6 +266,7 @@ function SecurityTab() {
     confirmPassword: "",
   });
   const [pending, startPending] = useTransition();
+  const updateProfile = useUpdateProfile();
 
   function updateField(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -298,23 +283,16 @@ function SecurityTab() {
     }
 
     startPending(async () => {
-      const res = await fetch("/api/user/update", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      try {
+        await updateProfile.trigger({
           currentPassword: form.currentPassword,
           newPassword: form.newPassword,
-        }),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        toast.error(data.error ?? "修改失败");
-        return;
+        });
+        toast.success("密码已修改，下次登录请使用新密码");
+        setForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      } catch (err) {
+        toast.error(err instanceof ApiError ? err.message : "修改失败");
       }
-
-      toast.success("密码已修改，下次登录请使用新密码");
-      setForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
     });
   }
 
@@ -399,22 +377,9 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_ORDER = ["practice", "interview", "learning", "streak"];
 
 function AchievementsTab() {
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [stats, setStats] = useState({ total: 0, unlocked: 0 });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    achievementApi
-      .getList()
-      .then((res) => {
-        if (res.success && res.data) {
-          setAchievements(res.data.achievements);
-          setStats({ total: res.data.total, unlocked: res.data.unlocked });
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, isLoading: loading } = useAchievements();
+  const achievements = data?.achievements ?? [];
+  const stats = { total: data?.total ?? 0, unlocked: data?.unlocked ?? 0 };
 
   const grouped = CATEGORY_ORDER.map((cat) => ({
     category: cat,

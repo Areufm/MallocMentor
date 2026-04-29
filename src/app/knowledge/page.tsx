@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import {
   Card,
@@ -25,7 +25,12 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import Link from "next/link";
-import { knowledgeApi } from "@/lib/api";
+import {
+  useKnowledgeCategories,
+  useKnowledgeArticles,
+  useKnowledgeFavorites,
+  useToggleFavorite,
+} from "@/hooks/use-api";
 
 interface ArticleItem {
   id: string;
@@ -65,111 +70,53 @@ export default function KnowledgePage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [activeTab, setActiveTab] = useState<TabOption>("all");
-  const [articles, setArticles] = useState<ArticleItem[]>([]);
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  // 已收藏的文章 id 集合（用于列表中标记星号）
-  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
-
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-
-  useEffect(() => {
-    async function loadCategories() {
-      try {
-        const res = await knowledgeApi.getCategories();
-        if (res.success && res.data) {
-          setCategories(res.data as unknown as CategoryItem[]);
-        }
-      } catch (err) {
-        console.error("Load categories error:", err);
-      }
-    }
-    loadCategories();
-  }, []);
-
-  // 预加载收藏列表 id
-  useEffect(() => {
-    async function loadFavoriteIds() {
-      try {
-        const res = await knowledgeApi.getFavorites({ page: 1, pageSize: 200 });
-        if (res.success && res.data?.data) {
-          const ids = new Set(
-            (res.data.data as unknown as ArticleItem[]).map((a) => a.id),
-          );
-          setFavoriteIds(ids);
-        }
-      } catch {
-        /* 未登录时忽略 */
-      }
-    }
-    loadFavoriteIds();
-  }, []);
 
   // 切换条件时重置页码
   useEffect(() => {
     setPage(1);
   }, [selectedCategory, searchQuery, sortBy, activeTab]);
 
-  const loadArticles = useCallback(async () => {
-    setLoading(true);
-    try {
-      if (activeTab === "favorites") {
-        const res = await knowledgeApi.getFavorites({ page, pageSize: PAGE_SIZE });
-        if (res.success && res.data) {
-          setArticles(res.data.data as unknown as ArticleItem[]);
-          setTotal(res.data.total);
-        }
-      } else {
-        const params: Record<string, string | number> = {
-          page,
-          pageSize: PAGE_SIZE,
-          sort: sortBy,
-        };
-        if (selectedCategory !== "all") params.category = selectedCategory;
-        if (searchQuery) params.search = searchQuery;
-        const res = await knowledgeApi.getList(
-          params as Parameters<typeof knowledgeApi.getList>[0],
-        );
-        if (res.success && res.data) {
-          setArticles(res.data.data as unknown as ArticleItem[]);
-          setTotal(res.data.total);
-        }
-      }
-    } catch (err) {
-      console.error("Load articles error:", err);
-    } finally {
-      setLoading(false);
+  // 分类列表（独立于 tab）
+  const { data: categoriesData } = useKnowledgeCategories();
+  const categories = (categoriesData ?? []) as unknown as CategoryItem[];
+
+  // 收藏 id 集合 - 一次拉满 200 个用于列表打星
+  const { data: favoriteIdsData } = useKnowledgeFavorites({ page: 1, pageSize: 200 });
+  const favoriteIds = useMemo(
+    () => new Set((favoriteIdsData?.data ?? []).map((a) => a.id)),
+    [favoriteIdsData],
+  );
+
+  // 主列表参数（依赖 tab）
+  const listParams = useMemo(() => {
+    if (activeTab === "favorites") {
+      return { page, pageSize: PAGE_SIZE };
     }
+    const p: Record<string, string | number> = {
+      page,
+      pageSize: PAGE_SIZE,
+      sort: sortBy,
+    };
+    if (selectedCategory !== "all") p.category = selectedCategory;
+    if (searchQuery) p.search = searchQuery;
+    return p;
   }, [activeTab, page, sortBy, selectedCategory, searchQuery]);
 
-  useEffect(() => {
-    loadArticles();
-  }, [loadArticles]);
+  const allListSWR = useKnowledgeArticles(activeTab === "all" ? listParams : undefined);
+  const favListSWR = useKnowledgeFavorites(activeTab === "favorites" ? listParams : undefined);
+  const listData = activeTab === "favorites" ? favListSWR.data : allListSWR.data;
+  const loading = activeTab === "favorites" ? favListSWR.isLoading : allListSWR.isLoading;
+  const articles = (listData?.data ?? []) as unknown as ArticleItem[];
+  const total = listData?.total ?? 0;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
+  const toggleFavorite = useToggleFavorite();
   const handleToggleFavorite = async (articleId: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      const res = await knowledgeApi.toggleFavorite(articleId);
-      if (res.success && res.data) {
-        const { favorited } = res.data as unknown as { favorited: boolean };
-        setFavoriteIds((prev) => {
-          const next = new Set(prev);
-          if (favorited) next.add(articleId);
-          else next.delete(articleId);
-          return next;
-        });
-        // 更新列表中的 likes 计数
-        setArticles((prev) =>
-          prev.map((a) =>
-            a.id === articleId
-              ? { ...a, likes: a.likes + (favorited ? 1 : -1) }
-              : a,
-          ),
-        );
-      }
+      await toggleFavorite.trigger(articleId);
     } catch (err) {
       console.error("Toggle favorite error:", err);
     }

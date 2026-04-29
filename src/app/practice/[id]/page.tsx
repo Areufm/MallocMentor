@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import { AppLayout } from '@/components/layout/app-layout'
 import { MonacoEditor } from '@/components/code-editor/monaco-editor'
@@ -22,7 +22,7 @@ import {
   Copy,
 } from 'lucide-react'
 import Link from 'next/link'
-import { problemApi, codeApi } from '@/lib/api'
+import { useProblem, useRunCode, useSubmitCode } from '@/hooks/use-api'
 
 type Language = 'c' | 'cpp'
 
@@ -90,32 +90,19 @@ export default function ProblemDetailPage() {
   const params = useParams()
   const id = params.id as string
 
-  const [problem, setProblem] = useState<ProblemData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: problemData, isLoading: loading } = useProblem(id)
+  const problem = problemData as unknown as ProblemData | undefined
+  const runCode = useRunCode()
+  const submitCode = useSubmitCode()
+  const isRunning = runCode.isLoading
+  const isSubmitting = submitCode.isLoading
+
   const [language, setLanguage] = useState<Language>('cpp')
   const [code, setCode] = useState(templates.cpp)
   const [stdinInput, setStdinInput] = useState('')
-  const [isRunning, setIsRunning] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [runResult, setRunResult] = useState<string | null>(null)
   const [reviewRaw, setReviewRaw] = useState<string | null>(null)
   const [showHints, setShowHints] = useState(false)
-
-  useEffect(() => {
-    async function load() {
-      try {
-        const res = await problemApi.getById(id)
-        if (res.success && res.data) {
-          setProblem(res.data as unknown as ProblemData)
-        }
-      } catch (err) {
-        console.error('Load problem error:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-  }, [id])
 
   const handleLanguageChange = useCallback((lang: Language) => {
     setLanguage(lang)
@@ -123,27 +110,18 @@ export default function ProblemDetailPage() {
   }, [])
 
   const handleRun = async () => {
-    setIsRunning(true)
     setRunResult(null)
     try {
-      const res = await codeApi.run({ code, language, input: stdinInput || undefined })
-      if (res.success && res.data) {
-        const data = res.data as unknown as {
-          output: string; compiled?: boolean; exitCode?: number; executionTime?: number
-        }
-        let display = data.output
-        if (data.compiled && data.executionTime != null) {
-          display += `\n\n--- 退出码: ${data.exitCode ?? 0} | 耗时: ${data.executionTime}ms ---`
-        }
-        setRunResult(display)
-      } else {
-        const errData = res as unknown as { message?: string }
-        setRunResult(errData.message || '运行失败，请稍后重试')
+      const data = (await runCode.trigger({ code, language, input: stdinInput || undefined })) as unknown as {
+        output: string; compiled?: boolean; exitCode?: number; executionTime?: number
       }
-    } catch {
-      setRunResult('运行失败，请稍后重试')
-    } finally {
-      setIsRunning(false)
+      let display = data.output
+      if (data.compiled && data.executionTime != null) {
+        display += `\n\n--- 退出码: ${data.exitCode ?? 0} | 耗时: ${data.executionTime}ms ---`
+      }
+      setRunResult(display)
+    } catch (err) {
+      setRunResult(err instanceof Error ? err.message : '运行失败，请稍后重试')
     }
   }
 
@@ -166,18 +144,14 @@ export default function ProblemDetailPage() {
 
   const handleSubmit = async () => {
     if (!problem) return
-    setIsSubmitting(true)
     setReviewRaw(null)
     try {
-      const res = await codeApi.submit({ problemId: problem.id, code, language })
-      if (res.success && res.data) {
-        const data = res.data as unknown as { aiReview?: string; status?: string; overallScore?: number }
-        setReviewRaw(data.aiReview || `提交状态：${data.status}`)
+      const data = (await submitCode.trigger({ problemId: problem.id, code, language })) as unknown as {
+        aiReview?: string; status?: string; overallScore?: number
       }
+      setReviewRaw(data.aiReview || `提交状态：${data.status}`)
     } catch {
       setReviewRaw('提交失败，请稍后重试')
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
