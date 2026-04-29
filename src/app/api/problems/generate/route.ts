@@ -1,6 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
+import { createSuccessResponse } from '@/lib/utils/response'
+import { withAuth } from '@/lib/api/handler'
+import { ApiError } from '@/lib/utils/api-error'
+import { logger } from '@/lib/utils/logger'
 import { chatNonStream, isCozeConfigured, parseJsonAnswer } from '@/lib/ai/coze'
 
 /** AI 生成的题目结构 */
@@ -24,78 +27,68 @@ const DIFFICULTIES = ['Easy', 'Medium', 'Hard']
  *
  * AI 自动出题：根据分类和难度，调用 codeReview Bot 生成一道结构化 C/C++ 练习题。
  */
-export async function POST(request: NextRequest) {
-  try {
-    const userId = await getCurrentUserId()
-    if (!userId) {
-      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
-    }
-
-    const body = await request.json()
-    const { category, difficulty, count = 1 } = body as {
-      category?: string
-      difficulty?: string
-      count?: number
-    }
-
-    if (category && !CATEGORIES.includes(category)) {
-      return NextResponse.json(createErrorResponse(`无效分类，可选：${CATEGORIES.join('、')}`), { status: 400 })
-    }
-    if (difficulty && !DIFFICULTIES.includes(difficulty)) {
-      return NextResponse.json(createErrorResponse('无效难度，可选：Easy、Medium、Hard'), { status: 400 })
-    }
-
-    if (!isCozeConfigured('codeReview')) {
-      return NextResponse.json(createErrorResponse('代码审查 Bot 未配置，无法生成题目'), { status: 503 })
-    }
-
-    const generated: GeneratedProblem[] = []
-    const batchSize = Math.min(count, 5)
-
-    for (let i = 0; i < batchSize; i++) {
-      const prompt = buildGeneratePrompt(category, difficulty)
-      try {
-        const { answer } = await chatNonStream('codeReview', prompt)
-        const parsed = parseJsonAnswer<GeneratedProblem>(answer)
-
-        if (!parsed.title || !parsed.description) continue
-
-        // 去重：按标题检查是否已存在
-        const existing = await prisma.problem.findFirst({ where: { title: parsed.title } })
-        if (existing) continue
-
-        const problem = await prisma.problem.create({
-          data: {
-            title: parsed.title,
-            description: parsed.description,
-            difficulty: parsed.difficulty || difficulty || 'Medium',
-            category: parsed.category || category || '综合',
-            tags: JSON.stringify(parsed.tags || []),
-            testCases: JSON.stringify(parsed.testCases || []),
-            hints: JSON.stringify(parsed.hints || []),
-            solution: parsed.solution ? JSON.stringify(parsed.solution) : null,
-          },
-        })
-
-        generated.push({ ...parsed, title: problem.title })
-      } catch (err) {
-        console.error(`Generate problem ${i + 1} failed:`, err)
-      }
-    }
-
-    if (generated.length === 0) {
-      return NextResponse.json(createErrorResponse('生成失败，请稍后重试'), { status: 500 })
-    }
-
-    return NextResponse.json(createSuccessResponse(
-      { count: generated.length, problems: generated.map(p => p.title) },
-      `成功生成 ${generated.length} 道题目`,
-    ))
-  } catch (error) {
-    console.error('Generate problem error:', error)
-    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
+export const POST = withAuth(async ({ req }) => {
+  const body = await req.json()
+  const { category, difficulty, count = 1 } = body as {
+    category?: string
+    difficulty?: string
+    count?: number
   }
-}
+
+  if (category && !CATEGORIES.includes(category)) {
+    throw new ApiError(400, `无效分类，可选：${CATEGORIES.join('、')}`)
+  }
+  if (difficulty && !DIFFICULTIES.includes(difficulty)) {
+    throw new ApiError(400, '无效难度，可选：Easy、Medium、Hard')
+  }
+
+  if (!isCozeConfigured('codeReview')) {
+    throw new ApiError(503, '代码审查 Bot 未配置，无法生成题目')
+  }
+
+  const generated: GeneratedProblem[] = []
+  const batchSize = Math.min(count, 5)
+
+  for (let i = 0; i < batchSize; i++) {
+    const prompt = buildGeneratePrompt(category, difficulty)
+    try {
+      const { answer } = await chatNonStream('codeReview', prompt)
+      const parsed = parseJsonAnswer<GeneratedProblem>(answer)
+
+      if (!parsed.title || !parsed.description) continue
+
+      // 去重：按标题检查是否已存在
+      const existing = await prisma.problem.findFirst({ where: { title: parsed.title } })
+      if (existing) continue
+
+      const problem = await prisma.problem.create({
+        data: {
+          title: parsed.title,
+          description: parsed.description,
+          difficulty: parsed.difficulty || difficulty || 'Medium',
+          category: parsed.category || category || '综合',
+          tags: JSON.stringify(parsed.tags || []),
+          testCases: JSON.stringify(parsed.testCases || []),
+          hints: JSON.stringify(parsed.hints || []),
+          solution: parsed.solution ? JSON.stringify(parsed.solution) : null,
+        },
+      })
+
+      generated.push({ ...parsed, title: problem.title })
+    } catch (err) {
+      logger.error('problems/generate', `generate problem ${i + 1} failed`, err)
+    }
+  }
+
+  if (generated.length === 0) {
+    throw new ApiError(500, '生成失败，请稍后重试')
+  }
+
+  return NextResponse.json(createSuccessResponse(
+    { count: generated.length, problems: generated.map(p => p.title) },
+    `成功生成 ${generated.length} 道题目`,
+  ))
+})
 
 function buildGeneratePrompt(category?: string, difficulty?: string): string {
   const catHint = category ? `分类为「${category}」` : '任意 C/C++ 相关分类'

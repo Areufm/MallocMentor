@@ -1,6 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
+import { createSuccessResponse } from '@/lib/utils/response'
+import { withAuth } from '@/lib/api/handler'
+import { logger } from '@/lib/utils/logger'
 import { isCozeConfigured, chatNonStream, parseJsonAnswer } from '@/lib/ai/coze'
 import { LEARNING_PATH_TEMPLATES } from '@/lib/learning-path-templates'
 
@@ -17,45 +19,35 @@ interface RecommendResult {
  * 根据用户能力雷达图 + 已完成路径，调用 Coze AI 生成个性化学习推荐。
  * 若 Coze 未配置则回退为基于规则的简单推荐。
  */
-export async function POST(request: NextRequest) {
-  try {
-    const userId = await getCurrentUserId()
-    if (!userId) {
-      return NextResponse.json(createErrorResponse('未登录'), { status: 401 })
+export const POST = withAuth(async ({ userId }) => {
+  // 收集用户画像数据
+  const [radar, paths] = await Promise.all([
+    prisma.capabilityRadar.findUnique({ where: { userId } }),
+    prisma.learningPath.findMany({ where: { userId }, orderBy: { order: 'asc' } }),
+  ])
+
+  const completedTemplateIds = paths
+    .filter(p => p.status === 'completed' && p.templateId)
+    .map(p => p.templateId!)
+
+  const activePath = paths.find(p => p.status === 'active')
+
+  // ---------- 基于 Coze AI 的推荐 ----------
+  if (isCozeConfigured('learningPath')) {
+    const prompt = buildAIPrompt(radar, completedTemplateIds, activePath?.templateId ?? null)
+    try {
+      const { answer } = await chatNonStream('learningPath', prompt)
+      const result = parseJsonAnswer<RecommendResult>(answer)
+      return NextResponse.json(createSuccessResponse(result))
+    } catch (aiErr) {
+      logger.warn('learning-paths/recommend', 'AI recommend failed, fallback to rule-based', aiErr)
     }
-
-    // 收集用户画像数据
-    const [radar, paths] = await Promise.all([
-      prisma.capabilityRadar.findUnique({ where: { userId } }),
-      prisma.learningPath.findMany({ where: { userId }, orderBy: { order: 'asc' } }),
-    ])
-
-    const completedTemplateIds = paths
-      .filter(p => p.status === 'completed' && p.templateId)
-      .map(p => p.templateId!)
-
-    const activePath = paths.find(p => p.status === 'active')
-
-    // ---------- 基于 Coze AI 的推荐 ----------
-    if (isCozeConfigured('learningPath')) {
-      const prompt = buildAIPrompt(radar, completedTemplateIds, activePath?.templateId ?? null)
-      try {
-        const { answer } = await chatNonStream('learningPath', prompt)
-        const result = parseJsonAnswer<RecommendResult>(answer)
-        return NextResponse.json(createSuccessResponse(result))
-      } catch (aiErr) {
-        console.error('AI recommend failed, fallback to rule-based:', aiErr)
-      }
-    }
-
-    // ---------- 回退：基于规则的推荐 ----------
-    const result = ruleBasedRecommend(radar, completedTemplateIds)
-    return NextResponse.json(createSuccessResponse(result))
-  } catch (error) {
-    console.error('Recommend error:', error)
-    return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
-}
+
+  // ---------- 回退：基于规则的推荐 ----------
+  const result = ruleBasedRecommend(radar, completedTemplateIds)
+  return NextResponse.json(createSuccessResponse(result))
+})
 
 /** 构建发给 AI 的 prompt */
 function buildAIPrompt(

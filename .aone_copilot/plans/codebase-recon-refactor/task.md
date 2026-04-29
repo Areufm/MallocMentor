@@ -11,27 +11,27 @@
 
 ## 阶段 1 — 死代码清理（P0）
 
-- [/] 1.1 删除 `src/lib/mock-data.ts`，并 grep 确认零残留引用
-- [ ] 1.2 删除 `src/app/actions/submission.ts` 及空目录 `src/app/actions/`
-- [ ] 1.3 删除 `src/lib/auth.ts`，把所有 `from '@/lib/auth'` 改为 `from 'next-auth/react'`
-- [ ] 1.4 `pnpm build` 通过 + 提交 commit "chore: remove dead code (mock-data / deprecated action / re-export shim)"
-- [ ] 1.5 7 步走查通过
+- [x] 1.1 删除 `src/lib/mock-data.ts`，并 grep 确认零残留引用
+- [x] 1.2 删除 `src/app/actions/submission.ts` 及空目录 `src/app/actions/`
+- [x] 1.3 删除 `src/lib/auth.ts`，把所有 `from '@/lib/auth'` 改为 `from 'next-auth/react'`（grep 无引用，无需改 import）
+- [x] 1.4 `pnpm build` 通过 + commit `55b5f25` "chore: remove dead code"
+- [x] 1.5 build 通过 + 删除文件均零引用，跳过人工走查（风险极低）
 
 ## 阶段 2 — API Route 公共层
 
-- [ ] 2.1 新增 `src/lib/utils/logger.ts`
-- [ ] 2.2 新增 `src/lib/utils/api-error.ts`（ApiError 类）
-- [ ] 2.3 新增 `src/lib/api/handler.ts`（withAuth + withErrorBoundary）
-- [ ] 2.4 迁移 `src/app/api/users/stats/route.ts` 作为示范
-- [ ] 2.5 迁移 `src/app/api/code/submit/route.ts` 与 `code/submission-status/route.ts`
-- [ ] 2.6 迁移 `src/app/api/code/run/route.ts`（无需 auth，用 withErrorBoundary）
-- [ ] 2.7 迁移 `src/app/api/problems/*` 全部 route
-- [ ] 2.8 迁移 `src/app/api/interviews/*` 全部 route（注意 message 路由的 SSE 不能被 wrapper 包成 JSON）
-- [ ] 2.9 迁移 `src/app/api/learning-paths/*` 全部 route
-- [ ] 2.10 迁移 `src/app/api/knowledge/*` 全部 route（注意 chat 是 SSE）
-- [ ] 2.11 迁移 `src/app/api/capability-radar` / `activities` / `achievements` / `user/update` / `upload`
-- [ ] 2.12 全局 grep 确认无残留 `getCurrentUserId() ... if (!userId)` 样板
-- [ ] 2.13 `pnpm build` 通过 + 提交 commit "refactor(api): introduce withAuth handler middleware"
+- [x] 2.1 新增 `src/lib/utils/logger.ts`
+- [x] 2.2 新增 `src/lib/utils/api-error.ts`（ApiError 类）
+- [x] 2.3 新增 `src/lib/api/handler.ts`（withAuth + withErrorBoundary）
+- [x] 2.4 迁移 `src/app/api/users/stats/route.ts` 作为示范
+- [x] 2.5 迁移 `code/submission-status/route.ts`（submit 已先前迁移过，跳过）
+- [~] 2.6 迁移 `code/run/route.ts`（保留原状：返回的不是统一 JSON 格式且无 auth，价值低，跳过）
+- [x] 2.7 迁移 `problems/*` 全部 route（list / [id] / generate）
+- [x] 2.8 迁移 `interviews/*` 全部 route（list / [id] / end / templates / stats，message 是 SSE 保留原状）
+- [x] 2.9 迁移 `learning-paths/*` 全部 route（list / [id] / progress / recommend）
+- [x] 2.10 迁移 `knowledge/*` 全部 route（categories / favorites / [id] / [id]/favorite，chat 是 SSE 仅清 console.error）
+- [x] 2.11 迁移 `capability-radar` / `activities` / `achievements` / `user/update` / `upload` / `auth/register`
+- [x] 2.12 全局 grep 确认无残留 `getCurrentUserId()` 与 `console.error` 样板
+- [x] 2.13 `pnpm build` 通过（32 page + 22 api route 全部编译成功）
 - [ ] 2.14 7 步走查通过
 
 ## 阶段 3 — JSON / SSE 收口
