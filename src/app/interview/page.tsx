@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
 import {
@@ -21,42 +21,25 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
-import { interviewApi } from "@/lib/api";
-import type {
-  InterviewSession,
-  InterviewTemplate,
-  InterviewStats,
-} from "@/types/api";
+import {
+  useInterviews,
+  useInterviewTemplates,
+  useInterviewStats,
+  useCreateInterview,
+} from "@/hooks/use-api";
+import type { InterviewTemplate } from "@/types/api";
 
 export default function InterviewPage() {
   const router = useRouter();
-  const [sessions, setSessions] = useState<InterviewSession[]>([]);
-  const [templates, setTemplates] = useState<InterviewTemplate[]>([]);
-  const [stats, setStats] = useState<InterviewStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState<string | null>(null); // templateId being created
+  const { data: sessionsData, isLoading: sessionsLoading } = useInterviews();
+  const { data: templatesData, isLoading: templatesLoading } = useInterviewTemplates();
+  const { data: stats, isLoading: statsLoading } = useInterviewStats();
+  const createInterview = useCreateInterview();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [sessionsRes, templatesRes, statsRes] = await Promise.all([
-          interviewApi.getList(),
-          interviewApi.getTemplates(),
-          interviewApi.getStats(),
-        ]);
-        if (sessionsRes.success && sessionsRes.data)
-          setSessions(sessionsRes.data);
-        if (templatesRes.success && templatesRes.data)
-          setTemplates(templatesRes.data);
-        if (statsRes.success && statsRes.data) setStats(statsRes.data);
-      } catch (err) {
-        console.error("Interview page fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  const sessions = sessionsData ?? [];
+  const templates = templatesData ?? [];
+  const loading = sessionsLoading || templatesLoading || statsLoading;
+  const [creating, setCreating] = useState<string | null>(null); // templateId being created
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -79,14 +62,12 @@ export default function InterviewPage() {
     if (creating) return;
     setCreating(template.id);
     try {
-      const res = await interviewApi.create({
+      const session = await createInterview.trigger({
         title: template.title,
         type: template.type,
         templateId: template.id,
       });
-      if (res.success && res.data) {
-        router.push(`/interview/${res.data.id}`);
-      }
+      router.push(`/interview/${session.id}`);
     } catch (err) {
       console.error("Create interview error:", err);
     } finally {

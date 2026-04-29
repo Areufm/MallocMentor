@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Code2, Loader2, AlertCircle } from "lucide-react";
+import { useRegister, ApiError } from "@/hooks/use-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +19,7 @@ type Mode = "login" | "register";
 
 export default function LoginPage() {
   const router = useRouter();
+  const register = useRegister();
   const [mode, setMode] = useState<Mode>("login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -40,19 +42,18 @@ export default function LoginPage() {
 
     try {
       if (mode === "register") {
-        const res = await fetch("/api/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.error ?? "注册失败");
+        try {
+          await register.trigger({
+            name: form.name,
+            email: form.email,
+            password: form.password,
+          });
+        } catch (err) {
+          const msg = err instanceof ApiError ? err.message : "注册失败";
+          setError(msg);
           setLoading(false);
           return;
         }
-        // 注册成功后自动登录
       }
 
       const result = await signIn("credentials", {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createErrorResponse } from '@/lib/utils/response'
+import { logger } from '@/lib/utils/logger'
 import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
 
 /**
@@ -7,6 +8,8 @@ import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
  *
  * 知识助手流式对话接口，返回 SSE 流。
  * 前端通过 sessionId 维持多轮对话上下文。
+ *
+ * 注意：此路由返回的是 SSE，不能用 withErrorBoundary 包装（会被强制成 JSON 响应）。
  */
 export async function POST(request: NextRequest) {
   try {
@@ -57,7 +60,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('Knowledge chat error:', error)
+    logger.error('knowledge/chat', 'failed', error)
     return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }
