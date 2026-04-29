@@ -4,8 +4,8 @@ import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
 import { ApiError } from '@/lib/utils/api-error'
 import { parseLearningSteps } from '@/lib/utils/json-fields'
-import { getNextTemplate, buildStepsJson } from '@/lib/learning-path-templates'
-import { checkAndAwardAchievements } from '@/lib/achievements'
+import { getNextTemplate, buildStepsJson } from '@/lib/domain/learning-path-templates'
+import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 
 // POST /api/learning-paths/[id]/progress - 更新学习进度
 export const POST = withAuth<{ id: string }>(async ({ userId, req, params }) => {

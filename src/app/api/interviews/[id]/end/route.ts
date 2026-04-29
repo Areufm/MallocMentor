@@ -6,7 +6,7 @@ import { ApiError } from '@/lib/utils/api-error'
 import { logger } from '@/lib/utils/logger'
 import { parseInterviewMessages, parseInterviewEvaluation } from '@/lib/utils/json-fields'
 import { chatNonStream, isCozeConfigured } from '@/lib/ai/coze'
-import { checkAndAwardAchievements } from '@/lib/achievements'
+import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 
 // POST /api/interviews/[id]/end - 结束面试并生成 AI 评估
 export const POST = withAuth<{ id: string }>(async ({ userId, params }) => {

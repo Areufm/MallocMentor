@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
-import { checkAndAwardAchievements } from '@/lib/achievements'
+import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 
 // GET /api/users/stats - 获取用户统计数据
 export const GET = withAuth(async ({ userId }) => {

@@ -4,7 +4,7 @@ import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
 import { logger } from '@/lib/utils/logger'
 import { isCozeConfigured, chatNonStream, parseJsonAnswer } from '@/lib/ai/coze'
-import { LEARNING_PATH_TEMPLATES } from '@/lib/learning-path-templates'
+import { LEARNING_PATH_TEMPLATES } from '@/lib/domain/learning-path-templates'
 
 interface RecommendResult {
   focusAreas: string[]

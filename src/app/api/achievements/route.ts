@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse } from '@/lib/utils/response'
 import { withAuth } from '@/lib/api/handler'
-import { ACHIEVEMENTS } from '@/lib/achievements'
+import { ACHIEVEMENTS } from '@/lib/domain/achievements'
 
 // GET /api/achievements - 返回全量成就定义 + 用户解锁状态
 export const GET = withAuth(async ({ userId }) => {

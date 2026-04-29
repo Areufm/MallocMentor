@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse, createErrorResponse, getCurrentUserId } from '@/lib/utils/response'
 import { chatNonStream, isCozeConfigured, parseJsonAnswer } from '@/lib/ai/coze'
-import { checkAndAwardAchievements } from '@/lib/achievements'
+import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 import type { SubmitCodeRequest } from '@/types/api'
 
 /**

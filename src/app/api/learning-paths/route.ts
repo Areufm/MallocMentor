@@ -8,7 +8,7 @@ import {
   LEARNING_PATH_TEMPLATES,
   getTemplate,
   buildStepsJson,
-} from '@/lib/learning-path-templates'
+} from '@/lib/domain/learning-path-templates'
 
 // GET /api/learning-paths - 获取学习路径列表（含所有阶段）
 export const GET = withAuth(async ({ userId }) => {
