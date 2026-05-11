@@ -6,6 +6,9 @@ import { ApiError } from '@/lib/utils/api-error'
 import { logger } from '@/lib/utils/logger'
 import { chatNonStream, isCozeConfigured, parseJsonAnswer } from '@/lib/ai/coze'
 
+// Vercel Serverless Function 最大执行时长（秒）
+export const maxDuration = 60
+
 /** AI 生成的题目结构 */
 interface GeneratedProblem {
   title: string

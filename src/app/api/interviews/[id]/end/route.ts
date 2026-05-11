@@ -8,6 +8,9 @@ import { parseInterviewMessages, parseInterviewEvaluation } from '@/lib/utils/js
 import { chatNonStream, isCozeConfigured } from '@/lib/ai/coze'
 import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 
+// Vercel Serverless Function 最大执行时长（秒）
+export const maxDuration = 60
+
 // POST /api/interviews/[id]/end - 结束面试并生成 AI 评估
 export const POST = withAuth<{ id: string }>(async ({ userId, params }) => {
   const { id } = params

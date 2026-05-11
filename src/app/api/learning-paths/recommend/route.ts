@@ -6,6 +6,9 @@ import { logger } from '@/lib/utils/logger'
 import { isCozeConfigured, chatNonStream, parseJsonAnswer } from '@/lib/ai/coze'
 import { LEARNING_PATH_TEMPLATES } from '@/lib/domain/learning-path-templates'
 
+// Vercel Serverless Function 最大执行时长（秒）
+export const maxDuration = 60
+
 interface RecommendResult {
   focusAreas: string[]
   reason: string
