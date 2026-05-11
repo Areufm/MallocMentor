@@ -3,6 +3,10 @@ import { createErrorResponse } from '@/lib/utils/response'
 import { logger } from '@/lib/utils/logger'
 import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
 
+// Vercel Serverless Function 最大执行时长（秒）
+// Hobby 版最大 60s，Pro 版最大 300s
+export const maxDuration = 60
+
 /**
  * POST /api/knowledge/chat
  *
@@ -20,6 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!isCozeConfigured('knowledge')) {
+      logger.error('knowledge/chat', 'Coze 知识助手未配置，请检查 COZE_KNOWLEDGE_TOKEN / URL / PROJECT_ID 环境变量')
       return NextResponse.json(createErrorResponse('知识助手未配置'), { status: 503 })
     }
 

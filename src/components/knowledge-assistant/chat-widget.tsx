@@ -11,7 +11,7 @@ import {
 import { usePathname } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/cn'
 import { parseSSEStream } from '@/lib/utils/sse'
 import {
   MessageCircleQuestion,

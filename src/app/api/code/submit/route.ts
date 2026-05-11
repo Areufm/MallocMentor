@@ -5,6 +5,9 @@ import { chatNonStream, isCozeConfigured, parseJsonAnswer } from '@/lib/ai/coze'
 import { checkAndAwardAchievements } from '@/lib/domain/achievements'
 import type { SubmitCodeRequest } from '@/types/api'
 
+// Vercel Serverless Function 最大执行时长（秒）
+export const maxDuration = 60
+
 /**
  * AI 返回的结构化评审结果
  */

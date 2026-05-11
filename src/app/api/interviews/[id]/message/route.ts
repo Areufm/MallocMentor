@@ -7,6 +7,9 @@ import { parseInterviewMessages } from '@/lib/utils/json-fields'
 import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
 import type { SendMessageRequest, InterviewMessage } from '@/types/api'
 
+// Vercel Serverless Function 最大执行时长（秒）
+export const maxDuration = 60
+
 /**
  * POST /api/interviews/[id]/message
  *
