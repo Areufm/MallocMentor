@@ -1,14 +1,16 @@
 /**
  * 代码执行沙盒服务
  *
- * 支持两种后端：
- * 1. Piston API（默认，免费公共实例）
- * 2. Judge0 API（需配置 SANDBOX_API_URL + SANDBOX_API_KEY）
+ * 支持三种后端：
+ * 1. Wandbox API（推荐，免费无需注册）
+ * 2. Piston API（需自建实例，公共实例已关闭）
+ * 3. Judge0 API via RapidAPI（按量付费，需配置 SANDBOX_API_KEY）
  *
  * 环境变量：
- * - SANDBOX_PROVIDER: "piston" | "judge0"（默认 piston）
- * - SANDBOX_API_URL:  自定义 API 地址（Piston 默认 https://emkc.org/api/v2/piston）
- * - SANDBOX_API_KEY:  Judge0 API Key（仅 judge0 需要）
+ * - SANDBOX_PROVIDER: "wandbox" | "piston" | "judge0"（默认 wandbox）
+ * - SANDBOX_API_URL:  自定义 API 地址
+ * - SANDBOX_API_KEY:  RapidAPI Key（仅 judge0 需要）
+ * - SANDBOX_API_HOST: RapidAPI Host（仅 judge0 需要）
  */
 
 export interface SandboxResult {
@@ -33,15 +35,26 @@ const JUDGE0_LANG_MAP: Record<Language, number> = {
   cpp: 54,
 };
 
+const WANDBOX_COMPILER_MAP: Record<Language, string> = {
+  c: "gcc-head-c",
+  cpp: "gcc-head",
+};
+
 /** 请求超时（毫秒），避免公共 API 不可达时长时间卡住 */
 const REQUEST_TIMEOUT = 15_000;
 
-function getProvider(): "piston" | "judge0" {
-  return (process.env.SANDBOX_PROVIDER as "piston" | "judge0") || "piston";
+type Provider = "wandbox" | "piston" | "judge0";
+
+function getProvider(): Provider {
+  return (process.env.SANDBOX_PROVIDER as Provider) || "wandbox";
 }
 
 function getPistonUrl(): string {
   return process.env.SANDBOX_API_URL || "https://emkc.org/api/v2/piston";
+}
+
+function getWandboxUrl(): string {
+  return process.env.SANDBOX_API_URL || "https://wandbox.org";
 }
 
 /** 带超时的 fetch */
@@ -68,9 +81,75 @@ export async function executeCode(
   input?: string,
 ): Promise<SandboxResult> {
   const provider = getProvider();
-  return provider === "judge0"
-    ? executeJudge0(code, language, input)
-    : executePiston(code, language, input);
+  switch (provider) {
+    case "judge0":
+      return executeJudge0(code, language, input);
+    case "piston":
+      return executePiston(code, language, input);
+    case "wandbox":
+    default:
+      return executeWandbox(code, language, input);
+  }
+}
+
+// ---------- Wandbox ----------
+
+async function executeWandbox(
+  code: string,
+  language: Language,
+  input?: string,
+): Promise<SandboxResult> {
+  const baseUrl = getWandboxUrl();
+  const compiler = WANDBOX_COMPILER_MAP[language];
+  const startTime = Date.now();
+
+  let res: Response;
+  try {
+    res = await fetchWithTimeout(`${baseUrl}/api/compile.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code,
+        compiler,
+        stdin: input || "",
+        "compiler-option-raw": "-Wall\n-O2",
+        "runtime-option-raw": "",
+      }),
+    });
+  } catch (err: unknown) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error(
+        "代码执行沙盒请求超时，请检查网络或稍后重试",
+      );
+    }
+    throw new Error(
+      `无法连接代码执行沙盒: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`Wandbox API 错误 (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const elapsed = Date.now() - startTime;
+
+  const exitCode = parseInt(data.status ?? "0", 10);
+  const hasCompileError =
+    data.compiler_error && data.compiler_error.trim().length > 0 && !data.program_output;
+  const compileFailed = hasCompileError && exitCode !== 0;
+
+  return {
+    compileOutput: (data.compiler_error || data.compiler_output || "").trim(),
+    stdout: compileFailed ? "" : (data.program_output || "").trim(),
+    stderr: compileFailed
+      ? (data.compiler_error || "").trim()
+      : (data.program_error || "").trim(),
+    exitCode,
+    executionTime: elapsed,
+    compiled: !compileFailed,
+  };
 }
 
 // ---------- Piston ----------
@@ -151,18 +230,22 @@ async function executeJudge0(
 ): Promise<SandboxResult> {
   const apiUrl = process.env.SANDBOX_API_URL;
   const apiKey = process.env.SANDBOX_API_KEY;
+  const apiHost =
+    process.env.SANDBOX_API_HOST || "judge0-ce.p.rapidapi.com";
 
   if (!apiUrl) throw new Error("缺少 SANDBOX_API_URL 环境变量");
+  if (!apiKey) throw new Error("缺少 SANDBOX_API_KEY 环境变量");
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    "X-RapidAPI-Key": apiKey,
+    "X-RapidAPI-Host": apiHost,
   };
-  if (apiKey) headers["X-Auth-Token"] = apiKey;
 
   let createRes: Response;
   try {
     createRes = await fetchWithTimeout(
-      `${apiUrl}/submissions?base64_encoded=false&wait=true`,
+      `${apiUrl}/submissions?base64_encoded=false&wait=true&fields=*`,
       {
         method: "POST",
         headers,
