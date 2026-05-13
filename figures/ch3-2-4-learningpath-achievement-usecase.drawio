@@ -1,0 +1,49 @@
+<mxfile host="65bd71144e">
+    <diagram id="uc_learning_achievement" name="Page-1">
+        <mxGraphModel dx="959" dy="632" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="80" width="860" height="580" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor_student" value="学生用户" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="310" width="80" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor_ai" value="Coze&#xa;AI Bot" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1210" y="310" width="80" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc1" value="创建学习路径" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="150" width="230" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc2" value="推进学习步骤" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="150" width="230" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc3" value="请求路径推荐" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fillColor=#fff9c4;" parent="1" vertex="1">
+                    <mxGeometry x="363" y="485" width="230" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc4" value="解锁学习成就" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;fillColor=#fff9c4;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="485" width="230" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;" parent="1" source="actor_student" target="uc1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;" parent="1" source="actor_student" target="uc2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a3" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;" parent="1" source="actor_student" target="uc3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a4" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;" parent="1" source="actor_student" target="uc4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="b1" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;" parent="1" source="actor_ai" target="uc3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ext1" value="&amp;lt;extend&amp;gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=16;fontFamily=Noto Sans JP;" parent="1" source="uc2" target="uc4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

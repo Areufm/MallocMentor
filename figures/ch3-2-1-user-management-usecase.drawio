@@ -1,0 +1,40 @@
+﻿<mxfile host="app.diagrams.net" agent="Mozilla/5.0" version="29.6.6">
+  <diagram id="uc_user_management" name="Page-1">
+    <mxGraphModel dx="1600" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0" defaultFontFamily="Noto Sans JP">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="boundary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="260" y="90" width="780" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="actor_student" value="学生用户" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=20;fontFamily=Noto Sans JP;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="320" width="80" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc1" value="用户注册" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" vertex="1" parent="1">
+          <mxGeometry x="370" y="170" width="200" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc2" value="用户登录" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" vertex="1" parent="1">
+          <mxGeometry x="730" y="170" width="200" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc3" value="访问受保护页面" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" vertex="1" parent="1">
+          <mxGeometry x="370" y="430" width="220" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc4" value="退出登录" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;fontFamily=Noto Sans JP;" vertex="1" parent="1">
+          <mxGeometry x="730" y="430" width="200" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="actor_student" target="uc1" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="actor_student" target="uc2" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="actor_student" target="uc3" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="actor_student" target="uc4" style="endArrow=none;startArrow=none;html=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
