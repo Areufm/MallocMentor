@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
 import { ChatWindow } from "@/components/interview/chat-window";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,41 +18,29 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
-import { interviewApi } from "@/lib/api";
-import type { InterviewSession, InterviewEvaluation } from "@/types/api";
+import { useInterview, useEndInterview } from "@/hooks/use-api";
+import type { InterviewEvaluation } from "@/types/api";
 
 export default function InterviewSessionPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params.id as string;
 
-  const [session, setSession] = useState<InterviewSession | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [ending, setEnding] = useState(false);
-  const [evaluation, setEvaluation] = useState<InterviewEvaluation | null>(null);
+  const { data: session, isLoading: loading, mutate: mutateSession } = useInterview(id);
+  const endInterview = useEndInterview();
+  const ending = endInterview.isLoading;
+  const [localEvaluation, setLocalEvaluation] = useState<InterviewEvaluation | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [messageCount, setMessageCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(session?.messages?.length ?? 0);
 
-  // 加载会话详情
+  // 当 session 加载完成后初始化 messageCount 与 evaluation
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await interviewApi.getById(id);
-        if (res.success && res.data) {
-          setSession(res.data);
-          setMessageCount(res.data.messages?.length ?? 0);
-          if (res.data.evaluation) {
-            setEvaluation(res.data.evaluation);
-          }
-        }
-      } catch (err) {
-        console.error("Load interview session error:", err);
-      } finally {
-        setLoading(false);
-      }
+    if (session) {
+      setMessageCount(session.messages?.length ?? 0);
+      if (session.evaluation) setLocalEvaluation(session.evaluation);
     }
-    load();
-  }, [id]);
+  }, [session]);
+
+  const evaluation = localEvaluation ?? session?.evaluation ?? null;
 
   // 计时器（仅 active 状态）
   useEffect(() => {
@@ -79,17 +67,13 @@ export default function InterviewSessionPage() {
   // 结束面试
   const handleEndInterview = async () => {
     if (ending) return;
-    setEnding(true);
     try {
-      const res = await interviewApi.endInterview(id);
-      if (res.success && res.data) {
-        setEvaluation(res.data.evaluation);
-        setSession((prev) => prev ? { ...prev, status: "completed" } : prev);
-      }
+      const result = await endInterview.trigger(id);
+      setLocalEvaluation(result.evaluation);
+      // 乐观更新 status；SWR 也会自动重新拉取
+      await mutateSession((prev) => (prev ? { ...prev, status: "completed" } : prev), false);
     } catch (err) {
       console.error("End interview error:", err);
-    } finally {
-      setEnding(false);
     }
   };
 

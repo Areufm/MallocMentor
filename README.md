@@ -1,195 +1,170 @@
-# C/C++ 智能助教平台 - 项目文档
+# MallocMentor — C/C++ 智能助教平台
 
-## 项目概述
-
-这是一个基于 Next.js 的 C/C++ 智能辅助学习与面试系统，旨在为计算机专业学生提供从基础学习到技术面试的一站式解决方案。
+一个基于 Next.js 的 C/C++ 学习与面试一站式平台：系统化学习路径、Monaco 在线编程、Coze AI 代码审查、AI 模拟面试、知识库 RAG 助手、能力雷达图与成就系统。
 
 ## 技术栈
 
-### 前端
-- **框架**: Next.js 16 (React 19)
-- **样式**: Tailwind CSS 4
-- **组件库**: shadcn/ui
-- **图表**: Recharts
-- **代码编辑器**: Monaco Editor
-- **图标**: Lucide React
+| 分层 | 选型 |
+|------|------|
+| 框架 | Next.js 16 (App Router) + React 19 + TypeScript |
+| 样式 | Tailwind CSS 4 + shadcn/ui + next-themes |
+| 数据 | PostgreSQL（Neon 兼容） + Prisma 7 |
+| 认证 | NextAuth.js 5 (beta) — Credentials + GitHub OAuth |
+| 数据获取 | SWR（统一收口于 `src/hooks/use-api.ts`） |
+| 编辑器 | Monaco Editor |
+| 图表 | Recharts |
+| 沙盒 | Piston / Judge0（可配置） |
+| AI | Coze（4 个 Bot：interview / codeReview / knowledge / learningPath） |
+| 流式 | SSE（封装在 `src/lib/utils/sse.ts`） |
 
-### 后端
-- **框架**: Next.js API Routes
-- **ORM**: Prisma
-- **数据库**: MySQL
-
-## 项目结构
+## 项目结构（重构后）
 
 ```
-demo-next/
-├── src/
-│   ├── app/                    # Next.js 应用路由
-│   │   ├── dashboard/          # 仪表盘页面
-│   │   ├── learn/              # 学习路径页面
-│   │   ├── practice/           # 代码练习页面
-│   │   │   └── [id]/          # 练习题详情页
-│   │   ├── interview/          # 模拟面试页面
-│   │   │   └── [id]/          # 面试会话详情页
-│   │   ├── knowledge/          # 知识库页面
-│   │   └── api/               # API 路由
-│   ├── components/            # React 组件
-│   │   ├── layout/           # 布局组件
-│   │   ├── code-editor/      # 代码编辑器组件
-│   │   ├── interview/        # 面试相关组件
-│   │   └── ui/              # shadcn UI 组件
-│   └── lib/                 # 工具函数和配置
-│       ├── prisma.ts        # Prisma 客户端
-│       └── utils.ts         # 工具函数
-├── prisma/
-│   └── schema.prisma        # 数据库模型定义
-└── public/                  # 静态资源
+src/
+├── app/
+│   ├── api/                       # 所有 route 用 withAuth/withErrorBoundary 包裹
+│   │   ├── auth/  code/  interviews/  knowledge/
+│   │   ├── learning-paths/  problems/  upload/  user/
+│   │   └── users/
+│   ├── dashboard/                 # 5 个核心页面均按 _components + _lib 拆分
+│   │   ├── page.tsx               #   page.tsx 仅做 hook 调用 + 状态编排（~70-170 行）
+│   │   ├── _components/*.tsx      #   纯展示组件
+│   │   └── _lib/*.ts              #   纯函数 / 类型 / 常量
+│   ├── learn/  knowledge/  practice/[id]/  settings/
+│   ├── interview/  interview/[id]/
+│   └── login/
+├── components/
+│   ├── code-editor/  interview/  knowledge-assistant/
+│   ├── layout/  providers/  ui/
+├── hooks/
+│   └── use-api.ts                 # 唯一前端数据层：apiFetch + ApiError + 25+ 域 hook
+├── lib/
+│   ├── api/handler.ts             # withAuth / withErrorBoundary（消除 30 个 route 样板）
+│   ├── ai/coze.ts                 # Coze 客户端
+│   ├── utils/
+│   │   ├── api-error.ts           # 统一错误类型
+│   │   ├── json-fields.ts         # 所有 Prisma JSON 列的解析入口
+│   │   ├── logger.ts              # 带 scope 的结构化日志
+│   │   ├── response.ts            # Response helpers
+│   │   └── sse.ts                 # parseSSEStream 异步生成器
+│   ├── achievements.ts  learning-path-templates.ts
+│   ├── prisma.ts  sandbox.ts
+├── types/api.ts
+├── auth.config.ts  auth.ts  middleware.ts
+└── generated/prisma/              # Prisma 客户端输出目录（custom output）
+
+prisma/schema.prisma               # 数据模型
+content/articles/                  # Markdown 知识文章源（sync 到数据库）
 ```
 
 ## 核心功能模块
 
-### 1. 仪表盘 (`/dashboard`)
-- 用户学习概览
-- 能力雷达图（6维评估）
-- 学习目标追踪
-- 最近活动记录
-
-### 2. 学习路径 (`/learn`)
-- 系统化课程设计
-- 章节进度管理
-- 学习统计
-- 多路径支持
-
-### 3. 代码练习 (`/practice`)
-- 题目列表与筛选
-- Monaco 代码编辑器
-- 代码运行与测试
-- AI 代码审查（预留接口）
-
-### 4. 模拟面试 (`/interview`)
-- AI 面试官对话
-- 技术面试模拟
-- 实时评估反馈
-- 面试历史记录
-
-### 5. 知识库 (`/knowledge`)
-- 知识文章浏览
-- 分类与搜索
-- 热门话题
-- AI 知识助手（预留）
+| 路由 | 描述 |
+|------|------|
+| `/dashboard` | 用户概览：能力雷达图（6 维）、学习目标、最近活动、成就墙 |
+| `/learn` | 系统化学习路径：阶段总览、详情大纲、AI 学习推荐、解锁/完成态 |
+| `/practice` + `/practice/[id]` | 题库 + Monaco 编辑器 + 真实代码沙盒 + AI 代码审查（结构化打分） |
+| `/interview` + `/interview/[id]` | AI 面试官 SSE 流式对话 + 评估报告 |
+| `/knowledge` + `/knowledge/[id]` | 知识文章浏览、分类、搜索、收藏、AI 知识助手 SSE |
+| `/settings` | 个人资料 / 修改密码 / 成就总览 |
+| `/login` | NextAuth 登录（Credentials + GitHub） |
 
 ## 数据库模型
 
-### 核心模型
-- **User**: 用户信息
-- **CapabilityRadar**: 能力雷达图（6维能力评分）
-- **Problem**: 练习题目
-- **CodeSubmission**: 代码提交记录
-- **InterviewSession**: 面试会话
-- **LearningPath**: 学习路径
+定义于 `prisma/schema.prisma`，关键模型：
+
+- `User` + NextAuth `Account` / `Session`
+- `CapabilityRadar` — 6 维能力评分（0-100）
+- `Problem` / `CodeSubmission` — 题目与提交（含 AI 审查结果）
+- `InterviewSession` / `InterviewTemplate` — 面试会话（消息存 JSON）
+- `LearningPath` / `UserLearningProgress` — 学习路径（步骤存 JSON）
+- `KnowledgeArticle` / `UserFavorite` — 知识文章 + 收藏
+- `UserAchievement` / `ActivityLog` — 成就系统 + 活动流水
 
 ## 快速开始
 
-### 1. 安装依赖
 ```bash
+# 1. 安装依赖
 pnpm install
+
+# 2. 配置环境变量
+cp .env.example .env
+# 至少填：DATABASE_URL（Postgres）、AUTH_SECRET、COZE_API_KEY、COZE_BOT_*_ID
+#       SANDBOX_PROVIDER=piston|judge0、PISTON_API_URL（如自托管）
+
+# 3. 同步数据库 + 种子
+pnpm db:push
+pnpm db:seed
+pnpm db:sync-articles    # 把 content/articles/*.md 同步进 KnowledgeArticle
+
+# 4. 启动
+pnpm dev                 # http://localhost:3000
 ```
 
-### 2. 配置数据库
-复制 `.env.example` 为 `.env`，并修改数据库连接：
-```env
-DATABASE_URL="mysql://username:password@localhost:3306/cpp_learning_platform"
-```
+## 常用命令
 
-### 3. 初始化数据库
 ```bash
-npx prisma generate
-npx prisma db push
+pnpm dev                 # 开发服务器
+pnpm build               # 生成 Prisma client + 生产构建
+pnpm start               # 启动生产服务器
+pnpm lint                # ESLint
+pnpm db:push             # 同步 schema 到数据库
+pnpm db:seed             # 注入种子数据
+pnpm db:sync-articles    # 同步知识库 markdown
+npx prisma studio        # 可视化查看数据库
 ```
 
-### 4. 启动开发服务器
-```bash
-pnpm dev
+## 架构约定（开发前必读）
+
+> 这些约定在 2026 年的重构中确立，违反会被代码审查打回。
+
+1. **API 路由必须用 wrapper** — 所有 `src/app/api/*/route.ts` 必须通过
+   `withAuth` 或 `withErrorBoundary`（`src/lib/api/handler.ts`）包裹。Handler
+   内部不写 try/catch、不写手动 `await params`、不手动 `getServerSession`。
+
+2. **客户端数据获取只走 SWR hook** — 一律使用 `src/hooks/use-api.ts` 暴露的
+   域 hook（`useUserStats` / `useProblems` / `useInterview` / …）。**禁止**：
+   - 直接 `fetch('/api/...')`
+   - 重新引入已删除的 `src/lib/api-client.ts` 或 `src/lib/api/index.ts`
+   - 在组件里手动维护 `loading/error/data` 三件套
+
+3. **写操作走 mutation hook + 自动 invalidate** — `useApiMutation` 已经接好
+   `invalidateKeys`，写完不需要手动刷新列表。
+
+4. **JSON 字段解码集中处理** — Prisma JSON 列的解码必须经过
+   `src/lib/utils/json-fields.ts`（`parseTags` / `parseTestCases` /
+   `parseInterviewMessages` / …）。**不要**散落 `JSON.parse`。
+
+5. **SSE 解析走异步生成器** — 任何 SSE 消费方都要用
+   `parseSSEStream(response.body)`（`src/lib/utils/sse.ts`），不要手撕
+   `data:` 行。
+
+6. **page.tsx 拆分约定** — 当 `page.tsx` 超过 ~200 行就要拆：
+   ```
+   <route>/page.tsx          # 仅做 hook 调用 + 状态编排
+   <route>/_components/*.tsx # 展示组件
+   <route>/_lib/*.ts         # 纯函数 + 类型 + 常量（可单测）
+   ```
+   现有的 `dashboard / learn / knowledge / practice/[id] / settings` 都已按
+   此规范拆分，请参照实现。
+
+## 提交规范
+
+```
+feat:     新功能
+fix:      Bug 修复
+docs:     文档更新
+refactor: 重构
+chore:    构建 / 工具
+style:    格式调整（不影响行为）
+test:     测试相关
 ```
 
-访问 http://localhost:3000
-
-## 待实现功能
-
-### 高优先级
-1. **用户认证系统**
-   - 登录/注册
-   - Session 管理
-   - 权限控制
-
-2. **Coze AI 集成**
-   - 配置 Coze API
-   - 实现 AI 代码审查
-   - 实现 AI 面试官
-   - 实现 AI 知识助手
-
-3. **代码执行沙箱**
-   - Docker 容器隔离
-   - 安全限制
-   - 实时输出
-
-### 中优先级
-4. **数据持久化**
-   - 用户数据保存
-   - 学习进度同步
-   - 面试记录存储
-
-5. **能力雷达图算法**
-   - 基于做题记录自动评分
-   - 动态更新机制
-
-6. **题目管理**
-   - 题目导入
-   - 难度分级
-   - 标签系统
-
-### 低优先级
-7. **社区功能**
-   - 讨论区
-   - 题解分享
-   - 用户排行榜
-
-8. **个性化推荐**
-   - 基于能力雷达推荐题目
-   - 学习路径定制
-
-## 开发规范
-
-### 代码风格
-- 使用 TypeScript
-- 组件优先使用函数式组件
-- 遵循 React Hooks 最佳实践
-- 使用 Tailwind CSS 进行样式编写
-
-### 提交规范
-- feat: 新功能
-- fix: 修复bug
-- docs: 文档更新
-- style: 代码格式调整
-- refactor: 重构
-- test: 测试相关
-- chore: 构建/工具相关
-
-## 注意事项
-
-1. **数据库**: 确保 MySQL 服务已启动
-2. **环境变量**: 不要提交 `.env` 文件到版本控制
-3. **AI 功能**: 当前为前端模拟，需要后续集成真实 API
-4. **性能**: Monaco Editor 较大，注意首屏加载优化
-
-## 技术文档
+## 参考链接
 
 - [Next.js 文档](https://nextjs.org/docs)
 - [Prisma 文档](https://www.prisma.io/docs)
-- [shadcn/ui 文档](https://ui.shadcn.com)
-- [Tailwind CSS 文档](https://tailwindcss.com/docs)
+- [shadcn/ui](https://ui.shadcn.com)
+- [SWR](https://swr.vercel.app)
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/)
-
-## 联系方式
-
-如有问题，请联系项目负责人或提交 Issue。
+- [Coze API](https://www.coze.com)

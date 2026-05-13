@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import {
   Card,
@@ -22,7 +22,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { problemApi, codeApi } from "@/lib/api";
+import { useProblems, useSubmissionStatus, useGenerateProblem } from "@/hooks/use-api";
 
 interface ProblemItem {
   id: string;
@@ -44,76 +44,40 @@ const GENERATE_CATEGORIES = [
 export default function PracticePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("全部");
-  const [problems, setProblems] = useState<ProblemItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
-
-  // 完成状态映射 problemId -> status
-  const [statusMap, setStatusMap] = useState<Record<string, SolveStatus>>({});
 
   // AI 出题弹窗状态
   const [showGenDialog, setShowGenDialog] = useState(false);
   const [genCategory, setGenCategory] = useState("");
   const [genDifficulty, setGenDifficulty] = useState("");
-  const [generating, setGenerating] = useState(false);
   const [genResult, setGenResult] = useState<string | null>(null);
 
-  const loadProblems = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params: Record<string, string | number> = {
-        page: 1,
-        pageSize: 50,
-      };
-      if (selectedDifficulty !== "全部")
-        params.difficulty = selectedDifficulty;
-      if (searchQuery) params.search = searchQuery;
-
-      const [problemsRes, statusRes] = await Promise.all([
-        problemApi.getList(
-          params as Parameters<typeof problemApi.getList>[0],
-        ),
-        codeApi.getSubmissionStatus(),
-      ]);
-
-      if (problemsRes.success && problemsRes.data) {
-        setProblems(problemsRes.data.data as unknown as ProblemItem[]);
-        setTotal(problemsRes.data.total);
-      }
-      if (statusRes.success && statusRes.data) {
-        const data = statusRes.data as unknown as Record<string, SolveStatus>;
-        setStatusMap(data);
-      }
-    } catch (err) {
-      console.error("Load problems error:", err);
-    } finally {
-      setLoading(false);
-    }
+  const problemsParams = useMemo(() => {
+    const p: Record<string, string | number> = { page: 1, pageSize: 50 };
+    if (selectedDifficulty !== "全部") p.difficulty = selectedDifficulty;
+    if (searchQuery) p.search = searchQuery;
+    return p;
   }, [selectedDifficulty, searchQuery]);
 
-  useEffect(() => {
-    loadProblems();
-  }, [loadProblems]);
+  const { data: problemsData, isLoading: loading } = useProblems(problemsParams);
+  const { data: statusData } = useSubmissionStatus();
+  const generateProblem = useGenerateProblem();
+
+  const problems = (problemsData?.data ?? []) as unknown as ProblemItem[];
+  const total = problemsData?.total ?? 0;
+  const statusMap = (statusData ?? {}) as Record<string, SolveStatus>;
+  const generating = generateProblem.isLoading;
 
   const handleGenerate = async () => {
-    setGenerating(true);
     setGenResult(null);
     try {
-      const res = await problemApi.generate({
+      const result = await generateProblem.trigger({
         category: genCategory || undefined,
         difficulty: genDifficulty || undefined,
         count: 1,
       });
-      if (res.success && res.data) {
-        setGenResult(`成功生成 ${res.data.count} 道题目：${res.data.problems.join("、")}`);
-        await loadProblems();
-      } else {
-        setGenResult("生成失败，请稍后重试");
-      }
+      setGenResult(`成功生成 ${result.count} 道题目：${result.problems.join("、")}`);
     } catch {
       setGenResult("生成失败，请检查 AI 服务配置");
-    } finally {
-      setGenerating(false);
     }
   };
 

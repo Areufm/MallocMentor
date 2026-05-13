@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Send, Bot, User, Loader2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { parseSSEStream } from '@/lib/utils/sse'
 import type { InterviewMessage } from '@/types/api'
 
 interface Message {
@@ -96,38 +97,17 @@ export function ChatWindow({ sessionId, initialMessages, disabled, onMessageCoun
           timestamp: new Date(),
         }])
 
-        const reader = res.body!.getReader()
-        const decoder = new TextDecoder()
-        let buffer = ''
-
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          buffer += decoder.decode(value, { stream: true })
-          const lines = buffer.split('\n\n')
-          buffer = lines.pop() ?? ''
-
-          for (const chunk of lines) {
-            const dataLine = chunk.split('\n').find(l => l.startsWith('data: '))
-            if (!dataLine) continue
-
-            const raw = dataLine.slice(6)
-            if (raw === '[DONE]') break
-
-            try {
-              const parsed = JSON.parse(raw)
-              if (parsed && typeof parsed === 'object' && parsed.type === 'session') {
-                cozeSessionIdRef.current = parsed.sessionId
-              } else if (typeof parsed === 'string') {
-                setMessages(prev =>
-                  prev.map(m =>
-                    m.id === aiMessageId ? { ...m, content: m.content + parsed } : m
-                  )
-                )
-              }
-            } catch { /* skip non-JSON */ }
+        for await (const event of parseSSEStream(res.body)) {
+          if (event.type === 'session') {
+            cozeSessionIdRef.current = event.sessionId
+          } else if (event.type === 'text') {
+            setMessages(prev =>
+              prev.map(m =>
+                m.id === aiMessageId ? { ...m, content: m.content + event.text } : m,
+              ),
+            )
           }
+          // type === 'error' 由下方 catch 兜底，这里可静默
         }
       } else {
         const data = await res.json()

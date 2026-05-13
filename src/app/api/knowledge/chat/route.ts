@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createErrorResponse } from '@/lib/utils/response'
+import { logger } from '@/lib/utils/logger'
 import { chatStream, isCozeConfigured } from '@/lib/ai/coze'
+
+// Vercel Serverless Function 最大执行时长（秒）
+// Hobby 版最大 60s，Pro 版最大 300s
+export const maxDuration = 60
 
 /**
  * POST /api/knowledge/chat
  *
  * 知识助手流式对话接口，返回 SSE 流。
  * 前端通过 sessionId 维持多轮对话上下文。
+ *
+ * 注意：此路由返回的是 SSE，不能用 withErrorBoundary 包装（会被强制成 JSON 响应）。
  */
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!isCozeConfigured('knowledge')) {
+      logger.error('knowledge/chat', 'Coze 知识助手未配置，请检查 COZE_KNOWLEDGE_TOKEN / URL / PROJECT_ID 环境变量')
       return NextResponse.json(createErrorResponse('知识助手未配置'), { status: 503 })
     }
 
@@ -57,7 +65,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('Knowledge chat error:', error)
+    logger.error('knowledge/chat', 'failed', error)
     return NextResponse.json(createErrorResponse('服务器错误'), { status: 500 })
   }
 }

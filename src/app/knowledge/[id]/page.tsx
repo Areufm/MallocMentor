@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,54 +19,24 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
-import { knowledgeApi } from "@/lib/api";
-import type { KnowledgeArticle } from "@/types/api";
+import {
+  useKnowledgeArticle,
+  useKnowledgeFavoriteStatus,
+  useToggleFavorite,
+} from "@/hooks/use-api";
 
 export default function KnowledgeArticlePage() {
   const params = useParams();
   const id = params.id as string;
 
-  const [article, setArticle] = useState<
-    (KnowledgeArticle & { content?: string }) | null
-  >(null);
-  const [loading, setLoading] = useState(true);
-  const [favorited, setFavorited] = useState(false);
-
-  useEffect(() => {
-    async function load() {
-      try {
-        const [articleRes, favRes] = await Promise.all([
-          knowledgeApi.getById(id),
-          knowledgeApi.getFavoriteStatus(id),
-        ]);
-        if (articleRes.success && articleRes.data) {
-          setArticle(articleRes.data);
-        }
-        if (favRes.success && favRes.data) {
-          setFavorited((favRes.data as unknown as { favorited: boolean }).favorited);
-        }
-      } catch (err) {
-        console.error("Load article error:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, [id]);
+  const { data: article, isLoading: loading } = useKnowledgeArticle(id);
+  const { data: favData } = useKnowledgeFavoriteStatus(id);
+  const favorited = favData?.favorited ?? false;
+  const toggleFavorite = useToggleFavorite();
 
   const handleToggleFavorite = async () => {
     try {
-      const res = await knowledgeApi.toggleFavorite(id);
-      if (res.success && res.data) {
-        const { favorited: newState } = res.data as unknown as { favorited: boolean };
-        setFavorited(newState);
-        if (article) {
-          setArticle({
-            ...article,
-            likes: article.likes + (newState ? 1 : -1),
-          });
-        }
-      }
+      await toggleFavorite.trigger(id);
     } catch (err) {
       console.error("Toggle favorite error:", err);
     }
